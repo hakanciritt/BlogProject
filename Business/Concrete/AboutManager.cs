@@ -26,12 +26,14 @@ namespace Business.Concrete
 
         public IResult Delete(About about)
         {
-            throw new NotImplementedException();
+            _aboutDal.Delete(about);
+            return new SuccessResult(Messages.AboutDeleted);
         }
 
         public IResult Update(About about)
         {
-            throw new NotImplementedException();
+            _aboutDal.Update(about);
+            return new SuccessResult(Messages.AboutUpdated);
         }
     }
 }
