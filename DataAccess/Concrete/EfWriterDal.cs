@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete
 {
-    public class EfWriterDal : EfEntityRepositoryBase<Writer,BlogContext> , IWriterDal
+    public class EfWriterDal : EfEntityRepositoryBase<Writer, BlogContext>, IWriterDal
     {
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete
 {
-    public class EfContactDal : EfEntityRepositoryBase<Contact,BlogContext> , IContactDal
+    public class EfContactDal : EfEntityRepositoryBase<Contact, BlogContext>, IContactDal
     {
     }
 }
