@@ -17,6 +17,16 @@ namespace Business.Constants
         public const string CategoryNotFound = "Kategori bulunamadı";
         public const string CategoryUpdated = "Kategori güncellendi";
 
+        public const string WriterAdded = "Yazar eklendi";
+        public const string WriterDeleted = "Yazar silindi";
+        public const string WriterNotFound = "Yazar bulunamadı";
+        public const string WriterUpdated = "Yazar güncellendi";
+
+        public const string Added = "Eklendi";
+        public const string Deleted = "Silindi";
+        public const string NotFound = "Bulunamadı";
+        public const string Updated = "Güncellendi";
+
         public const string CommentAdded = "Yorum eklendi";
         public const string CommentDeleted = "Yorum silindi";
         public const string CommentNotFound = "Yorum bulunamadı";
