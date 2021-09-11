@@ -10,7 +10,7 @@ namespace Business.Abstract
 {
     public interface IBlogService
     {
-        IResult Add(Blog blog);
+        IDataResult<object> Add(Blog blog);
         IResult Update(Blog blog);
         IResult Delete(Blog blog);
         IDataResult<Blog> GetById(int id);

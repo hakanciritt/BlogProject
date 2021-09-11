@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -18,10 +20,15 @@ namespace Business.Concrete
         {
             _blogDal = blogDal;
         }
-        public IResult Add(Blog blog)
+        public IDataResult<object> Add(Blog blog)
         {
+            var errorResult = ValidationTool.Validate(new BlogValidator(), blog);
+            if (errorResult is not null)
+            {
+                return new ErrorDataResult<object>(errorResult);
+            }
             _blogDal.Add(blog);
-            return new SuccessResult();
+            return new SuccessDataResult<object>(Messages.BlogAdded);
         }
 
         public IResult Delete(Blog blog)
