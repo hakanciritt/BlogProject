@@ -18,6 +18,7 @@ namespace Business.Constants
         public const string CategoryUpdated = "Kategori güncellendi";
 
         public const string BlogAdded = "Blog eklendi";
+        public const string BlogAlreadyExists = "Blog zaten mevcut";
 
         public const string WriterAdded = "Yazar eklendi";
         public const string WriterDeleted = "Yazar silindi";

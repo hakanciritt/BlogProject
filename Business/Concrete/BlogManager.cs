@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Business;
 using Core.CrossCuttingConcerns;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -27,6 +28,11 @@ namespace Business.Concrete
             {
                 return new ErrorDataResult<object>(errorResult);
             }
+            var rules = BusinessRules.Run(CheckIfBlogId(blog.Id));
+            if (rules is not null)
+            {
+                return rules;
+            }
             _blogDal.Add(blog);
             return new SuccessDataResult<object>(Messages.BlogAdded);
         }
@@ -51,6 +57,14 @@ namespace Business.Concrete
         {
             _blogDal.Update(blog);
             return new SuccessResult();
+        }
+        private IDataResult<object> CheckIfBlogId(int id)
+        {
+            if (_blogDal.Get(x => x.Id == id) != null)
+            {
+                return new ErrorDataResult<object>(Messages.BlogAlreadyExists);
+            }
+            return null;
         }
     }
 }
