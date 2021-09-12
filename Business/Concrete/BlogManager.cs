@@ -28,17 +28,17 @@ namespace Business.Concrete
             {
                 return new ErrorDataResult<object>(errorResult);
             }
-            var rules = BusinessRules.Run(CheckIfBlogId(blog.Id));
-            if (rules is not null)
-            {
-                return rules;
-            }
             _blogDal.Add(blog);
             return new SuccessDataResult<object>(Messages.BlogAdded);
         }
 
         public IResult Delete(Blog blog)
         {
+            var rules = BusinessRules.Run(CheckIfBlogId(blog.Id));
+            if (rules is not null)
+            {
+                return rules;
+            }
             _blogDal.Delete(blog);
             return new SuccessResult();
         }
@@ -58,11 +58,11 @@ namespace Business.Concrete
             _blogDal.Update(blog);
             return new SuccessResult();
         }
-        private IDataResult<object> CheckIfBlogId(int id)
+        private IResult CheckIfBlogId(int blogId)
         {
-            if (_blogDal.Get(x => x.Id == id) != null)
+            if (_blogDal.Get(x => x.Id == blogId) == null)
             {
-                return new ErrorDataResult<object>(Messages.BlogAlreadyExists);
+                return new ErrorResult(Messages.BlogNotFound);
             }
             return null;
         }

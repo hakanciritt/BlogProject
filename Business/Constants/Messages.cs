@@ -19,6 +19,8 @@ namespace Business.Constants
 
         public const string BlogAdded = "Blog eklendi";
         public const string BlogAlreadyExists = "Blog zaten mevcut";
+        public const string BlogNotFound = "Blog bulunamadı";
+
 
         public const string WriterAdded = "Yazar eklendi";
         public const string WriterDeleted = "Yazar silindi";
@@ -35,6 +37,5 @@ namespace Business.Constants
         public const string CommentNotFound = "Yorum bulunamadı";
         public const string CommentUpdated = "Yorum güncellendi";
 
-        public const string BlogNotFound = "Blog bulunamadı";
     }
 }
