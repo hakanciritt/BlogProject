@@ -31,6 +31,7 @@ namespace Business.Constants
         public const string Deleted = "Silindi";
         public const string NotFound = "Bulunamadı";
         public const string Updated = "Güncellendi";
+        public const string ValidationError = "Doğrulama hatası";
 
         public const string CommentAdded = "Yorum eklendi";
         public const string CommentDeleted = "Yorum silindi";

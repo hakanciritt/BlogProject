@@ -1,5 +1,8 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Business;
+using Core.CrossCuttingConcerns;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -19,14 +22,24 @@ namespace Business.Concrete
             _categoryDal = categoryDal;
         }
 
-        public IResult Add(Category category)
+        public IDataResult<object> Add(Category category)
         {
+            var errorList = ValidationTool.Validate(new CategoryValidator(), category);
+            if (errorList != null)
+            {
+                return new ErrorDataResult<object>(errorList, Messages.ValidationError);
+            }
             _categoryDal.Add(category);
-            return new SuccessResult(Messages.CategoryAdded);
+            return new SuccessDataResult<object>(Messages.CategoryAdded);
         }
 
         public IResult Delete(Category category)
         {
+            var businessRules = BusinessRules.Run(CheckIfCategoryId(category.Id));
+            if (businessRules is not null)
+            {
+                return businessRules;
+            }
             _categoryDal.Delete(category);
             return new SuccessResult(Messages.CategoryDelete);
         }
@@ -51,6 +64,15 @@ namespace Business.Concrete
         {
             _categoryDal.Update(category);
             return new SuccessResult(Messages.CategoryUpdated);
+        }
+        private IResult CheckIfCategoryId(int categoryId)
+        {
+            var result = _categoryDal.Get(x => x.Id == categoryId);
+            if (result is null)
+            {
+                return new ErrorResult(Messages.CategoryNotFound);
+            }
+            return new SuccessResult();
         }
     }
 }

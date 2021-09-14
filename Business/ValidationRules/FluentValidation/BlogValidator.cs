@@ -13,7 +13,10 @@ namespace Business.ValidationRules.FluentValidation
         public BlogValidator()
         {
             RuleFor(x => x.Title).NotEmpty().WithMessage("Başlık alanı boş geçilemez");
+            RuleFor(x => x.CategoryId).GreaterThan(0).WithMessage("Kategori alanı boş geçilemez");
             RuleFor(x => x.Content).MinimumLength(100).WithMessage("İçerik minimum 100 karakter uzunluğunda olmalıdır");
+            RuleFor(x => x.Image).NotEmpty().WithMessage("Resim alanı boş geçilemez");
+            RuleFor(x => x.ThumbnailImage).NotEmpty().WithMessage("Resim alanı boş geçilemez");
         }
     }
 }
