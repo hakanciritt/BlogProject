@@ -1,5 +1,8 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Business;
+using Core.CrossCuttingConcerns;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -20,14 +23,24 @@ namespace Business.Concrete
             _commentDal = commentDal;
         }
 
-        public IResult Add(Comment comment)
+        public IDataResult<object> Add(Comment comment)
         {
+            var validationResult = ValidationTool.Validate(new CommentValidator(), comment);
+            if (validationResult is not null)
+            {
+                return new ErrorDataResult<object>(validationResult);
+            }
             _commentDal.Add(comment);
-            return new SuccessResult(Messages.CommentAdded);
+            return new SuccessDataResult<object>(Messages.CommentAdded);
         }
 
         public IResult Delete(Comment comment)
         {
+            var businessRules = BusinessRules.Run(CheckIfCommentId(comment.Id));
+            if (businessRules is not null)
+            {
+                return businessRules;
+            }
             _commentDal.Delete(comment);
             return new SuccessResult(Messages.CommentDeleted);
         }
@@ -41,7 +54,7 @@ namespace Business.Concrete
         public IDataResult<Comment> GetById(int id)
         {
             var result = _commentDal.Get(x => x.Id == id);
-            if (result!=null)
+            if (result != null)
             {
                 return new SuccessDataResult<Comment>(result);
             }
@@ -52,6 +65,15 @@ namespace Business.Concrete
         {
             _commentDal.Update(comment);
             return new SuccessResult(Messages.CommentUpdated);
+        }
+        private IResult CheckIfCommentId(int commentId)
+        {
+            var result = _commentDal.Get(x => x.Id == commentId);
+            if (result is null)
+            {
+                return new ErrorResult(Messages.CommentNotFound);
+            }
+            return null;
         }
     }
 }
