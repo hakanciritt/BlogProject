@@ -10,7 +10,7 @@ namespace Business.Abstract
 {
     public interface IContactService
     {
-        IResult Add(Contact contact);
+        IDataResult<object> Add(Contact contact);
         IResult Delete(Contact contact);
         IResult Update(Contact contact);
         IDataResult<Contact> GetById(int id);
