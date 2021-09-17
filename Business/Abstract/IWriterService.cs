@@ -10,7 +10,7 @@ namespace Business.Abstract
 {
     public interface IWriterService
     {
-        IResult Add(Writer writer);
+        IDataResult<object> Add(Writer writer);
         IResult Delete(Writer writer);
         IResult Update(Writer writer);
         IDataResult<Writer> GetById(int id);

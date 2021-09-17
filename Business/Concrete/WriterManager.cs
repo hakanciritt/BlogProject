@@ -1,5 +1,8 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Business;
+using Core.CrossCuttingConcerns;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -18,14 +21,24 @@ namespace Business.Concrete
         {
             _writerDal = writerDal;
         }
-        public IResult Add(Writer writer)
+        public IDataResult<object> Add(Writer writer)
         {
+            var validationResult = ValidationTool.Validate(new WriterValidator(), writer);
+            if (validationResult is not null)
+            {
+                return new ErrorDataResult<object>(validationResult);
+            }
             _writerDal.Add(writer);
-            return new SuccessResult(Messages.WriterAdded);
+            return new SuccessDataResult<object>(Messages.WriterAdded);
         }
 
         public IResult Delete(Writer writer)
         {
+            var businessRules = BusinessRules.Run(CheckIfWriterId(writer.Id));
+            if (businessRules is not null)
+            {
+                return businessRules;
+            }
             _writerDal.Delete(writer);
             return new SuccessResult(Messages.WriterDeleted);
         }
@@ -48,7 +61,16 @@ namespace Business.Concrete
 
         public IResult Update(Writer writer)
         {
-            throw new NotImplementedException();
+            _writerDal.Update(writer);
+            return new SuccessResult(Messages.WriterUpdated);
+        }
+
+        private IResult CheckIfWriterId(int writerId)
+        {
+            var result = _writerDal.Get(x => x.Id == writerId);
+            return result is null
+                ? new ErrorResult(Messages.WriterNotFound)
+                : null;
         }
     }
 }
