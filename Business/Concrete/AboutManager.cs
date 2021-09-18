@@ -1,5 +1,8 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Business;
+using Core.CrossCuttingConcerns;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -18,22 +21,51 @@ namespace Business.Concrete
         {
             _aboutDal = aboutDal;
         }
-        public IResult Add(About about)
+        public IDataResult<object> Add(About about)
         {
+            var validationResult = ValidationTool.Validate(new AboutValidator(), about);
+            if (validationResult is not null)
+            {
+                return new ErrorDataResult<object>(validationResult);
+            }
             _aboutDal.Add(about);
-            return new SuccessResult(Messages.AboutAdded);
+            return new SuccessDataResult<object>(Messages.AboutAdded);
         }
 
         public IResult Delete(About about)
         {
+            var businessRules = BusinessRules.Run(CheckIfAboutId(about.Id));
+            if (businessRules is not null)
+            {
+                return businessRules;
+            }
             _aboutDal.Delete(about);
             return new SuccessResult(Messages.AboutDeleted);
+        }
+
+        public IDataResult<List<About>> GetAll()
+        {
+            var result = _aboutDal.GetAll();
+            return new SuccessDataResult<List<About>>(result);
+        }
+
+        public IDataResult<About> GetById(int id)
+        {
+            var result = _aboutDal.Get(x => x.Id == id);
+            return new SuccessDataResult<About>(result);
         }
 
         public IResult Update(About about)
         {
             _aboutDal.Update(about);
             return new SuccessResult(Messages.AboutUpdated);
+        }
+        private IResult CheckIfAboutId(int aboutId)
+        {
+            var result = _aboutDal.Get(x => x.Id == aboutId);
+            return result is null
+                ? new ErrorResult(Messages.AboutNotFound)
+                : null;
         }
     }
 }

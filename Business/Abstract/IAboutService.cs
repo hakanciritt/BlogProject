@@ -10,9 +10,11 @@ namespace Business.Abstract
 {
     public interface IAboutService
     {
-        IResult Add(About about);
+        IDataResult<object> Add(About about);
         IResult Update(About about);
         IResult Delete(About about);
+        IDataResult<About> GetById(int id);
+        IDataResult<List<About>> GetAll();
 
     }
 }

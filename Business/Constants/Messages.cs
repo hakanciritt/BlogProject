@@ -11,6 +11,7 @@ namespace Business.Constants
         public const string AboutAdded = "Hakkımızda eklendi";
         public const string AboutDeleted = "Hakkımızda silindi";
         public const string AboutUpdated = "Hakkımızda güncellendi";
+        public const string AboutNotFound = "Hakkımızda bilgisi bulunamadı";
 
         public const string CategoryDelete = "Kategori silindi";
         public const string CategoryAdded = "Kategori eklendi";
