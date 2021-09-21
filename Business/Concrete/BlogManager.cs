@@ -43,6 +43,12 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
+        public IDataResult<List<Blog>> GetAll()
+        {
+            var result = _blogDal.GetAll();
+            return new SuccessDataResult<List<Blog>>(result);
+        }
+
         public IDataResult<Blog> GetById(int id)
         {
             var result = _blogDal.Get(x => x.Id == id);
