@@ -1,14 +1,12 @@
 ﻿using Core.Entities;
 using System;
-
+using System.Collections.Generic;
 
 namespace Entities.Concrete
 {
     public class Blog : IEntity
     {
-        public int Id { get; set; }
-
-        public int CategoryId { get; set; }
+        public int BlogId { get; set; }
 
         public string Title { get; set; }
 
@@ -21,5 +19,11 @@ namespace Entities.Concrete
         public DateTime CreateDate { get; set; }
 
         public bool Status { get; set; }
+
+        public int CategoryId { get; set; }
+
+        public Category Category { get; set; }
+
+        public List<Comment> Comments { get; set; }
     }
 }

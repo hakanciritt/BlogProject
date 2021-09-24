@@ -5,7 +5,7 @@ namespace Entities.Concrete
 {
     public class Contact : IEntity
     {
-        public int Id { get; set; }
+        public int ContactId { get; set; }
 
         public string UserName { get; set; }
 

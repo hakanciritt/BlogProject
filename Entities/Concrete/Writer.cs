@@ -6,7 +6,7 @@ namespace Entities.Concrete
 {
     public class Writer : IEntity
     {
-        public int Id { get; set; }
+        public int WriterId { get; set; }
 
         public string Name { get; set; }
 

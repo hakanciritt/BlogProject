@@ -35,7 +35,7 @@ namespace Business.Concrete
 
         public IResult Delete(Category category)
         {
-            var businessRules = BusinessRules.Run(CheckIfCategoryId(category.Id));
+            var businessRules = BusinessRules.Run(CheckIfCategoryId(category.CategoryId));
             if (businessRules is not null)
             {
                 return businessRules;
@@ -52,7 +52,7 @@ namespace Business.Concrete
 
         public IDataResult<Category> GetById(int id)
         {
-            var result = _categoryDal.Get(x => x.Id == id);
+            var result = _categoryDal.Get(x => x.CategoryId == id);
             if (result != null)
             {
                 return new SuccessDataResult<Category>(result);
@@ -67,7 +67,7 @@ namespace Business.Concrete
         }
         private IResult CheckIfCategoryId(int categoryId)
         {
-            var result = _categoryDal.Get(x => x.Id == categoryId);
+            var result = _categoryDal.Get(x => x.CategoryId == categoryId);
             if (result is null)
             {
                 return new ErrorResult(Messages.CategoryNotFound);

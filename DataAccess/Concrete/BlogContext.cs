@@ -1,4 +1,5 @@
-﻿using Entities.Concrete;
+﻿using DataAccess.ObjectMappings;
+using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,27 @@ namespace DataAccess.Concrete
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Writer> Writers { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"server=DESKTOP-MCV13KF\SQLEXPRESS;database=BlogDb;integrated security=true;");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new BlogConfiguration());
+            modelBuilder.ApplyConfiguration(new CommentConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+
+            modelBuilder.Entity<Blog>()
+                .HasOne(x => x.Category)
+                .WithMany(x => x.Blogs)
+                .HasForeignKey(x => x.CategoryId);
+
+            modelBuilder.Entity<Comment>()
+                .HasOne(x => x.Blog)
+                .WithMany(x => x.Comments)
+                .HasForeignKey(x => x.BlogId);
         }
     }
 }

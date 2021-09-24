@@ -6,7 +6,7 @@ namespace Entities.Concrete
 {
     public class About : IEntity
     {
-        public int Id { get; set; }
+        public int AboutId { get; set; }
 
         public string Details1 { get; set; }
 

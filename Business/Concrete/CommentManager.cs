@@ -36,7 +36,7 @@ namespace Business.Concrete
 
         public IResult Delete(Comment comment)
         {
-            var businessRules = BusinessRules.Run(CheckIfCommentId(comment.Id));
+            var businessRules = BusinessRules.Run(CheckIfCommentId(comment.CommentId));
             if (businessRules is not null)
             {
                 return businessRules;
@@ -53,7 +53,7 @@ namespace Business.Concrete
 
         public IDataResult<Comment> GetById(int id)
         {
-            var result = _commentDal.Get(x => x.Id == id);
+            var result = _commentDal.Get(x => x.CommentId == id);
             if (result != null)
             {
                 return new SuccessDataResult<Comment>(result);
@@ -68,7 +68,7 @@ namespace Business.Concrete
         }
         private IResult CheckIfCommentId(int commentId)
         {
-            var result = _commentDal.Get(x => x.Id == commentId);
+            var result = _commentDal.Get(x => x.CommentId == commentId);
             if (result is null)
             {
                 return new ErrorResult(Messages.CommentNotFound);

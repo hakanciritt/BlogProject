@@ -34,7 +34,7 @@ namespace Business.Concrete
 
         public IResult Delete(Writer writer)
         {
-            var businessRules = BusinessRules.Run(CheckIfWriterId(writer.Id));
+            var businessRules = BusinessRules.Run(CheckIfWriterId(writer.WriterId));
             if (businessRules is not null)
             {
                 return businessRules;
@@ -51,7 +51,7 @@ namespace Business.Concrete
 
         public IDataResult<Writer> GetById(int id)
         {
-            var result = _writerDal.Get(x => x.Id == id);
+            var result = _writerDal.Get(x => x.WriterId == id);
             if (result is not null)
             {
                 return new SuccessDataResult<Writer>(result);
@@ -67,7 +67,7 @@ namespace Business.Concrete
 
         private IResult CheckIfWriterId(int writerId)
         {
-            var result = _writerDal.Get(x => x.Id == writerId);
+            var result = _writerDal.Get(x => x.WriterId == writerId);
             return result is null
                 ? new ErrorResult(Messages.WriterNotFound)
                 : null;

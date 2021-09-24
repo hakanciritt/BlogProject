@@ -34,7 +34,7 @@ namespace Business.Concrete
 
         public IResult Delete(About about)
         {
-            var businessRules = BusinessRules.Run(CheckIfAboutId(about.Id));
+            var businessRules = BusinessRules.Run(CheckIfAboutId(about.AboutId));
             if (businessRules is not null)
             {
                 return businessRules;
@@ -51,7 +51,7 @@ namespace Business.Concrete
 
         public IDataResult<About> GetById(int id)
         {
-            var result = _aboutDal.Get(x => x.Id == id);
+            var result = _aboutDal.Get(x => x.AboutId == id);
             return new SuccessDataResult<About>(result);
         }
 
@@ -62,7 +62,7 @@ namespace Business.Concrete
         }
         private IResult CheckIfAboutId(int aboutId)
         {
-            var result = _aboutDal.Get(x => x.Id == aboutId);
+            var result = _aboutDal.Get(x => x.AboutId == aboutId);
             return result is null
                 ? new ErrorResult(Messages.AboutNotFound)
                 : null;

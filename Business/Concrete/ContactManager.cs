@@ -35,7 +35,7 @@ namespace Business.Concrete
 
         public IResult Delete(Contact contact)
         {
-            var businessRules = BusinessRules.Run(CheckIfContactId(contact.Id));
+            var businessRules = BusinessRules.Run(CheckIfContactId(contact.ContactId));
             if (businessRules is not null)
             {
                 return businessRules;
@@ -52,7 +52,7 @@ namespace Business.Concrete
 
         public IDataResult<Contact> GetById(int id)
         {
-            var result = _contactDal.Get(x => x.Id == id);
+            var result = _contactDal.Get(x => x.ContactId == id);
             if (result is not null)
             {
                 return new SuccessDataResult<Contact>(result);
@@ -67,7 +67,7 @@ namespace Business.Concrete
         }
         private IResult CheckIfContactId(int contactId)
         {
-            var result = _contactDal.Get(x => x.Id == contactId);
+            var result = _contactDal.Get(x => x.ContactId == contactId);
             if (result is null)
             {
                 return new ErrorResult(Messages.ContactNotFound);

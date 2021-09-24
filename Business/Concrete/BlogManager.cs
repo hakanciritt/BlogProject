@@ -34,7 +34,7 @@ namespace Business.Concrete
 
         public IResult Delete(Blog blog)
         {
-            var rules = BusinessRules.Run(CheckIfBlogId(blog.Id));
+            var rules = BusinessRules.Run(CheckIfBlogId(blog.BlogId));
             if (rules is not null)
             {
                 return rules;
@@ -51,7 +51,7 @@ namespace Business.Concrete
 
         public IDataResult<Blog> GetById(int id)
         {
-            var result = _blogDal.Get(x => x.Id == id);
+            var result = _blogDal.Get(x => x.BlogId == id);
             if (result != null)
             {
                 return new SuccessDataResult<Blog>(result);
@@ -66,7 +66,7 @@ namespace Business.Concrete
         }
         private IResult CheckIfBlogId(int blogId)
         {
-            if (_blogDal.Get(x => x.Id == blogId) == null)
+            if (_blogDal.Get(x => x.BlogId == blogId) == null)
             {
                 return new ErrorResult(Messages.BlogNotFound);
             }
