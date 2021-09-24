@@ -38,15 +38,20 @@
                                         </li>
                                         <li>
                                             <a href="#">
-                                                <i class="fas fa-eye"></i> 2000
+                                                <i class="fas fa-eye"></i> @blog.Category.Name
                                             </a>
                                         </li>
                                     </ul>
                                     <h5 class="card-title">
                                         <a href="single.html">@blog.Title</a>
                                     </h5>
-                                    <p class="card-text mb-3">@blog.Content </p>
-                                    <a href="single.html" class="btn btn-primary read-m">Devamını oku</a>
+                                    <p class="card-text mb-3">
+                                        @blog.Content.Substring(0, blog.Content.Substring(0, 130).LastIndexOf(" "))...
+                                    </p>
+                                    <a asp-controller="Blog"
+                                       asp-action="BlogDetails"
+                                       asp-route-blogId="@blog.BlogId"
+                                       class="btn btn-primary read-m">Devamını oku</a>
                                 </div>
                             </div>
                         }

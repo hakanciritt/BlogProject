@@ -15,5 +15,6 @@ namespace Business.Abstract
         IResult Delete(Blog blog);
         IDataResult<List<Blog>> GetAll();
         IDataResult<Blog> GetById(int id);
+        IDataResult<List<Blog>> GetBlogListWithCategory();
     }
 }

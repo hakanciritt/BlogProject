@@ -16,7 +16,7 @@ namespace BlogUI.Controllers
         }
         public IActionResult Index()
         {
-            var result = _blogService.GetAll();
+            var result = _blogService.GetBlogListWithCategory();
             if (result.Success)
             {
                 return View(result.Data);

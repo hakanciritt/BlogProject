@@ -59,6 +59,12 @@ namespace Business.Concrete
             return new ErrorDataResult<Blog>(Messages.BlogNotFound);
         }
 
+        public IDataResult<List<Blog>> GetBlogListWithCategory()
+        {
+            var result = _blogDal.GetBlogListWithCategory();
+            return new SuccessDataResult<List<Blog>>(result);
+        }
+
         public IResult Update(Blog blog)
         {
             _blogDal.Update(blog);
