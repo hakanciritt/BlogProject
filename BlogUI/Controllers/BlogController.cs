@@ -24,5 +24,15 @@ namespace BlogUI.Controllers
             TempData["Message"] = result.Message;
             return View();
         }
+        public IActionResult BlogDetails(int id)
+        {
+            var result = _blogService.GetById(id);
+            if (result.Success)
+            {
+                return View(result.Data);
+            }
+            TempData["Message"] = result.Message;
+            return View();
+        }
     }
 }
