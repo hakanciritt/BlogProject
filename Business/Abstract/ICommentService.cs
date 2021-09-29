@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
-    interface ICommentService
+    public interface ICommentService
     {
         IDataResult<object> Add(Comment comment);
         IResult Delete(Comment comment);
         IResult Update(Comment comment);
         IDataResult<Comment> GetById(int id);
         IDataResult<List<Comment>> GetAll();
+        IDataResult<List<Comment>> GetCommentsByBlogId(int blogId);
     }
 }

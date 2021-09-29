@@ -40,6 +40,7 @@ namespace Business.Constants
         public const string CommentDeleted = "Yorum silindi";
         public const string CommentNotFound = "Yorum bulunamadı";
         public const string CommentUpdated = "Yorum güncellendi";
+        public const string FirstComment = "İlk yorumu siz yapın";
 
     }
 }

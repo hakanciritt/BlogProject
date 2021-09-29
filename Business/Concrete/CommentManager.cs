@@ -51,6 +51,13 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Comment>>(result);
         }
 
+        public IDataResult<List<Comment>> GetCommentsByBlogId(int blogId)
+        {
+            var result = _commentDal.GetAll(x => x.BlogId == blogId);
+            
+            return new SuccessDataResult<List<Comment>>(result);
+        }
+
         public IDataResult<Comment> GetById(int id)
         {
             var result = _commentDal.Get(x => x.CommentId == id);
