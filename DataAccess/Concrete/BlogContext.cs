@@ -21,14 +21,16 @@ namespace DataAccess.Concrete
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"server=DESKTOP-MCV13KF\SQLEXPRESS;database=BlogDb;integrated security=true;");
+            optionsBuilder.UseSqlServer(@"server=DESKTOP-MCV13KF\SQLEXPRESS;database=BlogCampDb;integrated security=true;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new BlogConfiguration());
+            modelBuilder.ApplyConfiguration(new AboutConfiguration());
             modelBuilder.ApplyConfiguration(new CommentConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new WriterConfiguration());
 
             modelBuilder.Entity<Blog>()
                 .HasOne(x => x.Category)
@@ -39,6 +41,11 @@ namespace DataAccess.Concrete
                 .HasOne(x => x.Blog)
                 .WithMany(x => x.Comments)
                 .HasForeignKey(x => x.BlogId);
+
+            modelBuilder.Entity<Blog>()
+                .HasOne(x => x.Writer)
+                .WithMany(x => x.Blogs)
+                .HasForeignKey(x => x.WriterId);
         }
     }
 }

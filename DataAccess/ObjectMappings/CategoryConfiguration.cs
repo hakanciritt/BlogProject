@@ -14,6 +14,7 @@ namespace DataAccess.ObjectMappings
         public void Configure(EntityTypeBuilder<Category> builder)
         {
             builder.HasKey(x => x.CategoryId);
+            builder.Property(x => x.CategoryId).HasColumnType("int");
             builder.Property(x => x.Name).HasColumnType("varchar(50)");
             builder.Property(x => x.Description).HasColumnType("varchar(150)");
             builder.Property(x => x.Status).HasColumnType("bit");

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccess.Migrations
 {
-    public partial class Configuration : Migration
+    public partial class configuration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -64,11 +64,11 @@ namespace DataAccess.Migrations
                 {
                     WriterId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    About = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Mail = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "varchar(70)", nullable: true),
+                    About = table.Column<string>(type: "varchar(max)", nullable: true),
+                    Image = table.Column<string>(type: "varchar(200)", nullable: true),
+                    Mail = table.Column<string>(type: "varchar(50)", nullable: true),
+                    Password = table.Column<string>(type: "varchar(100)", nullable: true),
                     Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -88,7 +88,8 @@ namespace DataAccess.Migrations
                     Image = table.Column<string>(type: "varchar(100)", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    WriterId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -98,6 +99,12 @@ namespace DataAccess.Migrations
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "CategoryId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Blogs_Writers_WriterId",
+                        column: x => x.WriterId,
+                        principalTable: "Writers",
+                        principalColumn: "WriterId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -131,6 +138,11 @@ namespace DataAccess.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Blogs_WriterId",
+                table: "Blogs",
+                column: "WriterId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Comments_BlogId",
                 table: "Comments",
                 column: "BlogId");
@@ -148,13 +160,13 @@ namespace DataAccess.Migrations
                 name: "Contacts");
 
             migrationBuilder.DropTable(
-                name: "Writers");
-
-            migrationBuilder.DropTable(
                 name: "Blogs");
 
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Writers");
         }
     }
 }

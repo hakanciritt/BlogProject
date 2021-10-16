@@ -16,7 +16,7 @@ namespace Business.Concrete
 {
     public class BlogManager : IBlogService
     {
-        IBlogDal _blogDal;
+        private readonly IBlogDal _blogDal;
         public BlogManager(IBlogDal blogDal)
         {
             _blogDal = blogDal;
@@ -77,6 +77,11 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.BlogNotFound);
             }
             return null;
+        }
+
+        public IDataResult<List<Blog>> GetBlogListByWriterId(int writerId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

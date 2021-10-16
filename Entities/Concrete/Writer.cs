@@ -1,5 +1,6 @@
 ﻿using Core.Entities;
 using System;
+using System.Collections.Generic;
 
 
 namespace Entities.Concrete
@@ -19,5 +20,7 @@ namespace Entities.Concrete
         public string Password { get; set; }
 
         public bool Status { get; set; }
+
+        public List<Blog> Blogs { get; set; }
     }
 }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(BlogContext))]
-    [Migration("20210924190112_Configuration")]
-    partial class Configuration
+    [Migration("20211016084807_configuration")]
+    partial class configuration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,6 +26,7 @@ namespace DataAccess.Migrations
                     b.Property<int>("AboutId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
+                        .HasColumnName("AboutId")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Details1")
@@ -87,9 +88,14 @@ namespace DataAccess.Migrations
                         .HasColumnType("varchar(100)")
                         .HasColumnName("Title");
 
+                    b.Property<int>("WriterId")
+                        .HasColumnType("int");
+
                     b.HasKey("BlogId");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("WriterId");
 
                     b.ToTable("Blogs");
                 });
@@ -193,25 +199,32 @@ namespace DataAccess.Migrations
                     b.Property<int>("WriterId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
+                        .HasColumnName("WriterId")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("About")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(max)")
+                        .HasColumnName("About");
 
                     b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(200)")
+                        .HasColumnName("Image");
 
                     b.Property<string>("Mail")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("Mail");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(70)")
+                        .HasColumnName("Name");
 
                     b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("Password");
 
                     b.Property<bool>("Status")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasColumnName("Status");
 
                     b.HasKey("WriterId");
 
@@ -226,7 +239,15 @@ namespace DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Entities.Concrete.Writer", "Writer")
+                        .WithMany("Blogs")
+                        .HasForeignKey("WriterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
+
+                    b.Navigation("Writer");
                 });
 
             modelBuilder.Entity("Entities.Concrete.Comment", b =>
@@ -246,6 +267,11 @@ namespace DataAccess.Migrations
                 });
 
             modelBuilder.Entity("Entities.Concrete.Category", b =>
+                {
+                    b.Navigation("Blogs");
+                });
+
+            modelBuilder.Entity("Entities.Concrete.Writer", b =>
                 {
                     b.Navigation("Blogs");
                 });
