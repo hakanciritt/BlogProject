@@ -23,6 +23,7 @@ namespace Business.Constants
         public const string BlogAdded = "Blog eklendi";
         public const string BlogAlreadyExists = "Blog zaten mevcut";
         public const string BlogNotFound = "Blog bulunamadı";
+        public const string AuthorBlogNotFound = "Yazara ait yazı bulunamadı";
 
 
         public const string WriterAdded = "Yazar eklendi";

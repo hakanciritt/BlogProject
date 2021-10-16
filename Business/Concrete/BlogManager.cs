@@ -81,7 +81,12 @@ namespace Business.Concrete
 
         public IDataResult<List<Blog>> GetBlogListByWriterId(int writerId)
         {
-            throw new NotImplementedException();
+            var result = _blogDal.GetAll(x => x.WriterId == writerId);
+
+            return result is not null
+                ? new SuccessDataResult<List<Blog>>(result)
+                : new ErrorDataResult<List<Blog>>(Messages.AuthorBlogNotFound);
+
         }
     }
 }
