@@ -33,7 +33,7 @@ namespace BlogUI
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -41,9 +41,38 @@ namespace BlogUI
 
             app.UseEndpoints(endpoints =>
             {
+                #region Auth route
+                endpoints.MapControllerRoute(
+                    name: "register",
+                    pattern: "kaydol",
+                    defaults: new { controller = "Register", action = "Index" });
+
+                endpoints.MapControllerRoute(
+                    name: "login",
+                    pattern: "giris-yap",
+                    defaults: new { controller = "Login", action = "Index" });
+                #endregion
+
+                #region Blog route
+                endpoints.MapControllerRoute(
+                    name: "blogDetail",
+                    pattern: "blog/detay/{id:int}",
+                    defaults: new { controller = "Blog", action = "BlogDetails" });
+
+
+                #endregion
+
+
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "anasayfa",
+                    defaults: new { controller = "Blog", action = "Index" }
+                    );
+                endpoints.MapControllerRoute(
+                    name: "home",
+                    pattern: "",
+                    defaults: new { controller = "Blog", action = "Index" }
+                );
             });
         }
     }

@@ -9,7 +9,7 @@ namespace BlogUI.Controllers
 {
     public class BlogController : Controller
     {
-        IBlogService _blogService;
+        private readonly IBlogService _blogService;
         public BlogController(IBlogService blogService)
         {
             _blogService = blogService;
