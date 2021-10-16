@@ -65,6 +65,11 @@ namespace BlogUI
 
                 endpoints.MapControllerRoute(
                     name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}"
+                );
+
+                endpoints.MapControllerRoute(
+                    name: "home1",
                     pattern: "anasayfa",
                     defaults: new { controller = "Blog", action = "Index" }
                     );

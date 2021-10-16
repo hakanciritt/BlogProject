@@ -51,7 +51,8 @@
 
                 @await Component.InvokeAsync("CommentListByBlog", new { blogId = Model.BlogId })
 
-                <partial name="~/Views/Comment/AddComment.cshtml" />
+
+                @await Html.PartialAsync("~/Views/Comment/AddComment.cshtml", new { BlogId = @Model.BlogId  })
 
             </div>
             <!--//left-->
@@ -59,10 +60,9 @@
             <aside class="col-lg-4 agileits-w3ls-right-blog-con text-right">
                 <div class="right-blog-info text-left">
 
-                    @await Component.InvokeAsync("NewsLetter")
+                    @await Html.PartialAsync("~/Views/NewsLetter/SubscribeMail.cshtml")
 
                     @await Component.InvokeAsync("CategoryList")
-
 
                     @await Component.InvokeAsync("AuthorsOtherBlogs")
                     <div class="single-gd my-5 tech-btm">

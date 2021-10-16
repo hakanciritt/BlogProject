@@ -1,11 +1,59 @@
-﻿<div class="comment-top">
+﻿@model dynamic
+
+<div class="comment-top" id="commentApp">
     <h4>Yorum yap</h4>
     <div class="comment-bottom">
-        <form action="#" method="post">
-            <input class="form-control" type="text" name="Name" placeholder="Kullanıcı Adı" required="">
-            <input class="form-control" type="text" name="Email" placeholder="Başlık" required="">
-            <textarea cols="8" class="form-control" name="Message" placeholder="Yorum..." required=""></textarea>
-            <button type="submit" class="btn btn-primary submit">Gönder</button>
+        <form method="post" onsubmit="return false;">
+            <input v-model="blogId" type="hidden" name="BlogId" readonly="readonly" />
+            <span v-if="validationErrors.length > 0"> {{ validationErrors.filter(x=>x.propertyName=='BlogId')[0].errorMessage }}</span>
+            <input v-model="userName" class="form-control" type="text" name="UserName" placeholder="Kullanıcı Adı" required="">
+            <span v-if="validationErrors.length > 0"> {{ validationErrors.filter(x=>x.propertyName=='UserName')[0].errorMessage }}</span>
+
+            <input v-model="title" class="form-control" type="text" name="Title" placeholder="Başlık" required="">
+            <span v-if="validationErrors.length > 0"> {{ validationErrors.filter(x=>x.propertyName=='Title')[0].errorMessage }}</span>
+
+            <textarea v-model="content" cols="8" class="form-control" name="Content" placeholder="Yorum..." required=""></textarea>
+            <span v-if="validationErrors.length > 0"> {{ validationErrors.filter(x=>x.propertyName=='Content')[0].errorMessage }}</span>
+
+            <button @@click="commentPost" type="submit" class="btn btn-primary submit">Gönder</button>
         </form>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    var commentApp = new Vue({
+        el: "#commentApp",
+        data() {
+            return {
+                blogId: @Model.BlogId,
+                userName: null,
+                title: null,
+                content: null,
+                validationErrors:[]
+            }
+        },
+        methods: {
+            commentPost() {
+                var data = { BlogId: this.blogId, UserName: this.userName, Title: this.title, Content: this.content }
+                var config = {
+                    headers: {
+                        'content-type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                }
+                axios.post("/Comment/AddComment", data,config)
+                    .then(res => {
+                        if (!res.success) {
+                            this.validationErrors = res.data.data;
+                        } else {
+                            console.log(res.data.message);
+                        }
+                        console.log(this.validationErrors);
+                    });
+            }
+        }
+    });
+</script>

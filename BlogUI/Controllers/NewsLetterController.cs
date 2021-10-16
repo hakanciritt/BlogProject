@@ -17,6 +17,11 @@ namespace BlogUI.Controllers
             _newsLetterService = newsLetterService;
         }
 
+        public PartialViewResult SubscribeMail()
+        {
+            return PartialView();
+        }
+
         [HttpPost]
         public IActionResult SubscribeMail(NewsLetter newsLetter)
         {

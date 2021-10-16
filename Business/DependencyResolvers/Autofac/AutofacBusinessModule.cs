@@ -21,6 +21,7 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<EfCommentDal>().As<ICommentDal>().SingleInstance();
             builder.RegisterType<EfContactDal>().As<IContactDal>().SingleInstance();
             builder.RegisterType<EfWriterDal>().As<IWriterDal>().SingleInstance();
+            builder.RegisterType<EfNewsLetterDal>().As<INewsLetterDal>().SingleInstance();
 
             builder.RegisterType<AboutManager>().As<IAboutService>().SingleInstance();
             builder.RegisterType<BlogManager>().As<IBlogService>().SingleInstance();
@@ -28,6 +29,7 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<CommentManager>().As<ICommentService>().SingleInstance();
             builder.RegisterType<ContactManager>().As<IContactService>().SingleInstance();
             builder.RegisterType<WriterManager>().As<IWriterService>().SingleInstance();
+            builder.RegisterType<NewsLetterManager>().As<INewsLetterService>().SingleInstance();
 
         }
     }

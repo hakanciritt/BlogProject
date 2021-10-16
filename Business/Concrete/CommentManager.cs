@@ -16,7 +16,7 @@ namespace Business.Concrete
 {
     public class CommentManager : ICommentService
     {
-        ICommentDal _commentDal;
+        private readonly ICommentDal _commentDal;
 
         public CommentManager(ICommentDal commentDal)
         {
@@ -25,6 +25,9 @@ namespace Business.Concrete
 
         public IDataResult<object> Add(Comment comment)
         {
+            comment.Date = DateTime.Now;
+            comment.Status = true;
+
             var validationResult = ValidationTool.Validate(new CommentValidator(), comment);
             if (validationResult is not null)
             {
@@ -54,7 +57,7 @@ namespace Business.Concrete
         public IDataResult<List<Comment>> GetCommentsByBlogId(int blogId)
         {
             var result = _commentDal.GetAll(x => x.BlogId == blogId);
-            
+
             return new SuccessDataResult<List<Comment>>(result);
         }
 

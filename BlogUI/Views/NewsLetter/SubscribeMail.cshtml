@@ -1,0 +1,31 @@
+﻿<div class="tech-btm">
+    <h4>Mail Bültenine Abone Olun</h4>
+    <form asp-controller="NewsLetter" asp-action="SubscribeMail" method="post">
+        <input id="mail" name="Mail" type="email" placeholder="Email" required="">
+        <input id="newsLetterPost" type="submit" value="Abone Ol">
+    </form>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+@*<script>
+        $(function () {
+
+            $("#newsLetterPost").click(function (event) {
+
+                var mail = $("#mail").val();
+
+                event.preventDefault();
+                $.ajax({
+
+                    type: "POST",
+                    url: '@Url.Action("SubscribeMail", "NewsLetter")',
+                    data: { Mail: mail },
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                    }
+
+                });
+            });
+        })
+    </script>*@
