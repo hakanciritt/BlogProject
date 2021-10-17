@@ -35,7 +35,7 @@ namespace BlogUI.Controllers
 
 
         [HttpPost]
-        public JsonResult AddComment(Comment comment)
+        public JsonResult AddComment([FromBody]Comment comment)
         {
             var result = _commentService.Add(comment);
             if (!result.Success)

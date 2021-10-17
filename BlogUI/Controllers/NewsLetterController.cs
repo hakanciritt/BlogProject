@@ -23,14 +23,10 @@ namespace BlogUI.Controllers
         }
 
         [HttpPost]
-        public IActionResult SubscribeMail(NewsLetter newsLetter)
+        public JsonResult SubscribeMail(NewsLetter newsLetter)
         {
             var result = _newsLetterService.AddNewsLetter(newsLetter);
-            if (result.Success)
-            {
-                return RedirectToAction("Index", "Blog");
-            }
-            return NoContent();
+            return Json(result);
         }
     }
 }

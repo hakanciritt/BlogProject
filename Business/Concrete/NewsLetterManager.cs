@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -22,9 +24,14 @@ namespace Business.Concrete
 
         public IDataResult<object> AddNewsLetter(NewsLetter newsLetter)
         {
+            var validationResult = ValidationTool.Validate(new NewsLetterValidator(), newsLetter);
+            if (validationResult is not null)
+            {
+                return new ErrorDataResult<object>(validationResult);
+            }
             newsLetter.MailStatus = true;
             _newsLetter.Add(newsLetter);
-            return new SuccessDataResult<object>(Messages.Added);
+            return new SuccessDataResult<object>(Messages.RegistrationSuccessful);
         }
     }
 }
