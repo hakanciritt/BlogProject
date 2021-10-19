@@ -15,7 +15,7 @@
 
             <textarea v-model="form.content" cols="8" class="form-control" name="Content" placeholder="Yorum..." required=""></textarea>
             <span class="text-danger" v-if="validationErrors.length > 0"> {{ validationErrors.filter(x=>x.propertyName=='Content')[0].errorMessage }}</span>
-            <br/>
+            <br />
             <button @@click="commentPost" type="submit" class="btn btn-primary submit">Gönder</button>
         </form>
     </div>
@@ -27,7 +27,6 @@
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
     var commentApp = new Vue({
@@ -52,18 +51,29 @@
                         'Accept': 'application/json'
                     }
                 }
+                if (isFormValid()) {
 
-                axios.post("/Comment/AddComment", this.form,config)
-                    .then(res => {
-                        if (!res.success) {
-                            this.validationErrors = res.data.data;
-                        } else {
-                            console.log(res.data.message);
-                            this.form.userName = "";
-                            this.form.title = "";
-                            this.form.content = "";
-                        }
-                    });
+                    axios.post("/Comment/AddComment", this.form,config)
+                        .then(res => {
+                            if (!res.success) {
+                                this.validationErrors = res.data.data;
+                            } else {
+                                console.log(res.data.message);
+                                this.form.userName = "";
+                                this.form.title = "";
+                                this.form.content = "";
+                            }
+                        });
+                }
+                
+            },
+            isFormValid() {
+                var form = this.form;
+                if (form.blogId > 0 && form.userName === "" && form.userName === null &&
+                    form.title === "" && form.title === null && form.content === "" && form.content === null) {
+                    return false;
+                }
+                return true;
             }
         }
     });
