@@ -15,5 +15,6 @@ namespace Business.Abstract
         IResult Update(Writer writer);
         IDataResult<Writer> GetById(int id);
         IDataResult<List<Writer>> GetAll();
+        IDataResult<Writer> GetByWriterEmail(string email);
     }
 }

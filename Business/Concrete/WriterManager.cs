@@ -43,6 +43,11 @@ namespace Business.Concrete
             return new SuccessResult(Messages.WriterDeleted);
         }
 
+        public IDataResult<Writer> GetByWriterEmail(string email)
+        {
+            return new SuccessDataResult<Writer>(_writerDal.Get(x => x.Mail == email));
+        }
+
         public IDataResult<List<Writer>> GetAll()
         {
             var result = _writerDal.GetAll();

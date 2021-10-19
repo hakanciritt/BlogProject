@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace BlogUI
 {
@@ -23,6 +25,14 @@ namespace BlogUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutofac();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(option =>
+                {
+                    option.LoginPath = "/Login/Index";
+                    option.LogoutPath = "/Logout/Index";
+                    option.Cookie.Name = "UserCookie";
+                    option.SlidingExpiration = true;
+                });
             services.AddControllersWithViews();
         }
 
@@ -52,15 +62,19 @@ namespace BlogUI
                 endpoints.MapControllerRoute(
                     name: "login",
                     pattern: "giris-yap",
-                    defaults: new { controller = "Login", action = "Index" });
+                    defaults: new { controller = "Account", action = "Index" });
                 #endregion
 
                 #region Blog route
                 endpoints.MapControllerRoute(
                     name: "blogDetail",
-                    pattern: "blog/detay/{id:int}",
+                    pattern: "blog/{id:int}",
                     defaults: new { controller = "Blog", action = "BlogDetails" });
 
+                endpoints.MapControllerRoute(
+                    name: "blogHome",
+                    pattern: "blog",
+                    defaults: new { controller = "Blog", action = "Index" });
 
                 #endregion
 
