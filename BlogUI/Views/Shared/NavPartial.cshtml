@@ -8,19 +8,18 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Blog" asp-action="Index">
-                        Anasayfa
-                    </a>
+                    <a class="nav-link" asp-controller="Blog" asp-action="Index">Anasayfa</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about.html">Hakkımızda</a>
+                    <a class="nav-link" asp-controller="About" asp-action="Index">Hakkımızda</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="contact.html">Bloglar</a>
+                    <a class="nav-link" href="contact.html">Menu</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="contact.html">İletişim</a>
+                    <a class="nav-link" asp-controller="Contact" asp-action="Index">İletisim</a>
                 </li>
+
             </ul>
             <form action="#" method="post" class="form-inline my-2 my-lg-0 header-search">
                 <input class="form-control mr-sm-2" type="search" placeholder="Aranacak ifade..." name="Search" required="">

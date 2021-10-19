@@ -48,14 +48,6 @@
 
         @await Html.PartialAsync("NavPartial")
     </header>
-    <div class="banner-inner">
-    </div>
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="index.html">@ViewContext.RouteData.Values["Controller"]</a>
-        </li>
-        <li class="breadcrumb-item active">@ViewContext.RouteData.Values["Action"]</li>
-    </ol>
 
     @RenderBody()
 

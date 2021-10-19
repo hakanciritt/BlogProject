@@ -34,6 +34,8 @@ namespace BlogUI
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStatusCodePagesWithReExecute("/ErrorPage/Error", "?code={0}");
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -62,6 +64,23 @@ namespace BlogUI
 
                 #endregion
 
+                #region About route
+                endpoints.MapControllerRoute(
+                    name: "about",
+                    pattern: "hakkimizda",
+                    defaults: new { controller = "About", action = "Index" }
+                );
+                #endregion
+
+                #region Contact route
+
+                endpoints.MapControllerRoute(
+                    name: "contact",
+                    pattern: "iletisim",
+                    defaults: new { controller = "Contact", action = "Index" }
+                );
+
+                #endregion
 
                 endpoints.MapControllerRoute(
                     name: "default",
