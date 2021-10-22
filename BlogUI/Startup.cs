@@ -28,11 +28,12 @@ namespace BlogUI
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(option =>
                 {
-                    option.LoginPath = "/Login/Index";
-                    option.LogoutPath = "/Logout/Index";
+                    option.LoginPath = "/Account/Login";
+                    option.LogoutPath = "/Account/Index";
                     option.Cookie.Name = "UserCookie";
                     option.SlidingExpiration = true;
                 });
+            services.AddAuthorization();
             services.AddControllersWithViews();
         }
 
@@ -51,6 +52,9 @@ namespace BlogUI
 
             app.UseRouting();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 #region Auth route
@@ -62,7 +66,7 @@ namespace BlogUI
                 endpoints.MapControllerRoute(
                     name: "login",
                     pattern: "giris-yap",
-                    defaults: new { controller = "Account", action = "Index" });
+                    defaults: new { controller = "Account", action = "Login" });
                 #endregion
 
                 #region Blog route
