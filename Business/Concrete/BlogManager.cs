@@ -88,5 +88,11 @@ namespace Business.Concrete
                 : new ErrorDataResult<List<Blog>>(Messages.AuthorBlogNotFound);
 
         }
+
+        public IDataResult<List<Blog>> GetLastThreeBlog()
+        {
+            var result = _blogDal.GetAll().OrderBy(x => x.BlogId).Take(3).ToList();
+            return new SuccessDataResult<List<Blog>>(result);
+        }
     }
 }

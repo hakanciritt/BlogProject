@@ -77,5 +77,16 @@ namespace Business.Concrete
                 ? new ErrorResult(Messages.WriterNotFound)
                 : null;
         }
+
+        public IDataResult<object> UserLogin(Writer writer)
+        {
+            var validationResult = ValidationTool.Validate(new WriterLoginValidator(), writer);
+            if (validationResult is not null)
+            {
+                return new ErrorDataResult<object>(validationResult);
+            }
+
+            return new SuccessDataResult<object>();
+        }
     }
 }
