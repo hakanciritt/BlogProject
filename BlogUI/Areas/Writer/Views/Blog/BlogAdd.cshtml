@@ -1,0 +1,53 @@
+﻿@model Blog
+@{
+    ViewData["Title"] = "Blog Ekle";
+    Layout = "~/Areas/Writer/Views/Shared/_WriterLayout.cshtml";
+}
+
+<h1>Blog Ekle</h1>
+@{
+    var userId = User.Claims.ToArray()[0].Value;
+}
+
+
+<form asp-controller="Blog" asp-action="BlogAdd" asp-area="Writer">
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label">Başlık</label>
+        <input type="text" class="form-control" asp-for="Title">
+        <span class="text-danger" asp-validation-for="Title"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="ThumbnailImage" class="form-lab">Küçük Resim</label>
+        <input type="file" class="form-control-file" asp-for="ThumbnailImage">
+        <span class="text-danger" asp-validation-for="ThumbnailImage"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Image" class="form-label">Resim</label>
+        <input type="file" class="form-control-file" asp-for="Image">
+        <span class="text-danger" asp-validation-for="Image"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CategoryId" class="form-label">Kategori Seçiniz</label>
+        <select asp-for="CategoryId" class="form-control" aria-label=".form-select-sm example">
+            <option selected>Kategori Seçiniz</option>
+            @if (ViewBag.Categories != null)
+            {
+                @foreach (var category in (List<SelectListItem>)ViewBag.Categories)
+                {
+                    <option value="@category.Value">@category.Text</option>
+                }
+            }
+
+        </select>
+        <span class="text-danger" asp-validation-for="CategoryId"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Content" class="form-label">İçerik</label>
+        <textarea class="form-control" asp-for="Content" rows="13" cols="10"></textarea>
+        <span class="text-danger" asp-validation-for="Content"></span>
+    </div>
+
+    <input type="hidden" asp-for="WriterId" value="@userId" readonly="readonly" />
+    <button type="submit" class="btn btn-primary">Ekle</button>
+</form>

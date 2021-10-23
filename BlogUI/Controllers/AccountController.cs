@@ -37,6 +37,7 @@ namespace BlogUI.Controllers
                 {
                     var claims = new List<Claim>()
                     {
+                        new Claim(ClaimTypes.NameIdentifier,"1"),
                         new Claim(ClaimTypes.Name, "Hakan Cirit"),
                         new Claim(ClaimTypes.Email, writer.Mail),
                         //new Claim(ClaimTypes.NameIdentifier, writer.WriterId.ToString())

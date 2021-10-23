@@ -108,7 +108,7 @@ namespace BlogUI
                     pattern: "yazar/bloglar",
                     defaults: new { controller = "Blog", action = "GetBlogListByWriter" }
                 );
-                
+
                 endpoints.MapAreaControllerRoute(
                     areaName: "Writer",
                     name: "Writer",
@@ -117,10 +117,17 @@ namespace BlogUI
                 );
 
                 endpoints.MapAreaControllerRoute(
+                    areaName: "Writer",
+                    name: "writerBlogAdd",
+                    pattern: "yazar/blog-ekle",
+                    defaults: new { controller = "Blog", action = "BlogAdd" }
+                );
+
+
+                endpoints.MapAreaControllerRoute(
                     name: "WriterArea",
                     areaName: "Writer",
-                    pattern: "yazar",
-                    defaults:new { controller="Writer" , action="Index" }
+                    pattern: "{area=Writer}/{controller=Writer}/{action=Index}/{id?}"
                 );
 
 
