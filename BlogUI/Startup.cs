@@ -100,6 +100,33 @@ namespace BlogUI
 
                 #endregion
 
+                #region Writer admin panel area route
+
+                endpoints.MapAreaControllerRoute(
+                    areaName: "Writer",
+                    name: "Writer",
+                    pattern: "yazar/bloglar",
+                    defaults: new { controller = "Blog", action = "GetBlogListByWriter" }
+                );
+                
+                endpoints.MapAreaControllerRoute(
+                    areaName: "Writer",
+                    name: "Writer",
+                    pattern: "yazar/anasayfa",
+                    defaults: new { controller = "Writer", action = "Index" }
+                );
+
+                endpoints.MapAreaControllerRoute(
+                    name: "WriterArea",
+                    areaName: "Writer",
+                    pattern: "yazar",
+                    defaults:new { controller="Writer" , action="Index" }
+                );
+
+
+                #endregion
+
+                //default home route
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}"

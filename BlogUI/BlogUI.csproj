@@ -22,4 +22,9 @@
     <ProjectReference Include="..\Business\Business.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Writer\Data\" />
+    <Folder Include="Areas\Writer\Models\" />
+  </ItemGroup>
+
 </Project>

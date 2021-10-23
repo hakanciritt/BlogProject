@@ -5,9 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 
-namespace BlogUI.Controllers
+namespace BlogUI.Areas.Writer.Controllers
 {
     [Authorize]
+    [Area("Writer")]
     public class WriterController : Controller
     {
         public IActionResult Index()

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,11 +13,13 @@ namespace DataAccess.Concrete
 {
     public class EfBlogDal : EfEntityRepositoryBase<Blog, BlogContext>, IBlogDal
     {
-        public List<Blog> GetBlogListWithCategory()
+        public List<Blog> GetBlogListWithCategory(Expression<Func<Blog, bool>> filter = null)
         {
-            using (var context=new BlogContext())
+            using (var context = new BlogContext())
             {
-                return context.Blogs.Include(x => x.Category).ToList();
+                return filter == null
+                    ? context.Blogs.Include(x => x.Category).ToList()
+                    : context.Blogs.Include(x => x.Category).Where(filter).ToList();
             }
         }
     }

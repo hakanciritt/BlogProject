@@ -94,5 +94,10 @@ namespace Business.Concrete
             var result = _blogDal.GetAll().OrderBy(x => x.BlogId).Take(3).ToList();
             return new SuccessDataResult<List<Blog>>(result);
         }
+
+        public IDataResult<List<Blog>> GetBlogListAndCategoryByWriterId(int writerId)
+        {
+            return new SuccessDataResult<List<Blog>>(_blogDal.GetBlogListWithCategory(x => x.WriterId == writerId));
+        }
     }
 }
