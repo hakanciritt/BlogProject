@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using BlogUI.Areas.Writer.Models;
 using Business.Abstract;
@@ -26,7 +27,8 @@ namespace BlogUI.Areas.Writer.Controllers
         }
         public IActionResult GetBlogListByWriter()
         {
-            var result = _blogService.GetBlogListAndCategoryByWriterId(1);
+            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            var result = _blogService.GetBlogListAndCategoryByWriterId(int.Parse(userId));
             if (result.Success)
             {
                 return View(result.Data);
@@ -39,11 +41,11 @@ namespace BlogUI.Areas.Writer.Controllers
         public IActionResult BlogAdd()
         {
             ViewBag.Categories = (from category in _categoryService.GetAll().Data
-                                    select new SelectListItem
-                                    {
-                                        Text = category.Name,
-                                        Value = category.CategoryId.ToString()
-                                    }).ToList();
+                                  select new SelectListItem
+                                  {
+                                      Text = category.Name,
+                                      Value = category.CategoryId.ToString()
+                                  }).ToList();
 
             return View(new Blog());
         }
@@ -51,7 +53,14 @@ namespace BlogUI.Areas.Writer.Controllers
         [HttpPost]
         public IActionResult BlogAdd(Blog blog)
         {
+
+            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId != blog.WriterId.ToString())
+                ModelState.AddModelError("WriterId", "Lütfen bu kısmı değiştirmeyiniz");
+
             var result = _blogService.Add(blog);
+
             if (result.Success)
                 return RedirectToAction("Index", "Writer");
 
@@ -60,6 +69,12 @@ namespace BlogUI.Areas.Writer.Controllers
                 ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
             }
 
+            ViewBag.Categories = (from category in _categoryService.GetAll().Data
+                                  select new SelectListItem
+                                  {
+                                      Text = category.Name,
+                                      Value = category.CategoryId.ToString()
+                                  }).ToList();
             return View(blog);
         }
     }

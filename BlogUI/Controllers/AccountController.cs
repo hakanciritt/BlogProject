@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Business.Abstract;
@@ -46,14 +47,14 @@ namespace BlogUI.Controllers
                     var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                     await HttpContext.SignInAsync(claimsPrincipal);
 
-                    return RedirectToAction("Index", "Writer");
+                    return RedirectToAction("Index", "Writer", new { area = "Writer" });
                 }
             }
             else
             {
-                foreach (var error in (List<ValidationFailure>) result.Data)
+                foreach (var error in (List<ValidationFailure>)result.Data)
                 {
-                    ModelState.AddModelError(error.PropertyName,error.ErrorMessage);
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
                 }
                 return View(writer);
             }
@@ -61,10 +62,10 @@ namespace BlogUI.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-            return View();
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("Login", "Account");
         }
     }
 }

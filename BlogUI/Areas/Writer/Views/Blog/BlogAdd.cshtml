@@ -13,7 +13,7 @@
 <form asp-controller="Blog" asp-action="BlogAdd" asp-area="Writer">
     <div class="mb-3">
         <label asp-for="Title" class="form-label">Başlık</label>
-        <input type="text" class="form-control" asp-for="Title">
+        <input type="text" class="form-control" asp-for="Title" required="">
         <span class="text-danger" asp-validation-for="Title"></span>
     </div>
     <div class="mb-3">
@@ -23,13 +23,13 @@
     </div>
     <div class="mb-3">
         <label asp-for="Image" class="form-label">Resim</label>
-        <input type="file" class="form-control-file" asp-for="Image">
+        <input type="file" class="form-control-file" asp-for="Image" required="">
         <span class="text-danger" asp-validation-for="Image"></span>
     </div>
 
     <div class="mb-3">
         <label asp-for="CategoryId" class="form-label">Kategori Seçiniz</label>
-        <select asp-for="CategoryId" class="form-control" aria-label=".form-select-sm example">
+        <select asp-for="CategoryId" class="form-control" required="">
             <option selected>Kategori Seçiniz</option>
             @if (ViewBag.Categories != null)
             {
@@ -44,10 +44,12 @@
     </div>
     <div class="mb-3">
         <label asp-for="Content" class="form-label">İçerik</label>
-        <textarea class="form-control" asp-for="Content" rows="13" cols="10"></textarea>
+        <textarea class="form-control" asp-for="Content" rows="13" cols="10" required=""></textarea>
         <span class="text-danger" asp-validation-for="Content"></span>
     </div>
-
-    <input type="hidden" asp-for="WriterId" value="@userId" readonly="readonly" />
+    <div class="mb-3">
+        <input type="hidden" asp-for="WriterId" value="@userId" readonly="readonly" required="" />
+        <span class="text-danger" asp-validation-for="WriterId"></span>
+    </div>
     <button type="submit" class="btn btn-primary">Ekle</button>
 </form>

@@ -57,6 +57,7 @@ namespace BlogUI
 
             app.UseEndpoints(endpoints =>
             {
+
                 #region Auth route
                 endpoints.MapControllerRoute(
                     name: "register",
@@ -67,6 +68,11 @@ namespace BlogUI
                     name: "login",
                     pattern: "giris-yap",
                     defaults: new { controller = "Account", action = "Login" });
+
+                endpoints.MapControllerRoute(
+                    name: "login",
+                    pattern: "cikis-yap",
+                    defaults: new { controller = "Account", action = "Logout" });
                 #endregion
 
                 #region Blog route
@@ -106,49 +112,52 @@ namespace BlogUI
                     areaName: "Writer",
                     name: "Writer",
                     pattern: "yazar/bloglar",
-                    defaults: new { controller = "Blog", action = "GetBlogListByWriter" }
+                    defaults: new { area = "Writer", controller = "Blog", action = "GetBlogListByWriter" }
                 );
-
+                endpoints.MapAreaControllerRoute(
+                    areaName: "Writer",
+                    name: "Writer",
+                    pattern: "yazar",
+                    defaults: new { area = "Writer", controller = "Writer", action = "Index" }
+                );
                 endpoints.MapAreaControllerRoute(
                     areaName: "Writer",
                     name: "Writer",
                     pattern: "yazar/anasayfa",
-                    defaults: new { controller = "Writer", action = "Index" }
+                    defaults: new { area = "Writer", controller = "Writer", action = "Index" }
                 );
 
                 endpoints.MapAreaControllerRoute(
                     areaName: "Writer",
                     name: "writerBlogAdd",
                     pattern: "yazar/blog-ekle",
-                    defaults: new { controller = "Blog", action = "BlogAdd" }
+                    defaults: new { area = "Writer", controller = "Blog", action = "BlogAdd" }
                 );
-
-
                 endpoints.MapAreaControllerRoute(
                     name: "WriterArea",
                     areaName: "Writer",
-                    pattern: "{area=Writer}/{controller=Writer}/{action=Index}/{id?}"
+                    pattern: "Writer/{controller=Writer}/{action=Index}/{id?}"
                 );
-
-
                 #endregion
 
-                //default home route
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}"
-                );
 
                 endpoints.MapControllerRoute(
                     name: "home1",
                     pattern: "anasayfa",
                     defaults: new { controller = "Blog", action = "Index" }
-                    );
+                );
                 endpoints.MapControllerRoute(
                     name: "home",
                     pattern: "",
                     defaults: new { controller = "Blog", action = "Index" }
                 );
+
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Blog}/{action=Index}/{id?}"
+                );
+
+
             });
         }
     }

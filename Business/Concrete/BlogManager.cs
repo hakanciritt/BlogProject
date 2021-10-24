@@ -28,6 +28,9 @@ namespace Business.Concrete
             {
                 return new ErrorDataResult<object>(errorResult);
             }
+
+            blog.Status = true;
+            blog.CreateDate=DateTime.Now;
             _blogDal.Add(blog);
             return new SuccessDataResult<object>(Messages.BlogAdded);
         }

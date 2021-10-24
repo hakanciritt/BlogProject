@@ -5,23 +5,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>@ViewData["Title"]</title>
-    <!-- plugins:css -->
     <link rel="stylesheet" href="~/writerpanel/assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="~/writerpanel/assets/vendors/css/vendor.bundle.base.css">
-    <!-- endinject -->
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- Plugin css for this page -->
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
-    <!-- endinject -->
-    <!-- Layout styles -->
     <link rel="stylesheet" href="~/writerpanel/assets/css/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="~/writerpanel/assets/images/favicon.ico" />
 </head>
 <body>
     <div class="container-scroller">
-        <!-- partial:~/writerpanel/partials/_navbar.html -->
         <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
                 <a class="navbar-brand brand-logo" href="~/writerpanel/index.html"><img src="~/writerpanel/assets/images/logo.svg" alt="logo" /></a>
@@ -37,7 +29,7 @@
                             <div class="input-group-prepend bg-transparent">
                                 <i class="input-group-text border-0 mdi mdi-magnify"></i>
                             </div>
-                            <input type="text" class="form-control bg-transparent border-0" placeholder="Search projects">
+                            <input type="text" class="form-control bg-transparent border-0" placeholder="Ara">
                         </div>
                     </form>
                 </div>
@@ -49,7 +41,7 @@
                                 <span class="availability-status online"></span>
                             </div>
                             <div class="nav-profile-text">
-                                <p class="mb-1 text-black">David Greymaax</p>
+                                <p class="mb-1 text-black">Hakan Cirit</p>
                             </div>
                         </a>
                         <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
@@ -171,108 +163,23 @@
                 </button>
             </div>
         </nav>
-        <!-- partial -->
         <div class="container-fluid page-body-wrapper">
-            <!-- partial:~/writerpanel/partials/_sidebar.html -->
-            <nav class="sidebar sidebar-offcanvas" id="sidebar">
-                <ul class="nav">
-                    <li class="nav-item nav-profile">
-                        <a href="#" class="nav-link">
-                            <div class="nav-profile-image">
-                                <img src="~/writerpanel/assets/images/faces/face1.jpg" alt="profile">
-                                <span class="login-status online"></span>
-                                <!--change to offline or busy as needed-->
-                            </div>
-                            <div class="nav-profile-text d-flex flex-column">
-                                <span class="font-weight-bold mb-2">David Grey. H</span>
-                                <span class="text-secondary text-small">Project Manager</span>
-                            </div>
-                            <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="~/writerpanel/index.html">
-                            <span class="menu-title">Dashboard</span>
-                            <i class="mdi mdi-home menu-icon"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="~/writerpanel/pages/icons/mdi.html">
-                            <span class="menu-title">Profilim</span>
-                            <i class="mdi mdi-contacts menu-icon"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="~/writerpanel/pages/forms/basic_elements.html">
-                            <span class="menu-title">Bloglarım</span>
-                            <i class="mdi mdi-format-list-bulleted menu-icon"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="~/writerpanel/pages/charts/chartjs.html">
-                            <span class="menu-title">Yeni Blog</span>
-                            <i class="mdi mdi-blogger bar menu-icon"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="~/writerpanel/pages/tables/basic-table.html">
-                            <span class="menu-title">Mesajlar</span>
-                            <i class="mdi mdi-message menu-icon"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="~/writerpanel/pages/tables/basic-table.html">
-                            <span class="menu-title">Siteye Git</span>
-                            <i class="mdi mdi-car menu-icon"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="~/writerpanel/pages/tables/basic-table.html">
-                            <span class="menu-title">Ayarlar</span>
-                            <i class="mdi mdi-settings menu-icon"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="~/writerpanel/pages/tables/basic-table.html">
-                            <span class="menu-title">Çıkış Yap</span>
-                            <i class="mdi mdi-logout menu-icon"></i>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <!-- partial -->
+            @await Component.InvokeAsync("WriterLeftMenu")
             <div class="main-panel">
                 <div class="content-wrapper">
 
                     @RenderBody()
 
                 </div>
-                <!-- content-wrapper ends -->
-                <!-- partial:~/writerpanel/partials/_footer.html -->
-                <footer class="footer">
-                    <div class="container-fluid clearfix">
-                        <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com 2020</span>
-                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin templates </a> from Bootstrapdash.com</span>
-                    </div>
-                </footer>
-                <!-- partial -->
+                @await Component.InvokeAsync("WriterFooter")
             </div>
-            <!-- main-panel ends -->
         </div>
-        <!-- page-body-wrapper ends -->
     </div>
-    <!-- container-scroller -->
-    <!-- plugins:js -->
+
     <script src="~/writerpanel/assets/vendors/js/vendor.bundle.base.js"></script>
-    <!-- endinject -->
-    <!-- Plugin js for this page -->
-    <!-- End plugin js for this page -->
-    <!-- inject:js -->
     <script src="~/writerpanel/assets/js/off-canvas.js"></script>
     <script src="~/writerpanel/assets/js/hoverable-collapse.js"></script>
     <script src="~/writerpanel/assets/js/misc.js"></script>
-    <!-- endinject -->
-    <!-- Custom js for this page -->
-    <!-- End custom js for this page -->
+
 </body>
 </html>
