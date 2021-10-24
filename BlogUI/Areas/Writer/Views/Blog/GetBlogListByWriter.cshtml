@@ -5,34 +5,67 @@
 }
 
 <h1>Blog Listesi</h1>
-<a class="btn btn-primary" asp-controller="Blog" asp-action="BlogAdd" >Blog Ekle</a>
-<table class="table table-bordered">
+<div id="blogApp">
+    <div class="d-flex justify-content-between">
+        <input v-on:keyup="searchBlog" v-model="searchItem" type="search" class="form-control col-6" placeholder="Arama">
+        <a class="btn btn-primary" asp-controller="Blog" asp-action="BlogAdd">Blog Ekle</a>
+    </div>
 
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Başlık</th>
-            <th>Oluşturulma Tarihi</th>
-            <th>Kategori</th>
-            <th>Durum</th>
-            <th>İşlemler</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var blog in Model)
-        {
+    <table class="table table-bordered">
+
+        <thead>
             <tr>
-                <td>@blog.BlogId</td>
-                <td>@blog.Title</td>
-                <td>@blog.CreateDate.ToShortDateString()</td>
-                <td>@blog.Category.Name</td>
-                <td>@(blog.Status ? "Aktif" : "Pasif")</td>
+                <th>Id</th>
+                <th>Başlık</th>
+                <th>Oluşturulma Tarihi</th>
+                <th>Kategori</th>
+                <th>Durum</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr v-for="blog in blogList" :key="blog.blogId">
+                <td>{{blog.blogId}} </td>
+                <td>{{blog.title}}</td>
+                <td>{{blog.createDate}}</td>
+                <td>{{blog.name}}</td>
+                <td>{{blog.status ? 'Aktif' : 'Pasif'}}</td>
                 <td>
                     <a class="btn btn-warning" href="#">Düzenle</a>
                     <a class="btn btn-danger" href="#">Sil</a>
                 </td>
             </tr>
-        }
+        </tbody>
+    </table>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
 
-    </tbody>
-</table>
+    var blogApp = new Vue({
+        el: "#blogApp",
+        data() {
+            return {
+                searchItem: null,
+                blogList:  @Json.Serialize(Model.Select(x=> new { x.BlogId , x.Title , x.CreateDate , x.Category.Name , x.Status })),
+                filteredList:[]
+            }
+        },
+        created() {
+
+        },
+        methods: {
+            searchBlog() {
+
+                if (this.searchItem !== null && this.searchItem !== "" && this.searchItem.length > 1 ) {
+                    this.filteredList = this.blogList.filter(x => x.title.toLowerCase().indexOf(this.searchItem.toLowerCase()) !== -1 ||
+                    x.name.toLowerCase().indexOf(this.searchItem.toLowerCase()) !== -1);
+                     this.blogList = this.filteredList;
+                }else {
+                    this.blogList = @Json.Serialize(Model.Select(x=> new { x.BlogId , x.Title , x.CreateDate , x.Category.Name , x.Status }));
+                }
+            }
+        }
+    })
+</script>
