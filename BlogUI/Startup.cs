@@ -144,7 +144,13 @@ namespace BlogUI
                     pattern: "yazar/blog-ekle",
                     defaults: new { area = "Writer", controller = "Blog", action = "BlogAdd" }
                 );
-                
+                endpoints.MapAreaControllerRoute(
+                    areaName: "Writer",
+                    name: "writerDashboard",
+                    pattern: "yazar/panel",
+                    defaults: new { area = "Writer", controller = "Dashboard", action = "Index" }
+                );
+
                 endpoints.MapAreaControllerRoute(
                     name: "WriterArea",
                     areaName: "Writer",
