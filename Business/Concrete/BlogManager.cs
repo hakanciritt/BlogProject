@@ -30,7 +30,7 @@ namespace Business.Concrete
             }
 
             blog.Status = true;
-            blog.CreateDate=DateTime.Now;
+            blog.CreateDate = DateTime.Now;
             _blogDal.Add(blog);
             return new SuccessDataResult<object>(Messages.BlogAdded);
         }
@@ -64,22 +64,22 @@ namespace Business.Concrete
 
         public IDataResult<List<Blog>> GetBlogListWithCategory()
         {
-            var result = _blogDal.GetBlogListWithCategory();
+            var result = _blogDal.GetBlogListWithCategory(x => x.Status);
             return new SuccessDataResult<List<Blog>>(result);
         }
 
-        public IResult Update(Blog blog)
+        public IDataResult<object> Update(Blog blog)
         {
+            var validationResult = ValidationTool.Validate(new BlogValidator(), blog);
+            if (validationResult is not null)
+                return new ErrorDataResult<object>(validationResult);
+
+            var findBlog = _blogDal.Get(x => x.BlogId == blog.BlogId);
+            blog.CreateDate = findBlog.CreateDate;
+            blog.Status = findBlog.Status;
+
             _blogDal.Update(blog);
-            return new SuccessResult();
-        }
-        private IResult CheckIfBlogId(int blogId)
-        {
-            if (_blogDal.Get(x => x.BlogId == blogId) == null)
-            {
-                return new ErrorResult(Messages.BlogNotFound);
-            }
-            return null;
+            return new SuccessDataResult<object>();
         }
 
         public IDataResult<List<Blog>> GetBlogListByWriterId(int writerId)
@@ -94,13 +94,35 @@ namespace Business.Concrete
 
         public IDataResult<List<Blog>> GetLastThreeBlog()
         {
-            var result = _blogDal.GetAll().OrderBy(x => x.BlogId).Take(3).ToList();
+            var result = _blogDal.GetAll(x => x.Status).OrderBy(x => x.BlogId).Take(3).ToList();
             return new SuccessDataResult<List<Blog>>(result);
         }
 
         public IDataResult<List<Blog>> GetBlogListAndCategoryByWriterId(int writerId)
         {
             return new SuccessDataResult<List<Blog>>(_blogDal.GetBlogListWithCategory(x => x.WriterId == writerId));
+        }
+
+        public IResult BlogStatusUpdate(int blogId)
+        {
+            var result = _blogDal.Get(x => x.BlogId == blogId);
+
+            if (result is null)
+                return new ErrorResult(Messages.BlogNotFound);
+
+            result.Status = result.Status ? false : true;
+
+            _blogDal.Update(result);
+            return new SuccessResult();
+        }
+
+        private IResult CheckIfBlogId(int blogId)
+        {
+            if (_blogDal.Get(x => x.BlogId == blogId) == null)
+            {
+                return new ErrorResult(Messages.BlogNotFound);
+            }
+            return null;
         }
     }
 }

@@ -46,7 +46,7 @@
                                         <a href="single.html">@blog.Title</a>
                                     </h5>
                                     <p class="card-text mb-3">
-                                        @blog.Content.Substring(0, blog.Content.Substring(0, 130).LastIndexOf(" "))...
+                                        @Html.Raw(blog.Content.Substring(0, blog.Content.Substring(0, 130).LastIndexOf(" ")))...
                                     </p>
                                     <a asp-controller="Blog"
                                        asp-action="BlogDetails"

@@ -1,6 +1,6 @@
 ﻿@model List<Blog>
 @{
-    ViewData["Title"] = "GetBlogListByWriter";
+    ViewData["Title"] = "Yazarın Blogları";
     Layout = "~/Areas/Writer/Views/Shared/_WriterLayout.cshtml";
 }
 
@@ -32,8 +32,9 @@
                 <td>{{blog.name}}</td>
                 <td>{{blog.status ? 'Aktif' : 'Pasif'}}</td>
                 <td>
-                    <a class="btn btn-warning" href="#">Düzenle</a>
-                    <a class="btn btn-danger" href="#">Sil</a>
+                    <a :href='"/yazar/blog-duzenle/" + blog.blogId' class="btn btn-warning">Düzenle</a>
+                    <a v-if="blog.status==true" class="btn btn-danger" @@click="blogStatus(blog.blogId)">Pasif Yap</a>
+                    <a v-else class="btn btn-success" @@click="blogStatus(blog.blogId)">Aktif Yap</a>
                 </td>
             </tr>
         </tbody>
@@ -52,9 +53,6 @@
                 filteredList:[]
             }
         },
-        created() {
-
-        },
         methods: {
             searchBlog() {
 
@@ -65,6 +63,22 @@
                 }else {
                     this.blogList = @Json.Serialize(Model.Select(x=> new { x.BlogId , x.Title , x.CreateDate , x.Category.Name , x.Status }));
                 }
+            },
+            blogStatus:function(id) {
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Writer/Blog/StatusUpdate",
+                    data: {blogId : id},
+                    success: function (result) {
+                        if (result.success) {
+                            window.location.href = "/Writer/Blog/GetBlogListByWriter";
+
+                        } else {
+                            console.log(result);
+                        }
+                    }
+                });
             }
         }
     })

@@ -25,17 +25,6 @@
                                         <i class="far fa-calendar-alt"></i> @Model.CreateDate.ToShortDateString()
                                     </a>
                                 </li>
-                                <li class="mx-2">
-                                    <a href="#">
-                                        <i class="far fa-thumbs-up"></i> @Model.CategoryId
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="far fa-comment"></i> 0 yorum
-                                    </a>
-                                </li>
-
                             </ul>
                         </div>
                     </div>
@@ -44,7 +33,7 @@
                         <a href="single.html">@Model.Title </a>
                     </h3>
                     <p>
-                        @Model.Content
+                        @Html.Raw(Model.Content)
                     </p>
                     <a asp-controller="Blog" asp-action="Index" class="btn btn-primary read-m">Blog Listesi</a>
                 </div>

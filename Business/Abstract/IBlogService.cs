@@ -11,7 +11,7 @@ namespace Business.Abstract
     public interface IBlogService
     {
         IDataResult<object> Add(Blog blog);
-        IResult Update(Blog blog);
+        IDataResult<object> Update(Blog blog);
         IResult Delete(Blog blog);
         IDataResult<List<Blog>> GetAll();
         IDataResult<Blog> GetById(int id);
@@ -19,5 +19,6 @@ namespace Business.Abstract
         IDataResult<List<Blog>> GetBlogListByWriterId(int writerId);
         IDataResult<List<Blog>> GetLastThreeBlog();
         IDataResult<List<Blog>> GetBlogListAndCategoryByWriterId(int writerId);
+        IResult BlogStatusUpdate(int blogId);
     }
 }

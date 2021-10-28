@@ -1,17 +1,15 @@
 ﻿@model Blog
 @{
-    ViewData["Title"] = "Blog Ekle";
+    ViewData["Title"] = "EditBlog";
     Layout = "~/Areas/Writer/Views/Shared/_WriterLayout.cshtml";
 }
 
-<h1>Blog Ekle</h1>
 @{
     var userId = User.Claims.ToArray()[0].Value;
 }
 
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-
-<form asp-controller="Blog" asp-action="BlogAdd" asp-area="Writer" method="post">
+<form asp-controller="Blog" asp-action="EditBlog" asp-area="Writer" method="post">
     <div class="mb-3">
         <label asp-for="Title" class="form-label">Başlık</label>
         <input type="text" class="form-control" asp-for="Title" required="">
@@ -47,13 +45,13 @@
         <textarea cols="15" asp-for="Content" id="summernote"></textarea>
         <span class="text-danger" asp-validation-for="Content"></span>
     </div>
-   
     <div class="mb-3">
         <input type="hidden" asp-for="WriterId" value="@userId" readonly="readonly" required="" />
         <span class="text-danger" asp-validation-for="WriterId"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Ekle</button>
+    <button type="submit" class="btn btn-primary">Güncelle</button>
 </form>
+
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 

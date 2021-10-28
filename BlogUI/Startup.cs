@@ -126,13 +126,25 @@ namespace BlogUI
                     pattern: "yazar/anasayfa",
                     defaults: new { area = "Writer", controller = "Writer", action = "Index" }
                 );
-
+                endpoints.MapAreaControllerRoute(
+                    areaName: "Writer",
+                    name: "writerBlogStatus",
+                    pattern: "yazar/blog/durum-guncelle",
+                    defaults: new { area = "Writer", controller = "Blog", action = "StatusUpdate" }
+                );
+                endpoints.MapAreaControllerRoute(
+                    areaName: "Writer",
+                    name: "writerBlogEdit",
+                    pattern: "yazar/blog-duzenle/{blogId}",
+                    defaults: new { area = "Writer", controller = "Blog", action = "EditBlog" }
+                );
                 endpoints.MapAreaControllerRoute(
                     areaName: "Writer",
                     name: "writerBlogAdd",
                     pattern: "yazar/blog-ekle",
                     defaults: new { area = "Writer", controller = "Blog", action = "BlogAdd" }
                 );
+                
                 endpoints.MapAreaControllerRoute(
                     name: "WriterArea",
                     areaName: "Writer",

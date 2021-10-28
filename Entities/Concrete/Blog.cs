@@ -1,6 +1,7 @@
 ﻿using Core.Entities;
 using System;
 using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace Entities.Concrete
 {
@@ -9,7 +10,7 @@ namespace Entities.Concrete
         public int BlogId { get; set; }
 
         public string Title { get; set; }
-
+        [AllowHtml]
         public string Content { get; set; }
 
         public string ThumbnailImage { get; set; }

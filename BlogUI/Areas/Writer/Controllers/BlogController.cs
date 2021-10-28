@@ -49,6 +49,13 @@ namespace BlogUI.Areas.Writer.Controllers
 
             return View(new Blog());
         }
+        [HttpPost]
+        public JsonResult StatusUpdate(int blogId)
+        {
+            var result = _blogService.BlogStatusUpdate(blogId);
+
+            return new JsonResult(result);
+        }
 
         [HttpPost]
         public IActionResult BlogAdd(Blog blog)
@@ -76,6 +83,43 @@ namespace BlogUI.Areas.Writer.Controllers
                                       Value = category.CategoryId.ToString()
                                   }).ToList();
             return View(blog);
+        }
+
+
+        public IActionResult EditBlog([FromRoute] int blogId)
+        {
+            var result = _blogService.GetById(blogId);
+            ViewBag.Categories = (from category in _categoryService.GetAll().Data
+                                  select new SelectListItem
+                                  {
+                                      Text = category.Name,
+                                      Value = category.CategoryId.ToString()
+                                  }).ToList();
+            return View(result.Data);
+        }
+
+        [HttpPost]
+        public IActionResult EditBlog(Blog blog)
+        {
+            var result = _blogService.Update(blog);
+            if (result.Success)
+            {
+                return Redirect("/yazar/bloglar");
+            }
+            else
+            {
+                if (result.Data is List<ValidationFailure>)
+                {
+                    foreach (var error in (List<ValidationFailure>)result.Data)
+                    {
+                        ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                    }
+
+                    return View(blog);
+                }
+
+            }
+            return View();
         }
     }
 }
