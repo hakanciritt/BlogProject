@@ -1,9 +1,13 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
-    <title>@ViewData["Title"]</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <meta charset="utf-8">
+    <title>@Html.Raw(ViewData["Title"])</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="Description" content="@Html.Raw(ViewData["Description"])">
+    <meta name="keywords" content="Blog Bilgi Sosyal Yazılım Programlama">
+    <META name="Abstract" content="Sizler için en güncel konularda en güncel yazıları yazıyoruz.">
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
     <link href="~/CoreBlogTema/css/single.css" rel="stylesheet">
     <link href="~/CoreBlogTema/css/style.css" rel='stylesheet' type='text/css' />
@@ -15,7 +19,7 @@
             <div class="row">
                 <div class="col-md-4 logo text-left">
                     <a class="navbar-brand" asp-controller="Blog" asp-action="Index">
-                        <i class="fab fa-linode"></i> Weblog
+                        <i class="fab fa-linode"></i> Blog
                     </a>
                 </div>
                 @await Html.PartialAsync("AuthPartial")

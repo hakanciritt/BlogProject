@@ -1,7 +1,8 @@
 ﻿@using BlogUI.ViewComponents
 @model Blog
 @{
-    ViewData["Title"] = "BlogDetails";
+    ViewData["Title"] = Model.Title;
+    ViewData["Description"] = Model.Content;
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
@@ -41,14 +42,14 @@
                 @await Component.InvokeAsync("CommentListByBlog", new { blogId = Model.BlogId })
 
 
-                @await Html.PartialAsync("~/Views/Comment/AddComment.cshtml", new { BlogId = @Model.BlogId  })
+                @await Html.PartialAsync("~/Views/Comment/AddComment.cshtml", new { BlogId = @Model.BlogId })
 
             </div>
             <!--//left-->
             <!--right-->
             <aside class="col-lg-4 agileits-w3ls-right-blog-con text-right">
                 <div class="right-blog-info text-left">
-                    
+
                     <h4>Mail Bültenine Abone Olun</h4>
 
                     @await Html.PartialAsync("~/Views/NewsLetter/SubscribeMail.cshtml")
