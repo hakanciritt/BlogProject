@@ -28,22 +28,13 @@ namespace BlogUI.Controllers
         }
 
 
-        public PartialViewResult AddComment()
-        {
-            return PartialView();
-        }
-
-
         [HttpPost]
-        public JsonResult AddComment([FromBody]Comment comment)
+        public JsonResult AddComment([FromBody] Comment comment)
         {
             var result = _commentService.Add(comment);
-            if (!result.Success)
-            {
-                return Json(result);
-            }
 
-            return Json(result);
+            return new JsonResult(result);
+
         }
     }
 }

@@ -96,6 +96,17 @@ namespace BlogUI
                 );
                 #endregion
 
+                #region Comment route
+
+                endpoints.MapControllerRoute(
+                    name: "addComment",
+                    pattern: "yorum-yap",
+                    defaults: new { controller = "Comment", action = "AddComment" }
+                );
+
+                #endregion
+
+
                 #region Contact route
 
                 endpoints.MapControllerRoute(

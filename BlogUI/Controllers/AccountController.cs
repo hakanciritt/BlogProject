@@ -28,6 +28,7 @@ namespace BlogUI.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(Writer writer)
         {
             var result = _writerService.UserLogin(writer);
@@ -47,7 +48,7 @@ namespace BlogUI.Controllers
                     var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                     await HttpContext.SignInAsync(claimsPrincipal);
 
-                    return RedirectToAction("Index", "Writer", new { area = "Writer" });
+                    return RedirectToAction("Index", "Dashboard", new { area = "Writer" });
                 }
             }
             else

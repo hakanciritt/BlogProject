@@ -40,8 +40,7 @@
 
                 @await Component.InvokeAsync("CommentListByBlog", new { blogId = Model.BlogId })
 
-
-                @await Html.PartialAsync("~/Views/Comment/AddComment.cshtml", new { BlogId = @Model.BlogId })
+                @await Component.InvokeAsync("AddComment", new { blogId = Model.BlogId })
 
             </div>
             <!--//left-->

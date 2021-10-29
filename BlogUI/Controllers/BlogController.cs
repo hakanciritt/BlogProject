@@ -17,10 +17,12 @@ namespace BlogUI.Controllers
         public IActionResult Index()
         {
             var result = _blogService.GetBlogListWithCategory();
+            TempData["Status"] = result.Success;
             if (result.Success)
             {
                 return View(result.Data);
             }
+
             TempData["Message"] = result.Message;
             return View();
         }

@@ -11,12 +11,7 @@
         <div class="inner-sec">
             <div class="left-blog-info-w3layouts-agileits text-left">
                 <div class="row">
-                    @if (TempData["Message"] is not null)
-                    {
-
-                        <span>@TempData["Message"]</span>
-                    }
-                    else
+                    @if ((bool)TempData["Status"])
                     {
                         @foreach (var blog in Model)
                         {
@@ -43,19 +38,29 @@
                                         </li>
                                     </ul>
                                     <h5 class="card-title">
-                                        <a href="single.html">@blog.Title</a>
+                                        <a asp-controller="Blog" asp-action="BlogDetails" asp-route-id="@blog.BlogId">@blog.Title</a>
                                     </h5>
-                                    <p class="card-text mb-3">
+                                    <p class="card-text mb-4">
                                         @Html.Raw(blog.Content.Substring(0, blog.Content.Substring(0, 130).LastIndexOf(" ")))...
                                     </p>
                                     <a asp-controller="Blog"
                                        asp-action="BlogDetails"
                                        asp-route-id="@blog.BlogId"
+                                       style="margin-top: 8px;"
                                        class="btn btn-primary read-m">Devamını oku</a>
                                 </div>
                             </div>
                         }
                     }
+                    else
+                    {
+                        @if (TempData["Message"] is not null)
+                        {
+
+                            <div class="alert alert-warning col-12">@TempData["Message"]</div>
+                        }
+                    }
+
                 </div>
             </div>
         </div>

@@ -24,6 +24,7 @@ namespace BlogUI.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Index(RegisterViewModel registerAddVM)
         {
             Writer writer = new Writer()
