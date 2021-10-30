@@ -4,12 +4,9 @@
     Layout = "~/Areas/Writer/Views/Shared/_WriterLayout.cshtml";
 }
 
-@{
-    var userId = User.Claims.ToArray()[0].Value;
-}
 
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-<form asp-controller="Blog" asp-action="EditBlog" asp-area="Writer" method="post">
+<form asp-controller="Blog" asp-action="EditBlog" asp-area="Writer" method="post" asp-antiforgery="true">
     <div class="mb-3">
         <label asp-for="Title" class="form-label">Başlık</label>
         <input type="text" class="form-control" asp-for="Title" required="">
@@ -46,9 +43,6 @@
         <span class="text-danger" asp-validation-for="Content"></span>
     </div>
     <div class="mb-3">
-        <input type="hidden" asp-for="WriterId" value="@userId" readonly="readonly" required="" />
-        <span class="text-danger" asp-validation-for="WriterId"></span>
-    </div>
     <button type="submit" class="btn btn-primary">Güncelle</button>
 </form>
 

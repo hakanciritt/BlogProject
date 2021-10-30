@@ -11,6 +11,7 @@ using FluentValidation.Results;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using DataAccess.Concrete;
 
 namespace BlogUI.Controllers
 {
@@ -34,14 +35,15 @@ namespace BlogUI.Controllers
             var result = _writerService.UserLogin(writer);
             if (result.Success)
             {
-
-                if (writer.Mail == "hakan@gmail.com" && writer.Password == "hakan")
+                BlogContext context = new BlogContext();
+                var user = context.Writers.FirstOrDefault(x => x.Mail == writer.Mail && x.Password == writer.Password);
+                if(user is not null)
                 {
                     var claims = new List<Claim>()
                     {
-                        new Claim(ClaimTypes.NameIdentifier,"1"),
-                        new Claim(ClaimTypes.Name, "Hakan Cirit"),
-                        new Claim(ClaimTypes.Email, writer.Mail),
+                        new Claim(ClaimTypes.NameIdentifier,user.WriterId.ToString()),
+                        new Claim(ClaimTypes.Name, user.Name),
+                        new Claim(ClaimTypes.Email, user.Mail),
                         //new Claim(ClaimTypes.NameIdentifier, writer.WriterId.ToString())
                     };
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

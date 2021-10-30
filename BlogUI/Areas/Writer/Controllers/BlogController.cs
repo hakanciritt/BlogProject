@@ -2,14 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using BlogUI.Areas.Writer.Models;
 using Business.Abstract;
 using Entities.Concrete;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using BlogUI.Security;
 
 namespace BlogUI.Areas.Writer.Controllers
 {
@@ -19,16 +17,17 @@ namespace BlogUI.Areas.Writer.Controllers
     {
         private readonly IBlogService _blogService;
         private readonly ICategoryService _categoryService;
+        private readonly ICurrentUser _currentUser;
 
-        public BlogController(IBlogService blogService, ICategoryService categoryService)
+        public BlogController(IBlogService blogService, ICategoryService categoryService, ICurrentUser currentUser)
         {
             _blogService = blogService;
             _categoryService = categoryService;
+            _currentUser = currentUser;
         }
         public IActionResult GetBlogListByWriter()
         {
-            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            var result = _blogService.GetBlogListAndCategoryByWriterId(int.Parse(userId));
+            var result = _blogService.GetBlogListAndCategoryByWriterId(int.Parse(_currentUser.UserId));
             if (result.Success)
             {
                 return View(result.Data);
@@ -58,23 +57,9 @@ namespace BlogUI.Areas.Writer.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult BlogAdd(Blog blog)
         {
-
-            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-
-            if (userId != blog.WriterId.ToString())
-                ModelState.AddModelError("WriterId", "Lütfen bu kısmı değiştirmeyiniz");
-
-            var result = _blogService.Add(blog);
-
-            if (result.Success)
-                return RedirectToAction("Index", "Writer");
-
-            foreach (var error in (List<ValidationFailure>)result.Data)
-            {
-                ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
-            }
 
             ViewBag.Categories = (from category in _categoryService.GetAll().Data
                                   select new SelectListItem
@@ -82,6 +67,19 @@ namespace BlogUI.Areas.Writer.Controllers
                                       Text = category.Name,
                                       Value = category.CategoryId.ToString()
                                   }).ToList();
+
+
+            blog.WriterId = int.Parse(_currentUser.UserId);
+            var result = _blogService.Add(blog);
+
+            if (result.Success)
+                return RedirectToAction("Index", "Blog", new { area = "Writer" });
+
+            foreach (var error in (List<ValidationFailure>)result.Data)
+            {
+                ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+            }
+
             return View(blog);
         }
 
@@ -99,8 +97,10 @@ namespace BlogUI.Areas.Writer.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult EditBlog(Blog blog)
         {
+            blog.WriterId = int.Parse(_currentUser.UserId);
             var result = _blogService.Update(blog);
             if (result.Success)
             {

@@ -40,9 +40,9 @@
                                     <h5 class="card-title">
                                         <a asp-controller="Blog" asp-action="BlogDetails" asp-route-id="@blog.BlogId">@blog.Title</a>
                                     </h5>
-                                    <p class="card-text mb-4">
+                                    <div class="card-text mb-4">
                                         @Html.Raw(blog.Content.Substring(0, blog.Content.Substring(0, 130).LastIndexOf(" ")))...
-                                    </p>
+                                    </div>
                                     <a asp-controller="Blog"
                                        asp-action="BlogDetails"
                                        asp-route-id="@blog.BlogId"

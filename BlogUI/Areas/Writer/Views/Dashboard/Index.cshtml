@@ -1,4 +1,4 @@
-﻿
+﻿@model DashBoardViewModel
 @{
     ViewData["Title"] = "Anasayfa";
     Layout = "~/Areas/Writer/Views/Shared/_WriterLayout.cshtml";
@@ -16,7 +16,7 @@
                             <h4 class="font-weight-normal mb-3">
                                 Toplam Blog<i class="mdi mdi-chart-line mdi-24px float-right"></i>
                             </h4>
-                            <h2 class="mb-5">0</h2>
+                            <h2 class="mb-5">@Model.TotalBlogCount</h2>
                         </div>
                     </div>
                 </div>
@@ -27,7 +27,7 @@
                             <h4 class="font-weight-normal mb-3">
                                 Blog Sayınız <i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
                             </h4>
-                            <h2 class="mb-5">0</h2>
+                            <h2 class="mb-5">@Model.TotalBlogCountByWriter</h2>
                         </div>
                     </div>
                 </div>
