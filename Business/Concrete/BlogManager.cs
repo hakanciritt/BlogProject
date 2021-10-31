@@ -116,6 +116,11 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
+        public IDataResult<List<Blog>> TotalCommentsToAuthorsBlog(int writerId)
+        {
+            return new SuccessDataResult<List<Blog>>(new List<Blog>());
+        }
+
         private IResult CheckIfBlogId(int blogId)
         {
             if (_blogDal.Get(x => x.BlogId == blogId) == null)

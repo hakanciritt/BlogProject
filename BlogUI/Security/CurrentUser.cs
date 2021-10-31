@@ -16,11 +16,11 @@ namespace BlogUI.Security
         {
             _context = context;
         }
-        public string UserId
+        public int UserId
         {
             get
             {
-                return _context.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                return int.Parse(_context.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value);
             }
         }
 

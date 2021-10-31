@@ -55,11 +55,14 @@
                             if (!res.success) {
                                 this.validationErrors = res.data.data;
                             } else {
-                                console.log(res.data.message);
                                 this.form.userName = "";
                                 this.form.title = "";
                                 this.form.content = "";
                             }
+                            if (res.success) {
+                                location.reload();
+                            }
+                            
                         }).catch((err) => {
                             console.log(err);
                         });

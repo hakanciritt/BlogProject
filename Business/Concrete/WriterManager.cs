@@ -70,14 +70,6 @@ namespace Business.Concrete
             return new SuccessResult(Messages.WriterUpdated);
         }
 
-        private IResult CheckIfWriterId(int writerId)
-        {
-            var result = _writerDal.Get(x => x.WriterId == writerId);
-            return result is null
-                ? new ErrorResult(Messages.WriterNotFound)
-                : null;
-        }
-
         public IDataResult<object> UserLogin(Writer writer)
         {
             var validationResult = ValidationTool.Validate(new WriterLoginValidator(), writer);
@@ -88,5 +80,14 @@ namespace Business.Concrete
 
             return new SuccessDataResult<object>();
         }
+   
+        private IResult CheckIfWriterId(int writerId)
+        {
+            var result = _writerDal.Get(x => x.WriterId == writerId);
+            return result is null
+                ? new ErrorResult(Messages.WriterNotFound)
+                : null;
+        }
+
     }
 }

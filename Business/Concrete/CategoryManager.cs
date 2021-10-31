@@ -65,6 +65,7 @@ namespace Business.Concrete
             _categoryDal.Update(category);
             return new SuccessResult(Messages.CategoryUpdated);
         }
+
         private IResult CheckIfCategoryId(int categoryId)
         {
             var result = _categoryDal.Get(x => x.CategoryId == categoryId);

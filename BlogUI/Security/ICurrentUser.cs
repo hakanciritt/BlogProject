@@ -7,7 +7,7 @@ namespace BlogUI.Security
 {
     public interface ICurrentUser
     {
-         string UserId { get; }
+         int UserId { get; }
          string Mail { get; }
          string Name { get; }
     }

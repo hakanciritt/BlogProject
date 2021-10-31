@@ -65,6 +65,7 @@ namespace Business.Concrete
             _contactDal.Update(contact);
             return new SuccessResult(Messages.Updated);
         }
+
         private IResult CheckIfContactId(int contactId)
         {
             var result = _contactDal.Get(x => x.ContactId == contactId);

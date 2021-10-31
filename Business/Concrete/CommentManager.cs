@@ -76,6 +76,7 @@ namespace Business.Concrete
             _commentDal.Update(comment);
             return new SuccessResult(Messages.CommentUpdated);
         }
+
         private IResult CheckIfCommentId(int commentId)
         {
             var result = _commentDal.Get(x => x.CommentId == commentId);

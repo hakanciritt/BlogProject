@@ -12,5 +12,6 @@ namespace DataAccess.Abstract
     public interface IBlogDal : IEntityRepository<Blog>
     {
         List<Blog> GetBlogListWithCategory(Expression<Func<Blog, bool>> filter = null);
+        List<Blog> GetBlogListWriterAndComment(Expression<Func<Blog, bool>> filter = null);
     }
 }

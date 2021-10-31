@@ -11,7 +11,7 @@
 <form asp-controller="Blog" asp-action="BlogAdd" asp-area="Writer" method="post" asp-antiforgery="true">
     <div class="mb-3">
         <label asp-for="Title" class="form-label">Başlık</label>
-        <input type="text" class="form-control" asp-for="Title" required="">
+        <input type="text" class="form-control" asp-for="Title" placeholder="Başlık" required="">
         <span class="text-danger" asp-validation-for="Title"></span>
     </div>
     <div class="mb-3">

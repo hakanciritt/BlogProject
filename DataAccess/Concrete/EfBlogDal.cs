@@ -22,5 +22,14 @@ namespace DataAccess.Concrete
                     : context.Blogs.Include(x => x.Category).Where(filter).ToList();
             }
         }
+        public List<Blog> GetBlogListWriterAndComment(Expression<Func<Blog, bool>> filter = null)
+        {
+            using (var context = new BlogContext())
+            {
+                return filter == null
+                    ? context.Blogs.Include(x => x.Writer).Include(x => x.Comments).ToList()
+                    : context.Blogs.Include(x => x.Writer).Include(x => x.Comments).Where(filter).ToList();
+            }
+        }
     }
 }

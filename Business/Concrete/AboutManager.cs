@@ -60,6 +60,7 @@ namespace Business.Concrete
             _aboutDal.Update(about);
             return new SuccessResult(Messages.AboutUpdated);
         }
+
         private IResult CheckIfAboutId(int aboutId)
         {
             var result = _aboutDal.Get(x => x.AboutId == aboutId);

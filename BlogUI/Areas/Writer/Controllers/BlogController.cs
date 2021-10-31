@@ -27,7 +27,7 @@ namespace BlogUI.Areas.Writer.Controllers
         }
         public IActionResult GetBlogListByWriter()
         {
-            var result = _blogService.GetBlogListAndCategoryByWriterId(int.Parse(_currentUser.UserId));
+            var result = _blogService.GetBlogListAndCategoryByWriterId(_currentUser.UserId);
             if (result.Success)
             {
                 return View(result.Data);
@@ -69,7 +69,7 @@ namespace BlogUI.Areas.Writer.Controllers
                                   }).ToList();
 
 
-            blog.WriterId = int.Parse(_currentUser.UserId);
+            blog.WriterId = _currentUser.UserId;
             var result = _blogService.Add(blog);
 
             if (result.Success)
@@ -100,7 +100,7 @@ namespace BlogUI.Areas.Writer.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditBlog(Blog blog)
         {
-            blog.WriterId = int.Parse(_currentUser.UserId);
+            blog.WriterId = _currentUser.UserId;
             var result = _blogService.Update(blog);
             if (result.Success)
             {

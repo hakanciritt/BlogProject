@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 using BlogUI.Areas.Writer.Models;
 using Business.Abstract;
 using Microsoft.AspNetCore.Authorization;
+using BlogUI.Security;
 
 namespace BlogUI.Areas.Writer.Controllers
 {
@@ -16,19 +14,20 @@ namespace BlogUI.Areas.Writer.Controllers
     public class DashboardController : Controller
     {
         private readonly IBlogService _blogService;
+        private readonly ICurrentUser _currentUser;
 
-        public DashboardController(IBlogService blogService)
+        public DashboardController(IBlogService blogService, ICurrentUser currentUser)
         {
             _blogService = blogService;
+            _currentUser = currentUser;
         }
         public IActionResult Index()
         {
-            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
 
             var model = new DashBoardViewModel();
 
             model.TotalBlogCount = _blogService.GetAll().Data.Count;
-            model.TotalBlogCountByWriter = _blogService.GetBlogListByWriterId(int.Parse(userId)).Data.Count;
+            model.TotalBlogCountByWriter = _blogService.GetBlogListByWriterId(_currentUser.UserId).Data.Count;
 
             return View(model);
         }
