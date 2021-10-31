@@ -17,17 +17,6 @@ namespace BlogUI.Controllers
             _commentService = commentService;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public PartialViewResult CommentListForBlog()
-        {
-            return PartialView();
-        }
-
-
         [HttpPost]
         public JsonResult AddComment([FromBody] Comment comment)
         {

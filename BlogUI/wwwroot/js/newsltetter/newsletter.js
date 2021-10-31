@@ -1,0 +1,28 @@
+﻿$("#newsLetterPost").click(function (event) {
+
+    var mail = $("#mail").val();
+    var message = $("#message");
+
+    event.preventDefault();
+    if (mail !== null && mail !== "") {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("SubscribeMail", "NewsLetter")',
+            data: { Mail: mail },
+            dataType: "json",
+            success: function (data) {
+                message.css({ "display": "block" });
+
+                if (data.success) {
+                    message.html(data.message).css({ "color": "green" });
+                } else {
+                    message.html(data.data.filter(x => x.propertyName == 'Mail')[0].errorMessage).css({ "color": "red" });
+                }
+            }
+        });
+    } else {
+        alert("mail alanı boş olamaz");
+        return;
+    }
+
+});

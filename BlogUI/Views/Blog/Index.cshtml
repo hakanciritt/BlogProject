@@ -2,12 +2,23 @@
 
 @{
     ViewData["Title"] = "Anasayfa";
+    ViewData["Description"] = "Bloğumuzda en güncel konular hakkında yazılar yazıyoruz ve kullanıcılar yorumlarını paylaşıyor bu sayede ağımızı giderek büyütüyoruz.";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
+@section Styles{
+    <link href="~/css/blog/index.css" rel="stylesheet" />
+}
 
-<section class="main-content-w3layouts-agileits">
+<section id="indexApp" class="main-content-w3layouts-agileits">
     <div class="container">
-        <h3 class="tittle">Blog</h3>
+        <div class="form-group" id="src-area">
+            <input v-model="searchItem" type="search" v-on:keyup="searchBlog" class="form-control" placeholder="Ara...">
+            <ul class="search-result">
+                <li v-for="blog in filteredBlogList" :key="blog.blogId">
+                    <a target="_blank" :href='"/blog/"+blog.blogId'>{{ blog.title }}</a>
+                </li>
+            </ul>
+        </div>
         <div class="inner-sec">
             <div class="left-blog-info-w3layouts-agileits text-left">
                 <div class="row">
@@ -66,4 +77,10 @@
         </div>
     </div>
 </section>
-
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script>
+    var blogList = @Json.Serialize(Model.Select(x => new { x.BlogId, x.Title, x.Image }))
+</script>
+@section Scripts{
+    <script src="~/js/blog/blog.js"></script>
+}
