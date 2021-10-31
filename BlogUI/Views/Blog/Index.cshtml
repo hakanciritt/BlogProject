@@ -13,7 +13,7 @@
     <div class="container">
         <div class="form-group" id="src-area">
             <input v-model="searchItem" type="search" v-on:keyup="searchBlog" class="form-control" placeholder="Ara...">
-            <ul class="search-result">
+            <ul class="search-result" style="display:none;">
                 <li v-for="blog in filteredBlogList" :key="blog.blogId">
                     <a target="_blank" :href='"/blog/"+blog.blogId'>{{ blog.title }}</a>
                 </li>

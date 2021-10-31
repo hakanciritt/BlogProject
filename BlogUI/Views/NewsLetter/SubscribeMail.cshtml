@@ -5,7 +5,9 @@
         <input id="newsLetterPost" type="submit" value="Abone Ol">
     </form>
 </div>
-@section Scripts{
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/newsltetter/newsletter.js"></script>
-}
+<script>
+    var subscribeMailUrl= @Url.Action("SubscribeMail", "NewsLetter")
+</script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/newsltetter/newsletter.js"></script>
+

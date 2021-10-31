@@ -8,6 +8,9 @@ using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using BlogUI.Security;
+using Helpers.FileHelpers;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace BlogUI.Areas.Writer.Controllers
 {
@@ -18,12 +21,14 @@ namespace BlogUI.Areas.Writer.Controllers
         private readonly IBlogService _blogService;
         private readonly ICategoryService _categoryService;
         private readonly ICurrentUser _currentUser;
+        private readonly IWebHostEnvironment _environment;
 
-        public BlogController(IBlogService blogService, ICategoryService categoryService, ICurrentUser currentUser)
+        public BlogController(IBlogService blogService, ICategoryService categoryService, ICurrentUser currentUser, IWebHostEnvironment environment)
         {
             _blogService = blogService;
             _categoryService = categoryService;
             _currentUser = currentUser;
+            _environment = environment;
         }
         public IActionResult GetBlogListByWriter()
         {
@@ -60,7 +65,6 @@ namespace BlogUI.Areas.Writer.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult BlogAdd(Blog blog)
         {
-
             ViewBag.Categories = (from category in _categoryService.GetAll().Data
                                   select new SelectListItem
                                   {
@@ -68,6 +72,10 @@ namespace BlogUI.Areas.Writer.Controllers
                                       Value = category.CategoryId.ToString()
                                   }).ToList();
 
+            var blogImage = Request.Form.Files["blogImage"];
+
+            if(blogImage is not null) 
+                blog.Image = FileHelper.Save(_environment.WebRootPath + "\\images\\" + blogImage.FileName, blogImage);
 
             blog.WriterId = _currentUser.UserId;
             var result = _blogService.Add(blog);

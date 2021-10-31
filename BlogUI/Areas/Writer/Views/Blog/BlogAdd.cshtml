@@ -8,7 +8,7 @@
 <h1>Blog Ekle</h1>
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 
-<form asp-controller="Blog" asp-action="BlogAdd" asp-area="Writer" method="post" asp-antiforgery="true">
+<form asp-controller="Blog" asp-action="BlogAdd" asp-area="Writer" method="post" asp-antiforgery="true" enctype="multipart/form-data">
     <div class="mb-3">
         <label asp-for="Title" class="form-label">Başlık</label>
         <input type="text" class="form-control" asp-for="Title" placeholder="Başlık" required="">
@@ -21,7 +21,7 @@
     </div>
     <div class="mb-3">
         <label asp-for="Image" class="form-label">Resim</label>
-        <input type="file" class="form-control-file" asp-for="Image" required="">
+        <input type="file" class="form-control-file" name="blogImage" required="">
         <span class="text-danger" asp-validation-for="Image"></span>
     </div>
 

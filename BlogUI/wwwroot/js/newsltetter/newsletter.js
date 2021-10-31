@@ -7,7 +7,7 @@
     if (mail !== null && mail !== "") {
         $.ajax({
             type: "POST",
-            url: '@Url.Action("SubscribeMail", "NewsLetter")',
+            url: "/NewsLetter/SubscribeMail",
             data: { Mail: mail },
             dataType: "json",
             success: function (data) {
