@@ -14,9 +14,9 @@ namespace Helpers.FileHelpers
         {
             using (var stream = System.IO.File.Create(path))
             {
-                file.CopyTo(stream);
                 var fileExtension = Path.GetExtension(file.FileName);
                 var newFileName = Guid.NewGuid() + fileExtension;
+                file.CopyTo(stream);
                 return newFileName;
             }
         }

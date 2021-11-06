@@ -110,7 +110,6 @@ namespace BlogUI
 
                 #endregion
 
-
                 #region Contact route
 
                 endpoints.MapControllerRoute(
@@ -128,6 +127,12 @@ namespace BlogUI
                     name: "Writer",
                     pattern: "yazar/bloglar",
                     defaults: new { area = "Writer", controller = "Blog", action = "GetBlogListByWriter" }
+                );
+                endpoints.MapAreaControllerRoute(
+                    areaName: "Writer",
+                    name: "Writer",
+                    pattern: "yazar/profil-duzenle",
+                    defaults: new { area = "Writer", controller = "Writer", action = "EditProfile" }
                 );
                 endpoints.MapAreaControllerRoute(
                     areaName: "Writer",
