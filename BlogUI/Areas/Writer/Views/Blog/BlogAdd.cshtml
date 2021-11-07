@@ -11,8 +11,13 @@
 <form asp-controller="Blog" asp-action="BlogAdd" asp-area="Writer" method="post" asp-antiforgery="true" enctype="multipart/form-data">
     <div class="mb-3">
         <label asp-for="Title" class="form-label">Başlık</label>
-        <input type="text" class="form-control" asp-for="Title" placeholder="Başlık" required="">
+        <input id="blogTitle" type="text" class="form-control" asp-for="Title" placeholder="Başlık" required="">
         <span class="text-danger" asp-validation-for="Title"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Slug" class="form-label">Sayfa Url</label>
+        <input readonly="readonly" id="blogSlug" type="text" class="form-control" asp-for="Slug" placeholder="Sayfa Url" required="" >
+        <span class="text-danger" asp-validation-for="Slug"></span>
     </div>
     <div class="mb-3">
         <label asp-for="ThumbnailImage" class="form-lab">Küçük Resim</label>
@@ -65,4 +70,14 @@
             ['view', ['fullscreen', 'codeview', 'help']]
         ]
     });
+    $("#blogTitle").change(function (e) {
+        var title = e.target.value.toString()
+            .toUpperCase().toLowerCase().trim().normalize('NFD')
+            .replace(/\s+/g, "-")
+            .replace(/[^\w\-]+/g, "")
+            .replace(/[~`!@@#$%^&*()+={}\[\];:\'\"<>.,\/\\\?-_]/g, "");
+
+        $("#blogSlug").val(title);
+    });
+
 </script>

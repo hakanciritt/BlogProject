@@ -82,7 +82,7 @@ namespace BlogUI
                 #region Blog route
                 endpoints.MapControllerRoute(
                     name: "blogDetail",
-                    pattern: "blog/{id:int}",
+                    pattern: "blog/{blogSlug}",
                     defaults: new { controller = "Blog", action = "BlogDetails" });
 
                 endpoints.MapControllerRoute(

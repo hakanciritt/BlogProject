@@ -1,6 +1,7 @@
 ﻿@model Blog
 @{
     ViewData["Title"] = Model.Title;
+    ViewData["Description"] = "Blog - " + Model.Title;
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
@@ -54,46 +55,7 @@
                     @await Component.InvokeAsync("CategoryList")
 
                     @await Component.InvokeAsync("AuthorsOtherBlogs")
-                    <div class="single-gd my-5 tech-btm">
-                        <h4>Our Progress</h4>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0"
-                                 aria-valuemax="100"></div>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0"
-                                 aria-valuemax="100"></div>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                 aria-valuemax="100"></div>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0"
-                                 aria-valuemax="100"></div>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0"
-                                 aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                    <div class="single-gd tech-btm">
-                        <h4>Recent Post</h4>
-                        <div class="blog-grids">
-                            <div class="blog-grid-left">
-                                <a href="single.html">
-                                    <img src="~/CoreBlogTema/images/b1.jpg" class="img-fluid" alt="">
-                                </a>
-                            </div>
-                            <div class="blog-grid-right">
 
-                                <h5>
-                                    <a href="single.html">Pellentesque dui, non felis. Maecenas male</a>
-                                </h5>
-                            </div>
-                            <div class="clearfix"> </div>
-                        </div>
-                    </div>
                 </div>
 
             </aside>

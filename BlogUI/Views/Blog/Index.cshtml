@@ -15,7 +15,7 @@
             <input v-model="searchItem" type="search" v-on:keyup="searchBlog" class="form-control" placeholder="Ara...">
             <ul class="search-result" style="display:none;">
                 <li v-for="blog in filteredBlogList" :key="blog.blogId">
-                    <a target="_blank" :href='"/blog/"+blog.blogId'>{{ blog.title }}</a>
+                    <a target="_blank" :href='"/blog/" + blog.slug'>{{ blog.title }}</a>
                 </li>
             </ul>
         </div>
@@ -49,14 +49,14 @@
                                         </li>
                                     </ul>
                                     <h5 class="card-title">
-                                        <a asp-controller="Blog" asp-action="BlogDetails" asp-route-id="@blog.BlogId">@blog.Title</a>
+                                        <a asp-controller="Blog" asp-action="BlogDetails" asp-route-blogSlug="@blog.Slug">@blog.Title</a>
                                     </h5>
                                     <div class="card-text mb-4">
                                         @Html.Raw(blog.Content.Substring(0, blog.Content.Substring(0, 130).LastIndexOf(" ")))...
                                     </div>
                                     <a asp-controller="Blog"
                                        asp-action="BlogDetails"
-                                       asp-route-id="@blog.BlogId"
+                                       asp-route-blogSlug="@blog.Slug"
                                        style="margin-top: 8px;"
                                        class="btn btn-primary read-m">Devamını oku</a>
                                 </div>
@@ -79,7 +79,7 @@
 </section>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 <script>
-    var blogList = @Json.Serialize(Model.Select(x => new { x.BlogId, x.Title, x.Image }))
+    var blogList = @Json.Serialize(Model.Select(x => new { x.BlogId, x.Title, x.Image , x.Slug}))
 </script>
 @section Scripts{
     <script src="~/js/blog/blog.js"></script>

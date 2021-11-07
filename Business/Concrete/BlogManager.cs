@@ -129,5 +129,10 @@ namespace Business.Concrete
             }
             return null;
         }
+
+        public IDataResult<Blog> GetByBlogSlugName(string slugName)
+        {
+            return new SuccessDataResult<Blog>(_blogDal.Get(x => x.Slug == slugName));
+        }
     }
 }

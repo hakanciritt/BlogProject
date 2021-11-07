@@ -39,7 +39,6 @@ namespace BlogUI.Areas.Writer.Controllers
             model.Name = result.Name;
             model.Mail = result.Mail;
             model.Password = result.Password;
-            model.PasswordConfirm = result.Password;
             model.About = result.About;
             model.Image = result.Image;
             return View(model);

@@ -13,6 +13,11 @@
         <span class="text-danger" asp-validation-for="Title"></span>
     </div>
     <div class="mb-3">
+        <label asp-for="Slug" class="form-label">Sayfa Url</label>
+        <input readonly="readonly" id="blogSlug" type="text" class="form-control" asp-for="Slug" placeholder="Sayfa Url" required="" >
+        <span class="text-danger" asp-validation-for="Slug"></span>
+    </div>
+    <div class="mb-3">
         <label asp-for="ThumbnailImage" class="form-lab">Küçük Resim</label>
         <input type="file" class="form-control-file" asp-for="ThumbnailImage">
         <span class="text-danger" asp-validation-for="ThumbnailImage"></span>

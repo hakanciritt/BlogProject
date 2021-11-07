@@ -21,5 +21,6 @@ namespace Business.Abstract
         IDataResult<List<Blog>> GetBlogListAndCategoryByWriterId(int writerId);
         IResult BlogStatusUpdate(int blogId);
         IDataResult<List<Blog>> TotalCommentsToAuthorsBlog(int writerId);
+        IDataResult<Blog> GetByBlogSlugName(string slugName);
     }
 }

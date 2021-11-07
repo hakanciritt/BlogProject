@@ -4,14 +4,14 @@
 {
     <div class="blog-grids row mb-3">
         <div class="col-md-5 blog-grid-left">
-            <a asp-controller="Blog" asp-action="BlogDetails" asp-route-id="@blog.BlogId">
+            <a  target="_blank" asp-controller="Blog" asp-action="BlogDetails" asp-route-blogSlug="@blog.Slug">
                 <img src="~/CoreBlogTema/images/4.jpg" class="card-img-top img-fluid" alt="">
             </a>
         </div>
         <div class="col-md-7 blog-grid-right">
 
             <h5>
-                <a asp-controller="Blog" asp-action="BlogDetails" asp-route-id="@blog.BlogId">@blog.Title </a>
+                <a target="_blank" asp-controller="Blog" asp-action="BlogDetails" asp-route-blogSlug="@blog.Slug">@blog.Title </a>
             </h5>
             <div class="sub-meta">
                 <span>

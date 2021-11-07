@@ -28,7 +28,7 @@
                                         <label class="badge badge-gradient-success">True</label>
                                     </td>
                                     <td> @blog.CreateDate.ToString("dd-MMM-yyyy") </td>
-                                    <td> <a target="_blank" class="btn btn-primary" asp-controller="Blog" asp-action="BlogDetails" asp-route-id="@blog.BlogId" >Detay</a> </td>
+                                    <td> <a target="_blank" class="btn btn-primary" asp-controller="Blog" asp-action="BlogDetails" asp-route-blogSlug="@blog.Slug" >Detay</a> </td>
                                 </tr>
                             }
 
