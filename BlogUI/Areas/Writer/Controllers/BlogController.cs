@@ -81,7 +81,7 @@ namespace BlogUI.Areas.Writer.Controllers
             var result = _blogService.Add(blog);
 
             if (result.Success)
-                return RedirectToAction("Index", "Blog", new { area = "Writer" });
+                return RedirectToAction("GetBlogListByWriter", "Blog", new { area = "Writer" });
 
             foreach (var error in (List<ValidationFailure>)result.Data)
             {

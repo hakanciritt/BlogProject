@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccess.Migrations
 {
-    public partial class configuration : Migration
+    public partial class create_table : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,11 +13,11 @@ namespace DataAccess.Migrations
                 {
                     AboutId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Details1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Details2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Image1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Image2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MapLocation = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Details1 = table.Column<string>(type: "varchar(max)", nullable: true),
+                    Details2 = table.Column<string>(type: "varchar(max)", nullable: true),
+                    Image1 = table.Column<string>(type: "varchar(200)", nullable: true),
+                    Image2 = table.Column<string>(type: "varchar(200)", nullable: true),
+                    MapLocation = table.Column<string>(type: "varchar(max)", nullable: true),
                     Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -59,6 +59,37 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Natifications",
+                columns: table => new
+                {
+                    NatificationId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Type = table.Column<string>(type: "varchar(max)", nullable: true),
+                    TypeSymbol = table.Column<string>(type: "varchar(150)", nullable: true),
+                    Details = table.Column<string>(type: "varchar(max)", nullable: true),
+                    Date = table.Column<DateTime>(type: "datetime", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Natifications", x => x.NatificationId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NewsLetters",
+                columns: table => new
+                {
+                    MailId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Mail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MailStatus = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NewsLetters", x => x.MailId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Writers",
                 columns: table => new
                 {
@@ -84,6 +115,7 @@ namespace DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "varchar(100)", nullable: true),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Slug = table.Column<string>(type: "varchar(max)", nullable: true),
                     ThumbnailImage = table.Column<string>(type: "varchar(200)", nullable: true),
                     Image = table.Column<string>(type: "varchar(100)", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime", nullable: false),
@@ -158,6 +190,12 @@ namespace DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Contacts");
+
+            migrationBuilder.DropTable(
+                name: "Natifications");
+
+            migrationBuilder.DropTable(
+                name: "NewsLetters");
 
             migrationBuilder.DropTable(
                 name: "Blogs");

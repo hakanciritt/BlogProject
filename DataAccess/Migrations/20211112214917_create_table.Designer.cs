@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(BlogContext))]
-    [Migration("20211016112641_newsletter_table")]
-    partial class newsletter_table
+    [Migration("20211112214917_create_table")]
+    partial class create_table
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,22 +30,28 @@ namespace DataAccess.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Details1")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(max)")
+                        .HasColumnName("Details1");
 
                     b.Property<string>("Details2")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(max)")
+                        .HasColumnName("Details2");
 
                     b.Property<string>("Image1")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(200)")
+                        .HasColumnName("Image1");
 
                     b.Property<string>("Image2")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(200)")
+                        .HasColumnName("Image2");
 
                     b.Property<string>("MapLocation")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(max)")
+                        .HasColumnName("MapLocation");
 
                     b.Property<bool>("Status")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasColumnName("Status");
 
                     b.HasKey("AboutId");
 
@@ -75,6 +81,10 @@ namespace DataAccess.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("varchar(100)")
                         .HasColumnName("Image");
+
+                    b.Property<string>("Slug")
+                        .HasColumnType("varchar(max)")
+                        .HasColumnName("Slug");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit")
@@ -192,6 +202,39 @@ namespace DataAccess.Migrations
                     b.HasKey("ContactId");
 
                     b.ToTable("Contacts");
+                });
+
+            modelBuilder.Entity("Entities.Concrete.Natification", b =>
+                {
+                    b.Property<int>("NatificationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("NatificationId")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime")
+                        .HasColumnName("Date");
+
+                    b.Property<string>("Details")
+                        .HasColumnType("varchar(max)")
+                        .HasColumnName("Details");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit")
+                        .HasColumnName("Status");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("varchar(max)")
+                        .HasColumnName("Type");
+
+                    b.Property<string>("TypeSymbol")
+                        .HasColumnType("varchar(150)")
+                        .HasColumnName("TypeSymbol");
+
+                    b.HasKey("NatificationId");
+
+                    b.ToTable("Natifications");
                 });
 
             modelBuilder.Entity("Entities.Concrete.NewsLetter", b =>

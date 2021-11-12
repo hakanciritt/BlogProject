@@ -10,7 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Core.Extensions;
 
 namespace Business.Concrete
 {
@@ -25,12 +27,13 @@ namespace Business.Concrete
         {
             var errorResult = ValidationTool.Validate(new BlogValidator(), blog);
             if (errorResult is not null)
-            {
                 return new ErrorDataResult<object>(errorResult);
-            }
 
             blog.Status = true;
             blog.CreateDate = DateTime.Now;
+            blog.Slug = blog.Title.ToUpper().ToLower().Trim().RegexReplace(@"\s+","-")
+                .RegexReplace(@"[^\w\-]+", "").RegexReplace(@"[~`!@@#$%^&*()+={}\[\];:\'\""<>.,\/\\\?-_]", "");
+
             _blogDal.Add(blog);
             return new SuccessDataResult<object>(Messages.BlogAdded);
         }
