@@ -170,6 +170,18 @@ namespace BlogUI
                     pattern: "yazar/panel",
                     defaults: new { area = "Writer", controller = "Dashboard", action = "Index" }
                 );
+                endpoints.MapAreaControllerRoute(
+                    areaName: "Writer",
+                    name: "writerMessages",
+                    pattern: "yazar/mesajlar",
+                    defaults: new { area = "Writer", controller = "Message", action = "Index" }
+                );
+                endpoints.MapAreaControllerRoute(
+                    areaName: "Writer",
+                    name: "writerSettings",
+                    pattern: "yazar/ayarlar",
+                    defaults: new { area = "Writer", controller = "Settings", action = "Index" }
+                );
 
                 endpoints.MapAreaControllerRoute(
                     name: "WriterArea",

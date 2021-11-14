@@ -1,6 +1,6 @@
 ﻿@model List<Blog>
 @{
-    ViewData["Title"] = "Yazarın Blogları";
+    ViewData["Title"] = "Bloglar";
     Layout = "~/Areas/Writer/Views/Shared/_WriterLayout.cshtml";
 }
 
@@ -8,7 +8,7 @@
 <div id="blogApp">
     <div class="d-flex justify-content-between">
         <input v-on:keyup="searchBlog" v-model="searchItem" type="search" class="form-control col-6" placeholder="Arama">
-        <a class="btn btn-primary" asp-controller="Blog" asp-action="BlogAdd">Blog Ekle</a>
+        <a class="btn btn-primary" style="margin-right: 160px;" asp-controller="Blog" asp-action="BlogAdd">Blog Ekle</a>
     </div>
 
     <table class="table table-bordered">
