@@ -11,7 +11,7 @@
         <a class="btn btn-primary" style="margin-right: 160px;" asp-controller="Blog" asp-action="BlogAdd">Blog Ekle</a>
     </div>
 
-    <table class="table table-bordered">
+    <table v-if="blogList.length > 0" class="table table-bordered">
 
         <thead>
             <tr>
@@ -25,12 +25,12 @@
         </thead>
         <tbody>
 
-            <tr v-for="blog in blogList" :key="blog.blogId">
-                <td>{{blog.blogId}} </td>
-                <td>{{blog.title}}</td>
-                <td>{{blog.createDate}}</td>
-                <td>{{blog.categoryName}}</td>
-                <td>{{blog.status ? 'Aktif' : 'Pasif'}}</td>
+            <tr v-if="blogList.length > 0" v-for="blog in blogList" :key="blog.blogId">
+                <td>{{ blog.blogId }} </td>
+                <td>{{ blog.title }}</td>
+                <td>{{ blog.createDate }}</td>
+                <td>{{ blog.categoryName }}</td>
+                <td>{{ blog.status ? 'Aktif' : 'Pasif' }}</td>
                 <td>
                     <a :href='"/yazar/blog-duzenle/" + blog.blogId' class="btn btn-warning">Düzenle</a>
                     <a v-if="blog.status==true" class="btn btn-danger" @@click="blogStatus(blog.blogId)">Pasif Yap</a>
@@ -39,60 +39,19 @@
             </tr>
         </tbody>
     </table>
+    <div v-else class="alert alert-warning my-3">
+        Mevcutta yazınız bulunmamaktadır Blog Ekle alanından ilk yazınızı yazmaya ne dersiniz
+    </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-
-    var blogApp = new Vue({
-        el: "#blogApp",
-        data() {
-            return {
-                searchItem: null,
-                blogList:  @Json.Serialize(Model.Select(x=> new {
-                         BlogId =  x.BlogId ,
-                         Title= x.Title ,
-                         CreateDate = x.CreateDate.ToString("dd-MMM-yyyy"),
-                         CategoryName = x.Category.Name ,
-                         Status = x.Status
-                      })),
-                filteredList:[]
-            }
-        },
-        methods: {
-            searchBlog() {
-
-                if (this.searchItem !== null && this.searchItem !== "" && this.searchItem.length > 1 ) {
-                    this.filteredList = this.blogList.filter(x => x.title.toString().toLowerCase().indexOf(this.searchItem.toLowerCase()) !== -1 ||
-                    x.categoryName.toString().toLowerCase().indexOf(this.searchItem.toLowerCase()) !== -1);
-                     this.blogList = this.filteredList;
-                }else {
-                    this.blogList = @Json.Serialize(Model.Select(x => new
-                               {
-                                   BlogId = x.BlogId,
-                                   Title = x.Title,
-                                   CreateDate = x.CreateDate.ToString("dd-MMM-yyyy"),
-                                   CategoryName = x.Category.Name,
-                                   Status = x.Status
-                               }));
-                }
-            },
-            blogStatus:function(id) {
-
-                $.ajax({
-                    type: "POST",
-                    url: "/Writer/Blog/StatusUpdate",
-                    data: {blogId : id},
-                    success: function (result) {
-                        if (result.success) {
-                            window.location.href = "/yazar/bloglar";
-
-                        } else {
-                            console.log(result);
-                        }
-                    }
-                });
-            }
-        }
-    })
+    var blogAll = @Json.Serialize(Model.Select(x=> new {
+                      BlogId =  x.BlogId ,
+                      Title= x.Title ,
+                      CreateDate = x.CreateDate.ToString("dd-MMM-yyyy"),
+                      CategoryName = x.Category.Name ,
+                      Status = x.Status
+                  }));
 </script>
+<script src="~/js/writer/getbloglistbywriter.js"></script>
