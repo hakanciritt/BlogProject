@@ -19,7 +19,8 @@ namespace DataAccess.Concrete
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Writer> Writers { get; set; }
         public DbSet<NewsLetter> NewsLetters { get; set; }
-        public DbSet<Natification> Natifications{ get; set; }
+        public DbSet<Natification> Natifications { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -34,6 +35,7 @@ namespace DataAccess.Concrete
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new WriterConfiguration());
             modelBuilder.ApplyConfiguration(new NatificationConfiguration());
+            modelBuilder.ApplyConfiguration(new MessageConfiguration());
 
             modelBuilder.Entity<Blog>()
                 .HasOne(x => x.Category)
