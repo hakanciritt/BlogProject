@@ -39,7 +39,10 @@
             </tr>
         </tbody>
     </table>
-    <div v-else class="alert alert-warning my-3">
+    <div v-else class="alert alert-warning my-3 p-2">
+        Arama sonuçlarına göre blog yazınız bulunamadı
+    </div>
+    <div v-if="blogList.length < 0 " class="alert alert-warning my-3 p-2">
         Mevcutta yazınız bulunmamaktadır Blog Ekle alanından ilk yazınızı yazmaya ne dersiniz
     </div>
 </div>

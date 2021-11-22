@@ -30,9 +30,7 @@ namespace Business.Concrete
                 return new ErrorDataResult<object>(errorResult);
 
             blog.Status = true;
-            blog.CreateDate = DateTime.Now;
-            blog.Slug = blog.Title.ToUpper().ToLower().Trim().RegexReplace(@"\s+","-")
-                .RegexReplace(@"[^\w\-]+", "").RegexReplace(@"[~`!@@#$%^&*()+={}\[\];:\'\""<>.,\/\\\?-_]", "");
+            blog.CreateDate = DateTime.Now; 
 
             _blogDal.Add(blog);
             return new SuccessDataResult<object>(Messages.BlogAdded);
