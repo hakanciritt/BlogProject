@@ -185,6 +185,12 @@ namespace BlogUI
                     pattern: "yazar/ayarlar",
                     defaults: new { area = "Writer", controller = "Settings", action = "Index" }
                 );
+                endpoints.MapAreaControllerRoute(
+                    areaName: "Writer",
+                    name: "writerPassword",
+                    pattern: "yazar/sifre-guncelle",
+                    defaults: new { area = "Writer", controller = "Settings", action = "UpdatePassword" }
+                );
 
                 endpoints.MapAreaControllerRoute(
                     name: "WriterArea",

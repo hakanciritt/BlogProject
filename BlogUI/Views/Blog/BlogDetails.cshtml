@@ -14,9 +14,7 @@
                 <div class="blog-grid-top">
                     <div class="b-grid-top">
                         <div class="blog_info_left_grid">
-                            <a href="single.html">
-                                <img src="~/CoreBlogTema/images/b1.jpg" class="img-fluid" alt="">
-                            </a>
+                            <img src="~/CoreBlogTema/images/b1.jpg" class="img-fluid" alt="">
                         </div>
                         <div class="blog-info-middle">
                             <ul>
@@ -30,11 +28,11 @@
                     </div>
 
                     <h3>
-                        <a href="single.html">@Model.Title </a>
+                        @Model.Title
                     </h3>
-                    <p>
+                    <div>
                         @Html.Raw(Model.Content)
-                    </p>
+                    </div>
                     <a asp-controller="Blog" asp-action="Index" class="btn btn-primary read-m">Blog Listesi</a>
                 </div>
 

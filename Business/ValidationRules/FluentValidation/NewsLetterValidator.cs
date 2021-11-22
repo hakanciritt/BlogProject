@@ -13,7 +13,7 @@ namespace Business.ValidationRules.FluentValidation
         public NewsLetterValidator()
         {
             RuleFor(x => x.Mail).NotEmpty().WithMessage("Mail alanı boş geçilemez");
-            RuleFor(x => x.Mail).EmailAddress().WithMessage("Lütfen bir mail giriniz");
+            RuleFor(x => x.Mail).EmailAddress().WithMessage("Lütfen geçerli bir mail adresi giriniz");
         }
     }
 }

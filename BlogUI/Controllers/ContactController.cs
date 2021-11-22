@@ -23,6 +23,7 @@ namespace BlogUI.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Index(Contact contact)
         {
             contact.Date = DateTime.Now;

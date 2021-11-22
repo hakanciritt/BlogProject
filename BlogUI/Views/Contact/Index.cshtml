@@ -72,33 +72,32 @@
         </div>
         <div class="container">
             <div class="contact_grid_right">
-                <form asp-controller="Contact" asp-action="Index" method="post">
+                <form asp-controller="Contact" asp-action="Index" method="post" asp-antiforgery="true">
                     <div class="row contact_left_grid">
                         <div class="col-md-6 con-left">
                             <div class="form-group">
-                                <label for="">İsim</label>
+                                <label asp-for="UserName">İsim</label>
                                 <input class="form-control" type="text" placeholder="İsim" required="" asp-for="UserName">
                                 <span class="text-danger" asp-validation-for="UserName"></span>
                             </div>
                             <div class="form-group">
-                                <label for="">Email</label>
+                                <label asp-for="Mail">Email</label>
                                 <input class="form-control" type="email" placeholder="Mail" required="" asp-for="Mail">
                                 <span class="text-danger" asp-validation-for="Mail"></span>
                             </div>
                             <div class="form-group">
-                                <label for="">Subject</label>
+                                <label asp-for="Subject">Konu</label>
                                 <input class="form-control" type="text" placeholder="Konu" required="" asp-for="Subject">
                                 <span class="text-danger" asp-validation-for="Subject"></span>
                             </div>
                         </div>
                         <div class="col-md-6 con-right">
                             <div class="form-group">
-                                <label for="textarea">Message</label>
+                                <label asp-for="Message">Mesaj</label>
                                 <textarea id="textarea" placeholder="Mesajınız" asp-for="Message"></textarea>
                                 <span class="text-danger" asp-validation-for="Message"></span>
                             </div>
-                            <input class="form-control" type="submit" value="Submit">
-
+                            <input class="btn btn-primary col-lg" type="submit" value="Gönder">
                         </div>
                     </div>
                 </form>

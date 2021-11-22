@@ -27,19 +27,14 @@
                         @foreach (var blog in Model)
                         {
                             <div class="col-lg-4 card">
-                                <a href="single.html">
-                                    <img src="~/CoreBlogTema/images/7.jpg" class="card-img-top img-fluid" alt="">
+                                <a asp-controller="Blog" asp-action="BlogDetails" asp-route-blogSlug="@blog.Slug">
+                                    <img width="350" height="280" src="~/images/@blog.Image" class="card-img-top img-fluid" alt="@blog.Title">
                                 </a>
                                 <div class="card-body">
                                     <ul class="blog-icons my-4">
                                         <li>
                                             <a href="#">
                                                 <i class="far fa-calendar-alt"></i> @blog.CreateDate.ToShortDateString()
-                                            </a>
-                                        </li>
-                                        <li class="mx-2">
-                                            <a href="#">
-                                                <i class="far fa-comment"></i> 21
                                             </a>
                                         </li>
                                         <li>

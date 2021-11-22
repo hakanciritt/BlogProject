@@ -39,5 +39,13 @@ namespace BlogUI.Security
                 return _context.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
             }
         }
+
+        public string[] Roles
+        {
+            get
+            {
+                return _context.HttpContext.User.Claims.Where(x => x.Type == ClaimTypes.Role).Select(x => x.Value).ToArray();
+            }
+        }
     }
 }

@@ -3,17 +3,18 @@
     ViewData["Title"] = "Mesajlar";
     Layout = "~/Areas/Writer/Views/Shared/_WriterLayout.cshtml";
 }
+<h1>Mesajlar</h1>
 
 <table class="table table-bordered">
 
     <thead>
-        <tr>
-            <th>Id</th>
-            <th>Başlık</th>
-            <th>Gönderen</th>
-            <th>Tarih</th>
-            <th>İşlemler</th>
-        </tr>
+    <tr>
+        <th>#</th>
+        <th>Başlık</th>
+        <th>Gönderen</th>
+        <th>Tarih</th>
+        <th>İşlemler</th>
+    </tr>
     </thead>
     <tbody>
         @foreach (var message in Model)

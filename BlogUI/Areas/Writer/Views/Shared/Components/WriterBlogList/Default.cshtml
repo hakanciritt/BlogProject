@@ -11,7 +11,6 @@
                             <tr>
                                 <th> Görsel </th>
                                 <th> Başlık </th>
-                                <th> Durum </th>
                                 <th> Oluşturulma Tarihi </th>
                                 <th> Blog Detay </th>
                             </tr>
@@ -21,12 +20,9 @@
                             {
                                 <tr>
                                     <td>
-                                        <img src="~/writerpanel/assets/images/faces/face1.jpg" class="mr-2" alt="image">
+                                        <img width="36" src="~/images/@blog.Image" class="mr-2" alt="@blog.Title">
                                     </td>
                                     <td> @blog.Title </td>
-                                    <td>
-                                        <label class="badge badge-gradient-success">True</label>
-                                    </td>
                                     <td> @blog.CreateDate.ToString("dd-MMM-yyyy") </td>
                                     <td> <a target="_blank" class="btn btn-primary" asp-controller="Blog" asp-action="BlogDetails" asp-route-blogSlug="@blog.Slug" >Detay</a> </td>
                                 </tr>
