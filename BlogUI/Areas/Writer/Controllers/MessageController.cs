@@ -1,19 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+using BlogUI.ControllerTypes;
+using Business.Abstract;
 
 namespace BlogUI.Areas.Writer.Controllers
 {
-    [Authorize]
-    [Area("Writer")]
-    public class MessageController : Controller
+    public class MessageController : WriterBaseController<MessageController>
     {
+        private readonly IMessageService _messageService;
+
+        public MessageController(IMessageService messageService)
+        {
+            _messageService = messageService;
+        }
         public IActionResult Index()
         {
-            return View();
+            var result = _messageService.GetMessageListByWriterMail(CurrentUser.Mail);
+            return View(result.Data);
         }
     }
 }

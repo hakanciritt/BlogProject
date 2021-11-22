@@ -1,41 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using BlogUI.Areas.Writer.Models;
-using BlogUI.Security;
+using BlogUI.ControllerTypes;
 using Business.Abstract;
-using Microsoft.AspNetCore.Authorization;
-using Entities.Concrete;
 using Helpers.FileHelpers;
 using Microsoft.AspNetCore.Hosting;
 
 namespace BlogUI.Areas.Writer.Controllers
 {
-    [Authorize]
-    [Area("Writer")]
-    public class WriterController : Controller
+    public class WriterController : WriterBaseController<WriterController>
     {
         private readonly IWriterService _writerService;
-        private readonly ICurrentUser _currentUser;
         private readonly IWebHostEnvironment _environment;
 
-        public WriterController(IWriterService writerService, ICurrentUser currentUser, IWebHostEnvironment environment)
+        public WriterController(IWriterService writerService, IWebHostEnvironment environment)
         {
             _writerService = writerService;
-            _currentUser = currentUser;
             _environment = environment;
-        }
-        public IActionResult Index()
-        {
-            return View();
         }
 
         public IActionResult EditProfile()
         {
             var model = new WriterProfileUpdateViewModel();
-            var result = _writerService.GetById(_currentUser.UserId).Data;
+            var result = _writerService.GetById(CurrentUser.UserId).Data;
             model.Name = result.Name;
             model.Mail = result.Mail;
             model.Password = result.Password;
@@ -50,7 +38,7 @@ namespace BlogUI.Areas.Writer.Controllers
         {
             var writer = new Entities.Concrete.Writer()
             {
-                WriterId = _currentUser.UserId,
+                WriterId = CurrentUser.UserId,
                 About = writerVM.About,
                 Mail = writerVM.Mail,
                 Name = writerVM.Name,

@@ -5,34 +5,29 @@ using System.Linq;
 using Business.Abstract;
 using Entities.Concrete;
 using FluentValidation.Results;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using BlogUI.Security;
 using Helpers.FileHelpers;
 using System.IO;
+using BlogUI.ControllerTypes;
 using Microsoft.AspNetCore.Hosting;
 
 namespace BlogUI.Areas.Writer.Controllers
 {
-    [Authorize]
-    [Area("Writer")]
-    public class BlogController : Controller
+    public class BlogController : WriterBaseController<BlogController>
     {
         private readonly IBlogService _blogService;
         private readonly ICategoryService _categoryService;
-        private readonly ICurrentUser _currentUser;
         private readonly IWebHostEnvironment _environment;
 
-        public BlogController(IBlogService blogService, ICategoryService categoryService, ICurrentUser currentUser, IWebHostEnvironment environment)
+        public BlogController(IBlogService blogService, ICategoryService categoryService, IWebHostEnvironment environment)
         {
             _blogService = blogService;
             _categoryService = categoryService;
-            _currentUser = currentUser;
             _environment = environment;
         }
         public IActionResult GetBlogListByWriter()
         {
-            var result = _blogService.GetBlogListAndCategoryByWriterId(_currentUser.UserId);
+            var result = _blogService.GetBlogListAndCategoryByWriterId(CurrentUser.UserId);
             if (result.Success)
             {
                 return View(result.Data);
@@ -77,7 +72,7 @@ namespace BlogUI.Areas.Writer.Controllers
             if(blogImage is not null) 
                 blog.Image = FileHelper.Save(_environment.WebRootPath + "\\images\\" + blogImage.FileName, blogImage);
 
-            blog.WriterId = _currentUser.UserId;
+            blog.WriterId = CurrentUser.UserId;
             var result = _blogService.Add(blog);
 
             if (result.Success)
@@ -95,6 +90,9 @@ namespace BlogUI.Areas.Writer.Controllers
         public IActionResult EditBlog([FromRoute] int blogId)
         {
             var result = _blogService.GetById(blogId);
+            if (result.Data == null)
+                return NotFound();
+
             ViewBag.Categories = (from category in _categoryService.GetAll().Data
                                   select new SelectListItem
                                   {
@@ -108,7 +106,7 @@ namespace BlogUI.Areas.Writer.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditBlog(Blog blog)
         {
-            blog.WriterId = _currentUser.UserId;
+            blog.WriterId = CurrentUser.UserId;
             var result = _blogService.Update(blog);
             if (result.Success)
             {

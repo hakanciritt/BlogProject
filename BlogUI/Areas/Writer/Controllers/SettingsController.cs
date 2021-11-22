@@ -1,15 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+using BlogUI.ControllerTypes;
 
 namespace BlogUI.Areas.Writer.Controllers
 {
-    [Authorize]
-    [Area("Writer")]
-    public class SettingsController : Controller
+    public class SettingsController : WriterBaseController<SettingsController>
     {
         public IActionResult Index()
         {

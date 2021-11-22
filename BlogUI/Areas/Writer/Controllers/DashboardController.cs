@@ -1,25 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
-using System.Security.Claims;
 using BlogUI.Areas.Writer.Models;
+using BlogUI.ControllerTypes;
 using Business.Abstract;
-using Microsoft.AspNetCore.Authorization;
-using BlogUI.Security;
 
 namespace BlogUI.Areas.Writer.Controllers
 {
-    [Authorize]
-    [Area("Writer")]
-    public class DashboardController : Controller
+
+    public class DashboardController : WriterBaseController<DashboardController>
     {
         private readonly IBlogService _blogService;
-        private readonly ICurrentUser _currentUser;
 
-        public DashboardController(IBlogService blogService, ICurrentUser currentUser)
+        public DashboardController(IBlogService blogService)
         {
             _blogService = blogService;
-            _currentUser = currentUser;
         }
         public IActionResult Index()
         {
@@ -27,7 +22,7 @@ namespace BlogUI.Areas.Writer.Controllers
             var model = new DashBoardViewModel();
 
             model.TotalBlogCount = _blogService.GetAll().Data.Count;
-            model.TotalBlogCountByWriter = _blogService.GetBlogListByWriterId(_currentUser.UserId).Data.Count;
+            model.TotalBlogCountByWriter = _blogService.GetBlogListByWriterId(CurrentUser.UserId).Data.Count;
 
             return View(model);
         }

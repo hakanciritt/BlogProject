@@ -29,6 +29,9 @@ namespace BlogUI.Controllers
         public IActionResult BlogDetails(string blogSlug)
         {
             var result = _blogService.GetByBlogSlugName(blogSlug);
+            if (result.Data == null)
+                return NotFound();
+
             if (result.Success)
             {
                 return View(result.Data);
