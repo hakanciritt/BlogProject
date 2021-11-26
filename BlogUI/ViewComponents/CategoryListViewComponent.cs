@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using BlogUI.Models.Category;
 using Business.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,18 +11,18 @@ namespace BlogUI.ViewComponents
 {
     public class CategoryListViewComponent : ViewComponent
     {
-        private ICategoryService _categoryService;
+        private readonly IBlogService _blogService;
 
-        public CategoryListViewComponent(ICategoryService categoryService)
+        public CategoryListViewComponent( IBlogService blogService)
         {
-            _categoryService = categoryService;
+            _blogService = blogService;
         }
         public IViewComponentResult Invoke()
         {
-            var result = _categoryService.GetAll();
-            
+            var result = _blogService.GetBlogListWithCategory();
+            var data = result.Data.GroupBy(c => c.Category.Name).Select(x => new CategoryCountViewModel{ Key = x.Key, Count = x.Count() }).ToList();
 
-            return View(result.Data);
+            return View(data);
         }
     }
 }

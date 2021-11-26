@@ -1,4 +1,4 @@
-﻿@model List<Category>
+﻿@model List<CategoryCountViewModel>
 
 <div class="tech-btm">
     <h4>Kategoriler</h4>
@@ -6,11 +6,9 @@
         @foreach (var category in Model)
         {
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                @category.Name
-                <span class="badge badge-primary badge-pill">0</span>
+                @category.Key
+                <span class="badge badge-primary badge-pill">@category.Count</span>
             </li>
         }
-
-
     </ul>
 </div>

@@ -9,7 +9,7 @@ namespace BlogUI.ControllerTypes
 {
     [Authorize]
     [Area("Writer")]
-    public class WriterBaseController<TController> : Controller where TController : WriterBaseController<TController>
+    public class WriterBaseController : Controller 
     {
         protected readonly ICurrentUser CurrentUser;
 

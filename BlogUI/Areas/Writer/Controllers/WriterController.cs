@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace BlogUI.Areas.Writer.Controllers
 {
-    public class WriterController : WriterBaseController<WriterController>
+    public class WriterController : WriterBaseController
     {
         private readonly IWriterService _writerService;
         private readonly IWebHostEnvironment _environment;

@@ -7,7 +7,7 @@ using Business.Abstract;
 
 namespace BlogUI.Areas.Writer.Controllers
 {
-    public class SettingsController : WriterBaseController<SettingsController>
+    public class SettingsController : WriterBaseController
     {
         private readonly IWriterService _writerService;
 

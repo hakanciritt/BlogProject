@@ -5,7 +5,7 @@ using Business.Abstract;
 
 namespace BlogUI.Areas.Writer.Controllers
 {
-    public class MessageController : WriterBaseController<MessageController>
+    public class MessageController : WriterBaseController
     {
         private readonly IMessageService _messageService;
 

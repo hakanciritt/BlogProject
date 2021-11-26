@@ -8,7 +8,7 @@ using Business.Abstract;
 namespace BlogUI.Areas.Writer.Controllers
 {
 
-    public class DashboardController : WriterBaseController<DashboardController>
+    public class DashboardController : WriterBaseController
     {
         private readonly IBlogService _blogService;
 

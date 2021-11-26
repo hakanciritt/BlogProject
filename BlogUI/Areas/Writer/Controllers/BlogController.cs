@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace BlogUI.Areas.Writer.Controllers
 {
-    public class BlogController : WriterBaseController<BlogController>
+    public class BlogController : WriterBaseController
     {
         private readonly IBlogService _blogService;
         private readonly ICategoryService _categoryService;
