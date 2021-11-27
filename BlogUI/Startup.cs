@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using BlogUI.Security;
-using BlogUI.Services;
+using Core.CrossCuttingConcerns;
 
 namespace BlogUI
 {

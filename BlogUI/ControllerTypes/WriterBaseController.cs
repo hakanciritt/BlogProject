@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using BlogUI.Security;
-using BlogUI.Services;
+using Core.CrossCuttingConcerns;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
