@@ -4,14 +4,16 @@ using DataAccess.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(BlogContext))]
-    partial class BlogContextModelSnapshot : ModelSnapshot
+    [Migration("20211203213317_category_add_created_date")]
+    partial class category_add_created_date
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -118,7 +120,7 @@ namespace DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("Datetime")
-                        .HasColumnName("CreatedDate");
+                        .HasColumnName("Datetime");
 
                     b.Property<string>("Description")
                         .HasColumnType("varchar(150)")
@@ -131,10 +133,6 @@ namespace DataAccess.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("bit")
                         .HasColumnName("Status");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("Datetime")
-                        .HasColumnName("UpdatedDate");
 
                     b.HasKey("CategoryId");
 

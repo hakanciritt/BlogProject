@@ -8,6 +8,12 @@ namespace Blog.Dashboard.Models.Category
 {
     public class CategoryListViewModel
     {
-        public List<Entities.Concrete.Category> Categories { get; set; } = new List<Entities.Concrete.Category>();
+        public CategoryListViewModel()
+        {
+            Categories = new List<Entities.Concrete.Category>();
+        }
+
+
+        public List<Entities.Concrete.Category> Categories { get; set; }
     }
 }

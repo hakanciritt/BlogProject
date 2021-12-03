@@ -11,12 +11,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Business.Concrete
 {
     public class CategoryManager : ICategoryService
     {
-        ICategoryDal _categoryDal;
+        private readonly ICategoryDal _categoryDal;
         public CategoryManager(ICategoryDal categoryDal)
         {
             _categoryDal = categoryDal;
@@ -24,6 +25,8 @@ namespace Business.Concrete
 
         public IDataResult<object> Add(Category category)
         {
+            category.CreatedDate = DateTime.Now;
+            
             var errorList = ValidationTool.Validate(new CategoryValidator(), category);
             if (errorList != null)
             {
@@ -60,8 +63,26 @@ namespace Business.Concrete
             return new ErrorDataResult<Category>(Messages.CategoryNotFound);
         }
 
-        public IResult Update(Category category)
+        public IDataResult<object> Update(Category category)
         {
+            category.UpdatedDate = DateTime.Now;
+            category.CreatedDate = _categoryDal.Get(c => c.CategoryId == category.CategoryId).CreatedDate;
+
+            var validationResult = ValidationTool.Validate(new CategoryValidator(), category);
+            if (validationResult != null) return new ErrorDataResult<object>(validationResult);
+
+            _categoryDal.Update(category);
+            return new SuccessDataResult<object>(Messages.CategoryUpdated);
+        }
+
+        public IResult UpdateCategoryStatus(int categoryId)
+        {
+            var category = _categoryDal.Get(c => c.CategoryId == categoryId);
+
+            if (category == null) return new ErrorResult(Messages.NotFound);
+
+            category.UpdatedDate = DateTime.Now;
+            category.Status = category.Status ? false : true;
             _categoryDal.Update(category);
             return new SuccessResult(Messages.CategoryUpdated);
         }

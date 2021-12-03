@@ -4,14 +4,16 @@ using DataAccess.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(BlogContext))]
-    partial class BlogContextModelSnapshot : ModelSnapshot
+    [Migration("20211203215749_category_add_updated_date")]
+    partial class category_add_updated_date
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,8 +119,9 @@ namespace DataAccess.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("Datetime")
-                        .HasColumnName("CreatedDate");
+                        .HasColumnName("Datetime");
 
                     b.Property<string>("Description")
                         .HasColumnType("varchar(150)")
@@ -133,8 +136,9 @@ namespace DataAccess.Migrations
                         .HasColumnName("Status");
 
                     b.Property<DateTime>("UpdatedDate")
+                        .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("Datetime")
-                        .HasColumnName("UpdatedDate");
+                        .HasColumnName("Datetime");
 
                     b.HasKey("CategoryId");
 

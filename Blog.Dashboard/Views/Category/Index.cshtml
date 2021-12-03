@@ -1,52 +1,12 @@
 ﻿@model CategoryListViewModel
-<div class="row">
+
+<div id="categoryApp" class="row">
     <div class="col-lg-12">
         <div class="ibox ">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h5 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="" aria-expanded="true">Kategori Ekle</a>
-                    </h5>
-                </div>
-                <div id="collapseOne" class="panel-collapse collapse in">
-                    <div class="panel-body">
-                        Kategori Ekle
-                    </div>
-                </div>
-            </div>
-            <div class="ibox-title">
-                <div class="ibox-tools">
-                    <a class="collapse-link">
-                        <i class="fa fa-chevron-up"></i>
-                    </a>
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-wrench"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li>
-                            <a href="#" class="dropdown-item">Config option 1</a>
-                        </li>
-                        <li>
-                            <a href="#" class="dropdown-item">Config option 2</a>
-                        </li>
-                    </ul>
-                    <a class="close-link">
-                        <i class="fa fa-times"></i>
-                    </a>
-                </div>
-            </div>
             <div class="ibox-content">
                 <div class="row">
-                    <div class="col-sm-5 m-b-xs">
-                        <select class="form-control-sm form-control input-s-sm inline">
-                            <option value="0">Option 1</option>
-                            <option value="1">Option 2</option>
-                            <option value="2">Option 3</option>
-                            <option value="3">Option 4</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-4 m-b-xs">
-
+                    <div class="col-sm-9 m-b-xs">
+                        <a class="btn btn-primary" asp-controller="Category" asp-action="AddCategory">Kategori Ekle</a>
                     </div>
                     <div class="col-sm-3">
                         <div class="input-group">
@@ -57,7 +17,6 @@
                                 </button>
                             </span>
                         </div>
-
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -69,23 +28,25 @@
                                 <th>Başlık </th>
                                 <th>İçerik </th>
                                 <th>Durum</th>
-                                <th>Date</th>
+                                <th>Oluşturulma Tarihi</th>
+                                <th>Güncellenme Tarihi</th>
                                 <th>Güncelle</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var category in Model.Categories)
-                            {
+                            <tr v-for="(category,index) in categories" :key="index">
+                                <td>{{ category.categoryId }}</td>
+                                <td>{{ category.categoryName }}</td>
+                                <td>{{ category.description }}</td>
+                                <td>
+                                    <span v-if="category.status" class="text-success">Aktif</span>
+                                    <span v-else class="text-danger">Pasif</span>
 
-                <tr>
-                    <td>@category.CategoryId</td>
-                    <td>@category.Name</td>
-                    <td>@category.Description</td>
-                    <td><input type="checkbox" @(category.Status ? "checked" : string.Empty) class="i-checks"></td>
-                    <td>Jul 14, 2013</td>
-                    <td><a data-toggle="modal" class="btn btn-primary" href="#modal-form">Güncelle</a></td>
-                </tr>
-}
+                                </td>
+                                <td>{{ category.createdDate }}</td>
+                                <td>{{ category.updatedDate }}</td>
+                                <td><a data-toggle="modal" v-on:click="getCurrentCategory(category)" class="btn btn-primary" href="#modal-form">Güncelle</a></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -93,38 +54,89 @@
             </div>
         </div>
     </div>
-</div>
-<div id="modal-form" class="modal fade show" style="display: none; padding-right: 16px;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="row">
-                    <form class="col-lg">
-                        <div class="form-group">
-                            <label>Kategori Adı</label>
-                            <input placeholder="Kategori adı" type="text" placeholder="Kategori adı" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>Açıklama</label>
-                            <textarea class="form-control" cols="4" rows="5" placeholder="Açıklama"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>
-                                <div class="icheckbox_square-green" style="position: relative;">
+    <div id="modal-form" class="modal fade show" style="display: none; padding-right: 16px;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <form class="col-lg">
+                            <div class="form-group">
+                                <label>Kategori Adı</label>
+                                <input v-model="updateRequest.name" placeholder="Kategori adı" type="text" placeholder="Kategori adı" class="form-control">
+                                <small class="text-danger" v-if="isError">{{ validationErrors.find(c => c.propertyName ==='Name').errorMessage }}</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Açıklama</label>
+                                <textarea v-model="updateRequest.description" class="form-control" cols="4" rows="5" placeholder="Açıklama"></textarea>
+                                <small class="text-danger" v-if="isError">{{ validationErrors.find(c => c.propertyName ==='Description').errorMessage }}</small>
 
-                                    <input type="checkbox" class="i-checks" style="position: absolute; opacity: 0;">
-                                </div> Kategori Durumu
-                            </label>
-                        </div>
-                        <div>
-                            <button class="btn btn-sm btn-primary float-right m-t-n-xs" type="submit">
-                                Güncelle
-                            </button>
-                            
-                        </div>
-                    </form>
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" v-model="updateRequest.status" class="icheckbox_square-green" />
+                                <label>Kategori durumu</label>
+                            </div>
+                            <div>
+                                <button v-on:click="updateCategory" class="btn btn-sm btn-primary float-right m-t-n-xs" type="button">
+                                    Güncelle
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script src="~/lib/vue.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script>
+
+    var category = new Vue({
+        el: '#categoryApp',
+        data() {
+            return {
+                categories: @Json.Serialize(Model.Categories.Select(c=> new
+                            {
+                                CategoryId = c.CategoryId,
+                                CategoryName = c.Name,
+                                Description = c.Description.Length > 10 ? c.Description.Substring(10) : c.Description,
+                                status = c.Status,
+                                CreatedDate = c.CreatedDate.ToString("MM/dd/yyyy"),
+                                UpdatedDate = c.UpdatedDate.ToString("MM/dd/yyyy")
+                            })),
+                updateRequest: {
+                    categoryId: 0,
+                    description: null,
+                    name: null,
+                    status: false
+                },
+                isError:false,
+                validationErrors: []
+        }
+        },
+        methods: {
+            getCurrentCategory(item) {
+                this.updateRequest.status = item.status;
+                this.updateRequest.categoryId = item.categoryId;
+                this.updateRequest.description = item.description;
+                this.updateRequest.name = item.categoryName;
+            },
+             updateCategory(event) {
+                 event.preventDefault();
+
+                 axios.post('@Url.Action("UpdateCategory","Category")', this.updateRequest,{headers: {'Content-Type': 'application/json' }})
+                     .then(res => {
+                         if (res.data.success) {
+                             window.location.reload();
+                         } else {
+                             this.isError = true;
+                             this.validationErrors = res.data.data;
+                         }
+                     }).catch(err => {
+
+                     });
+            }
+        }
+    })
+</script>

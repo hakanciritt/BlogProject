@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Blog.Dashboard.Models.Category;
 using Entities.Concrete;
 using FluentValidation.Results;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Blog.Dashboard.Controllers
 {
@@ -25,16 +26,32 @@ namespace Blog.Dashboard.Controllers
 
             return View(model);
         }
+
+        public IActionResult AddCategory()
+        {
+            return View(new Category());
+        }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult AddCategory(Category category)
         {
             var result = _categoryService.Add(category);
             if (result.Data is List<ValidationFailure>)
             {
-                return BadRequest(result.Data);
+                foreach (var error in (List<ValidationFailure>)result.Data)
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                return View(category);
             }
 
-            return Ok();
+            return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost]
+        public IActionResult UpdateCategory([FromBody] Category category)
+        {
+            var result = _categoryService.Update(category);
+            return Ok(result);
+        }
+
     }
 }
