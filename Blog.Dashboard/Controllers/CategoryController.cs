@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Blog.Dashboard.Models.Category;
 using Entities.Concrete;
 using FluentValidation.Results;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Blog.Dashboard.Controllers
 {

@@ -26,7 +26,7 @@ namespace DataAccess.Concrete
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var configuration = (IConfiguration)ServiceTool.ServiceProvider.GetService(typeof(IConfiguration));
+            IConfiguration configuration = (IConfiguration)ServiceTool.ServiceProvider.GetService(typeof(IConfiguration));
             optionsBuilder.UseSqlServer(configuration["ConnectionStrings:SqlConnection"]);
         }
 

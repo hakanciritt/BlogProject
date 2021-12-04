@@ -1,6 +1,6 @@
 ﻿@model CategoryListViewModel
 
-<div id="categoryApp" class="row">
+<div v-cloak id="categoryApp" class="row">
     <div class="col-lg-12">
         <div class="ibox ">
             <div class="ibox-content">
@@ -10,7 +10,7 @@
                     </div>
                     <div class="col-sm-3">
                         <div class="input-group">
-                            <input placeholder="Arama" type="text" class="form-control form-control-sm">
+                            <input v-on:keyup="categorySearch" v-model="searchItem" placeholder="Arama" type="text" class="form-control form-control-sm">
                             <span class="input-group-append">
                                 <button type="button" class="btn btn-sm btn-primary">
                                     Ara
@@ -91,52 +91,14 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script>
-
-    var category = new Vue({
-        el: '#categoryApp',
-        data() {
-            return {
-                categories: @Json.Serialize(Model.Categories.Select(c=> new
-                            {
-                                CategoryId = c.CategoryId,
-                                CategoryName = c.Name,
-                                Description = c.Description.Length > 10 ? c.Description.Substring(10) : c.Description,
-                                status = c.Status,
-                                CreatedDate = c.CreatedDate.ToString("MM/dd/yyyy"),
-                                UpdatedDate = c.UpdatedDate.ToString("MM/dd/yyyy")
-                            })),
-                updateRequest: {
-                    categoryId: 0,
-                    description: null,
-                    name: null,
-                    status: false
-                },
-                isError:false,
-                validationErrors: []
-        }
-        },
-        methods: {
-            getCurrentCategory(item) {
-                this.updateRequest.status = item.status;
-                this.updateRequest.categoryId = item.categoryId;
-                this.updateRequest.description = item.description;
-                this.updateRequest.name = item.categoryName;
-            },
-             updateCategory(event) {
-                 event.preventDefault();
-
-                 axios.post('@Url.Action("UpdateCategory","Category")', this.updateRequest,{headers: {'Content-Type': 'application/json' }})
-                     .then(res => {
-                         if (res.data.success) {
-                             window.location.reload();
-                         } else {
-                             this.isError = true;
-                             this.validationErrors = res.data.data;
-                         }
-                     }).catch(err => {
-
-                     });
-            }
-        }
-    })
+    var categoriesData = @Json.Serialize(Model.Categories.Select(c=> new
+                         {
+                             CategoryId = c.CategoryId,
+                             CategoryName = c.Name,
+                             Description = c.Description.Length > 10 ? c.Description.Substring(10) : c.Description,
+                             status = c.Status,
+                             CreatedDate = c.CreatedDate.ToString("MM/dd/yyyy"),
+                             UpdatedDate = c.UpdatedDate.ToString("MM/dd/yyyy")
+                         }));
 </script>
+<script src="~/js/category/index.js"></script>
