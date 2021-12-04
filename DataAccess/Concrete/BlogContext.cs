@@ -7,6 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.CrossCuttingConcerns;
+using Microsoft.Extensions.Configuration;
 
 namespace DataAccess.Concrete
 {
@@ -24,7 +26,8 @@ namespace DataAccess.Concrete
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"server=DESKTOP-MCV13KF\SQLEXPRESS;database=BlogCamp;integrated security=true;");
+            var configuration = (IConfiguration)ServiceTool.ServiceProvider.GetService(typeof(IConfiguration));
+            optionsBuilder.UseSqlServer(configuration["ConnectionStrings:SqlConnection"]);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
