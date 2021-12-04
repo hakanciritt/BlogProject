@@ -46,6 +46,12 @@ namespace Blog.Dashboard.Controllers
         }
 
         [HttpPost]
+        public IActionResult GetCategory([FromBody] int categoryId)
+        {
+            var result = _categoryService.GetById(categoryId);
+            return Ok(result);
+        }
+        [HttpPost]
         public IActionResult UpdateCategory([FromBody] Category category)
         {
             var result = _categoryService.Update(category);

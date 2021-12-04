@@ -4,7 +4,7 @@ var category = new Vue({
     data() {
         return {
             categories: categoriesData,
-            searchItem :null,
+            searchItem: null,
             updateRequest: {
                 categoryId: 0,
                 description: null,
@@ -16,15 +16,23 @@ var category = new Vue({
         }
     },
     methods: {
-        getCurrentCategory(item) {
-            this.updateRequest.status = item.status;
-            this.updateRequest.categoryId = item.categoryId;
-            this.updateRequest.description = item.description;
-            this.updateRequest.name = item.categoryName;
+        getCurrentCategory(categoryId) {
+            axios.post('/Category/GetCategory', categoryId, { headers: { 'Content-Type': 'application/json' } })
+                .then(res => {
+                    if (res.data.success) {
+
+                        this.updateRequest.status = res.data.data.status;
+                        this.updateRequest.categoryId = res.data.data.categoryId;
+                        this.updateRequest.description = res.data.data.description;
+                        this.updateRequest.name = res.data.data.name;
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
+
         },
         categorySearch() {
-            console.log(this.searchItem);
-            if (this.searchItem !== null ) {
+            if (this.searchItem !== null) {
                 this.categories = categoriesData.filter(x => x.categoryName.toString().toLowerCase().indexOf(this.searchItem.toLowerCase()) !== -1);
             } else {
                 this.categories = categoriesData;

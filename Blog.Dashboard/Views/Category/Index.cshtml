@@ -11,11 +11,6 @@
                     <div class="col-sm-3">
                         <div class="input-group">
                             <input v-on:keyup="categorySearch" v-model="searchItem" placeholder="Arama" type="text" class="form-control form-control-sm">
-                            <span class="input-group-append">
-                                <button type="button" class="btn btn-sm btn-primary">
-                                    Ara
-                                </button>
-                            </span>
                         </div>
                     </div>
                 </div>
@@ -45,7 +40,7 @@
                                 </td>
                                 <td>{{ category.createdDate }}</td>
                                 <td>{{ category.updatedDate }}</td>
-                                <td><a data-toggle="modal" v-on:click="getCurrentCategory(category)" class="btn btn-primary" href="#modal-form">Güncelle</a></td>
+                                <td><a data-toggle="modal" v-on:click="getCurrentCategory(category.categoryId)" class="btn btn-primary" href="#modal-form">Güncelle</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -95,7 +90,7 @@
                          {
                              CategoryId = c.CategoryId,
                              CategoryName = c.Name,
-                             Description = c.Description.Length > 10 ? c.Description.Substring(10) : c.Description,
+                             Description = c.Description.Length > 10 ? c.Description.Substring(0,10) + "..." : c.Description,
                              status = c.Status,
                              CreatedDate = c.CreatedDate.ToString("MM/dd/yyyy"),
                              UpdatedDate = c.UpdatedDate.ToString("MM/dd/yyyy")
