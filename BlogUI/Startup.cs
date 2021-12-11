@@ -29,7 +29,7 @@ namespace BlogUI
         {
             services.AddAutofac();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<ICurrentUser,CurrentUser>();
+            services.AddSingleton<ICurrentUser, CurrentUser>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(option =>
                 {
@@ -51,8 +51,10 @@ namespace BlogUI
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseStatusCodePagesWithReExecute("/ErrorPage/Error", "?code={0}");
+            else
+            {
+                app.UseStatusCodePagesWithReExecute("/ErrorPage/Error", "?code={0}");
+            }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

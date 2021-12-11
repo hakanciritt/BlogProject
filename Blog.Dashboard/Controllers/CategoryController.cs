@@ -4,13 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blog.Dashboard.ControllerTypes;
 using Blog.Dashboard.Models.Category;
 using Entities.Concrete;
 using FluentValidation.Results;
 
 namespace Blog.Dashboard.Controllers
 {
-    public class CategoryController : Controller
+    public class CategoryController : DashboardBaseController
     {
         private readonly ICategoryService _categoryService;
 

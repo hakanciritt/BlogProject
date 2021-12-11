@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blog.Dashboard.ControllerTypes;
 
 namespace Blog.Dashboard.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : DashboardBaseController
     {
         public IActionResult Index()
         {
