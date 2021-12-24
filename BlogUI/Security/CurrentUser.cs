@@ -20,7 +20,7 @@ namespace BlogUI.Security
         {
             get
             {
-                return int.Parse(_context.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value);
+                return int.Parse(_context.HttpContext?.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value);
             }
         }
 
@@ -28,7 +28,7 @@ namespace BlogUI.Security
         {
             get
             {
-                return _context.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+                return _context.HttpContext?.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
             }
         }
 
@@ -36,7 +36,7 @@ namespace BlogUI.Security
         {
             get
             {
-                return _context.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+                return _context.HttpContext?.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
             }
         }
 
@@ -44,7 +44,7 @@ namespace BlogUI.Security
         {
             get
             {
-                return _context.HttpContext.User.Claims.Where(x => x.Type == ClaimTypes.Role).Select(x => x.Value).ToArray();
+                return _context.HttpContext?.User.Claims.Where(x => x.Type == ClaimTypes.Role).Select(x => x.Value).ToArray();
             }
         }
     }
