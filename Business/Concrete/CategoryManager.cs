@@ -1,6 +1,5 @@
 ﻿using Business.Abstract;
 using Business.Constants;
-using Business.ValidationRules.FluentValidation;
 using Core.Business;
 using Core.CrossCuttingConcerns;
 using Core.Utilities.Results;
@@ -12,22 +11,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using AutoMapper;
+using Business.ValidationRules.FluentValidation.CategoryValidation;
+using Dtos.Category;
 
 namespace Business.Concrete
 {
     public class CategoryManager : ICategoryService
     {
         private readonly ICategoryDal _categoryDal;
-        public CategoryManager(ICategoryDal categoryDal)
+        private readonly IMapper _mapper;
+
+        public CategoryManager(ICategoryDal categoryDal , IMapper mapper)
         {
             _categoryDal = categoryDal;
+            _mapper = mapper;
         }
 
-        public IDataResult<object> Add(Category category)
+        public IDataResult<object> Add(CategoryAddDto categoryAddDto)
         {
-            category.CreatedDate = DateTime.Now;
-            
-            var errorList = ValidationTool.Validate(new CategoryValidator(), category);
+            var category = _mapper.Map<Category>(categoryAddDto);
+
+            var errorList = ValidationTool.Validate(new CategoryAddValidator(), categoryAddDto);
             if (errorList != null)
             {
                 return new ErrorDataResult<object>(errorList, Messages.ValidationError);
@@ -36,8 +41,10 @@ namespace Business.Concrete
             return new SuccessDataResult<object>(Messages.CategoryAdded);
         }
 
-        public IResult Delete(Category category)
+        public IResult Delete(CategoryDeleteDto categoryDeleteDto)
         {
+            var category = _mapper.Map<Category>(categoryDeleteDto);
+
             var businessRules = BusinessRules.Run(CheckIfCategoryId(category.CategoryId));
             if (businessRules is not null)
             {
@@ -63,12 +70,12 @@ namespace Business.Concrete
             return new ErrorDataResult<Category>(Messages.CategoryNotFound);
         }
 
-        public IDataResult<object> Update(Category category)
+        public IDataResult<object> Update(CategoryUpdateDto categoryUpdateDto)
         {
-            category.UpdatedDate = DateTime.Now;
+            var category = _mapper.Map<Category>(categoryUpdateDto);
             category.CreatedDate = _categoryDal.Get(c => c.CategoryId == category.CategoryId).CreatedDate;
 
-            var validationResult = ValidationTool.Validate(new CategoryValidator(), category);
+            var validationResult = ValidationTool.Validate(new CategoryUpdateValidator(), category);
             if (validationResult != null) return new ErrorDataResult<object>(validationResult);
 
             _categoryDal.Update(category);
@@ -82,7 +89,7 @@ namespace Business.Concrete
             if (category == null) return new ErrorResult(Messages.NotFound);
 
             category.UpdatedDate = DateTime.Now;
-            category.Status = category.Status ? false : true;
+            category.Status = !category.Status;
             _categoryDal.Update(category);
             return new SuccessResult(Messages.CategoryUpdated);
         }

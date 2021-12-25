@@ -4,8 +4,8 @@ using System.Linq;
 using BlogUI.Areas.Writer.Models;
 using BlogUI.ControllerTypes;
 using Business.Abstract;
-using Helpers.FileHelpers;
 using Microsoft.AspNetCore.Hosting;
+using Core.Utilities.Helpers;
 
 namespace BlogUI.Areas.Writer.Controllers
 {

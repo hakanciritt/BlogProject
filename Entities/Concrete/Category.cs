@@ -16,7 +16,7 @@ namespace Entities.Concrete
 
         public DateTime CreatedDate { get; set; }
 
-        public DateTime UpdatedDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
 
         public List<Blog> Blogs { get; set; }
     }

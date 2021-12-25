@@ -95,7 +95,7 @@
                              Description = c.Description.Length > 10 ? c.Description.Substring(0,10) + "..." : c.Description,
                              status = c.Status,
                              CreatedDate = c.CreatedDate.ToString("MM/dd/yyyy"),
-                             UpdatedDate = c.UpdatedDate.ToString("MM/dd/yyyy")
+                             UpdatedDate = c.UpdatedDate.HasValue ? c.UpdatedDate.Value.ToString("MM/dd/yyyy") : null
                          }));
 </script>
 <script src="~/js/category/index.js"></script>

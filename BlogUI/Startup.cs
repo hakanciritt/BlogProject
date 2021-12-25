@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using BlogUI.Security;
+using Business.ServiceExtension;
 using Core.CrossCuttingConcerns;
 
 namespace BlogUI
@@ -28,7 +29,7 @@ namespace BlogUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutofac();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            
             services.AddSingleton<ICurrentUser, CurrentUser>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(option =>
@@ -38,6 +39,7 @@ namespace BlogUI
                     option.Cookie.Name = "UserCookie";
                     option.SlidingExpiration = true;
                 });
+            services.ConfigureService();
 
             ServiceTool.Create(services);
             services.AddAuthorization();

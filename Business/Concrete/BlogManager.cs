@@ -84,6 +84,7 @@ namespace Business.Concrete
             var findBlog = _blogDal.Get(x => x.BlogId == blog.BlogId);
             blog.CreateDate = findBlog.CreateDate;
             blog.Status = findBlog.Status;
+            blog.UpdateDate = DateTime.Now;
 
             _blogDal.Update(blog);
             return new SuccessDataResult<object>();

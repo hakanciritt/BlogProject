@@ -6,9 +6,9 @@ using Business.Abstract;
 using Entities.Concrete;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Helpers.FileHelpers;
 using System.IO;
 using BlogUI.ControllerTypes;
+using Core.Utilities.Helpers;
 using Microsoft.AspNetCore.Hosting;
 
 namespace BlogUI.Areas.Writer.Controllers
