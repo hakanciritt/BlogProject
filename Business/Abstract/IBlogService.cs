@@ -16,6 +16,7 @@ namespace Business.Abstract
         IDataResult<List<Blog>> GetAll();
         IDataResult<Blog> GetById(int id);
         IDataResult<List<Blog>> GetBlogListWithCategory();
+        IDataResult<List<Blog>> GetAllBlogListWithCategory();
         IDataResult<List<Blog>> GetBlogListByWriterId(int writerId);
         IDataResult<List<Blog>> GetLastThreeBlog();
         IDataResult<List<Blog>> GetBlogListAndCategoryByWriterId(int writerId);

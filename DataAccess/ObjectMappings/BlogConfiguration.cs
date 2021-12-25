@@ -22,6 +22,7 @@ namespace DataAccess.ObjectMappings
             builder.Property(x => x.CreateDate).HasColumnType("datetime");
             builder.Property(x => x.Status).HasColumnType("bit");
             builder.Property(x => x.Slug).HasColumnType("varchar(max)");
+            builder.Property(x => x.UpdateDate).HasColumnType("datetime");
 
             builder.Property(x => x.BlogId).HasColumnName("BlogId");
             builder.Property(x => x.CategoryId).HasColumnName("CategoryId");
@@ -32,6 +33,7 @@ namespace DataAccess.ObjectMappings
             builder.Property(x => x.CreateDate).HasColumnName("CreateDate");
             builder.Property(x => x.Status).HasColumnName("Status");
             builder.Property(x => x.Slug).HasColumnName("Slug");
+            builder.Property(x => x.UpdateDate).HasColumnName("UpdateDate");
 
             builder.ToTable("Blogs");
 

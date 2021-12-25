@@ -21,6 +21,8 @@ namespace Entities.Concrete
 
         public DateTime CreateDate { get; set; }
 
+        public DateTime UpdateDate { get; set; }
+
         public bool Status { get; set; }
 
         public int CategoryId { get; set; }

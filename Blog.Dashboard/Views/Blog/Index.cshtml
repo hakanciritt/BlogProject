@@ -1,8 +1,8 @@
 ﻿@model BlogListViewModel
+
 @{
     ViewData["Title"] = "Bloglar";
 }
-
 
 <div class="col-lg-12">
     <div class="ibox ">
@@ -26,18 +26,33 @@
                             <th>Id</th>
                             <th>Başlık </th>
                             <th>İçerik </th>
+                            <th>Kategori</th>
                             <th>Durum</th>
                             <th>Oluşturulma Tarihi</th>
                             <th>Güncellenme Tarihi</th>
-                            <th>Güncelle</th>
+                            <th>İşlemler</th>
                         </tr>
                     </thead>
                     <tbody>
-                        
+                        @foreach (var blog in Model.Blogs)
+                        {
+                            <tr>
+                                <td>@blog.BlogId</td>
+                                <td>@blog.Title</td>
+                                <td>@Html.Raw(blog.Content.Length < 200 ? blog.Content : blog.Content.Substring(0, 200))</td>
+                                <td>@blog.Category.Name</td>
+                                <td>@(blog.Status ? "Aktif" : "Pasif")</td>
+                                <td>@blog.CreateDate</td>
+                                <td>@blog.UpdateDate</td>
+                                <td>
+                                    <a class="btn btn-warning btn-sm mb-1" asp-controller="" asp-action="">Güncelle</a>
+                                    <a class="btn @(blog.Status ? "btn-primary" : "btn-danger") btn-sm" asp-controller="Blog" asp-action="Status" asp-route-id="@blog.BlogId">@(blog.Status ? "Aktif" : "Pasif")</a>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
-
         </div>
     </div>
 </div>

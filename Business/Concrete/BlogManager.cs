@@ -69,6 +69,12 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Blog>>(result);
         }
 
+        public IDataResult<List<Blog>> GetAllBlogListWithCategory()
+        {
+            var result = _blogDal.GetBlogListWithCategory();
+            return new SuccessDataResult<List<Blog>>(result);
+        }
+
         public IDataResult<object> Update(Blog blog)
         {
             var validationResult = ValidationTool.Validate(new BlogValidator(), blog);
@@ -114,7 +120,7 @@ namespace Business.Concrete
             result.Status = result.Status ? false : true;
 
             _blogDal.Update(result);
-            return new SuccessResult();
+            return new SuccessResult(Messages.BlogStatusUpdated);
         }
 
         public IDataResult<List<Blog>> TotalCommentsToAuthorsBlog(int writerId)
