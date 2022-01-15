@@ -10,18 +10,17 @@ namespace Business.Abstract
 {
     public interface IBlogService
     {
-        IDataResult<object> Add(Blog blog);
-        IDataResult<object> Update(Blog blog);
-        IResult Delete(Blog blog);
-        IDataResult<List<Blog>> GetAll();
-        IDataResult<Blog> GetById(int id);
-        IDataResult<List<Blog>> GetBlogListWithCategory();
-        IDataResult<List<Blog>> GetAllBlogListWithCategory();
-        IDataResult<List<Blog>> GetBlogListByWriterId(int writerId);
-        IDataResult<List<Blog>> GetLastThreeBlog();
-        IDataResult<List<Blog>> GetBlogListAndCategoryByWriterId(int writerId);
-        IResult BlogStatusUpdate(int blogId);
-        IDataResult<List<Blog>> TotalCommentsToAuthorsBlog(int writerId);
-        IDataResult<Blog> GetByBlogSlugName(string slugName);
+        Task<IDataResult<object>> AddAsync(Blog blog);
+        Task<IDataResult<object>> UpdateAsync(Blog blog);
+        Task<IResult> DeleteAsync(Blog blog);
+        Task<IDataResult<List<Blog>>> GetAllAsync();
+        Task<IDataResult<Blog>> GetByIdAsync(int id);
+        Task<IDataResult<List<Blog>>> GetBlogListWithCategoryAsync();
+        Task<IDataResult<List<Blog>>> GetAllBlogListWithCategoryAsync();
+        Task<IDataResult<List<Blog>>> GetBlogListByWriterIdAsync(int writerId);
+        Task<IDataResult<List<Blog>>> GetLastThreeBlogAsync();
+        Task<IDataResult<List<Blog>>> GetBlogListAndCategoryByWriterIdAsync(int writerId);
+        Task<IResult> BlogStatusUpdateAsync(int blogId);
+        Task<IDataResult<Blog>> GetByBlogSlugNameAsync(string slugName);
     }
 }

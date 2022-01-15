@@ -23,7 +23,7 @@ namespace Business.Concrete
             _commentDal = commentDal;
         }
 
-        public IDataResult<object> Add(Comment comment)
+        public async Task<IDataResult<object>> AddAsync(Comment comment)
         {
             comment.Date = DateTime.Now;
             comment.Status = true;
@@ -33,37 +33,37 @@ namespace Business.Concrete
             {
                 return new ErrorDataResult<object>(validationResult);
             }
-            _commentDal.Add(comment);
+            await _commentDal.AddAsync(comment);
             return new SuccessDataResult<object>(Messages.CommentAdded);
         }
 
-        public IResult Delete(Comment comment)
+        public async Task<IResult> DeleteAsync(Comment comment)
         {
             var businessRules = BusinessRules.Run(CheckIfCommentId(comment.CommentId));
             if (businessRules is not null)
             {
                 return businessRules;
             }
-            _commentDal.Delete(comment);
+            await _commentDal.DeleteAsync(comment);
             return new SuccessResult(Messages.CommentDeleted);
         }
 
-        public IDataResult<List<Comment>> GetAll()
+        public async Task<IDataResult<List<Comment>>> GetAllAsync()
         {
-            var result = _commentDal.GetAll();
+            var result = await _commentDal.GetAllAsync();
             return new SuccessDataResult<List<Comment>>(result);
         }
 
-        public IDataResult<List<Comment>> GetCommentsByBlogId(int blogId)
+        public async Task<IDataResult<List<Comment>>> GetCommentsByBlogIdAsync(int blogId)
         {
-            var result = _commentDal.GetAll(x => x.BlogId == blogId);
+            var result = await _commentDal.GetAllAsync(x => x.BlogId == blogId);
 
             return new SuccessDataResult<List<Comment>>(result);
         }
 
-        public IDataResult<Comment> GetById(int id)
+        public async Task<IDataResult<Comment>> GetByIdAsync(int id)
         {
-            var result = _commentDal.Get(x => x.CommentId == id);
+            var result = await _commentDal.GetAsync(x => x.CommentId == id);
             if (result != null)
             {
                 return new SuccessDataResult<Comment>(result);
@@ -71,15 +71,15 @@ namespace Business.Concrete
             return new ErrorDataResult<Comment>(Messages.CommentNotFound);
         }
 
-        public IResult Update(Comment comment)
+        public async Task<IResult> UpdateAsync(Comment comment)
         {
-            _commentDal.Update(comment);
+            await _commentDal.UpdateAsync(comment);
             return new SuccessResult(Messages.CommentUpdated);
         }
 
         private IResult CheckIfCommentId(int commentId)
         {
-            var result = _commentDal.Get(x => x.CommentId == commentId);
+            var result = _commentDal.GetAsync(x => x.CommentId == commentId).Result;
             if (result is null)
             {
                 return new ErrorResult(Messages.CommentNotFound);

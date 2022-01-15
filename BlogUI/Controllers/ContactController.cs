@@ -17,18 +17,18 @@ namespace BlogUI.Controllers
         {
             _contactService = contactService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return View(new Contact());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Index(Contact contact)
+        public async Task<IActionResult> Index(Contact contact)
         {
             contact.Date = DateTime.Now;
             contact.Status = true;
-            var result = _contactService.Add(contact);
+            var result = await _contactService.AddAsync(contact);
             if (!result.Success)
             {
                 foreach (var error in (List<ValidationFailure>)result.Data)

@@ -10,6 +10,6 @@ namespace Business.Abstract
 {
     public interface INewsLetterService
     {
-        IDataResult<object> AddNewsLetter(NewsLetter newsLetter);
+        Task<IDataResult<object>> AddNewsLetterAsync(NewsLetter newsLetter);
     }
 }

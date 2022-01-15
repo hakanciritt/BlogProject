@@ -7,6 +7,7 @@ using Entities.Concrete;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.IO;
+using System.Threading.Tasks;
 using BlogUI.ControllerTypes;
 using Core.Utilities.Helpers;
 using Microsoft.AspNetCore.Hosting;
@@ -25,9 +26,9 @@ namespace BlogUI.Areas.Writer.Controllers
             _categoryService = categoryService;
             _environment = environment;
         }
-        public IActionResult GetBlogListByWriter()
+        public async Task<IActionResult> GetBlogListByWriter()
         {
-            var result = _blogService.GetBlogListAndCategoryByWriterId(CurrentUser.UserId);
+            var result = await _blogService.GetBlogListAndCategoryByWriterIdAsync(CurrentUser.UserId);
             if (result.Success)
             {
                 return View(result.Data);
@@ -37,9 +38,9 @@ namespace BlogUI.Areas.Writer.Controllers
 
         }
 
-        public IActionResult BlogAdd()
+        public async Task<IActionResult> BlogAdd()
         {
-            ViewBag.Categories = (from category in _categoryService.GetAll().Data
+            ViewBag.Categories = (from category in _categoryService.GetAllAsync().Result.Data
                                   select new SelectListItem
                                   {
                                       Text = category.Name,
@@ -49,18 +50,18 @@ namespace BlogUI.Areas.Writer.Controllers
             return View(new Blog());
         }
         [HttpPost]
-        public JsonResult StatusUpdate(int blogId)
+        public async Task<JsonResult> StatusUpdate(int blogId)
         {
-            var result = _blogService.BlogStatusUpdate(blogId);
+            var result = await _blogService.BlogStatusUpdateAsync(blogId);
 
             return new JsonResult(result);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult BlogAdd(Blog blog)
+        public async Task<IActionResult> BlogAdd(Blog blog)
         {
-            ViewBag.Categories = (from category in _categoryService.GetAll().Data
+            ViewBag.Categories = (from category in _categoryService.GetAllAsync().Result.Data
                                   select new SelectListItem
                                   {
                                       Text = category.Name,
@@ -69,11 +70,11 @@ namespace BlogUI.Areas.Writer.Controllers
 
             var blogImage = Request.Form.Files["blogImage"];
 
-            if(blogImage is not null) 
+            if (blogImage is not null)
                 blog.Image = FileHelper.Save(_environment.WebRootPath + "\\images\\" + blogImage.FileName, blogImage);
 
             blog.WriterId = CurrentUser.UserId;
-            var result = _blogService.Add(blog);
+            var result = await _blogService.AddAsync(blog);
 
             if (result.Success)
                 return RedirectToAction("GetBlogListByWriter", "Blog", new { area = "Writer" });
@@ -87,13 +88,13 @@ namespace BlogUI.Areas.Writer.Controllers
         }
 
 
-        public IActionResult EditBlog([FromRoute] int blogId)
+        public async Task<IActionResult> EditBlog([FromRoute] int blogId)
         {
-            var result = _blogService.GetById(blogId);
+            var result = await _blogService.GetByIdAsync(blogId);
             if (result.Data == null)
                 return NotFound();
 
-            ViewBag.Categories = (from category in _categoryService.GetAll().Data
+            ViewBag.Categories = (from category in _categoryService.GetAllAsync().Result.Data
                                   select new SelectListItem
                                   {
                                       Text = category.Name,
@@ -104,10 +105,10 @@ namespace BlogUI.Areas.Writer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditBlog(Blog blog)
+        public async Task<IActionResult> EditBlog(Blog blog)
         {
             blog.WriterId = CurrentUser.UserId;
-            var result = _blogService.Update(blog);
+            var result = await _blogService.UpdateAsync(blog);
             if (result.Success)
             {
                 return Redirect("/yazar/bloglar");

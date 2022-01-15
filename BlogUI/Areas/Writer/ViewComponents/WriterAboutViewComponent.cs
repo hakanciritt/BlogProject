@@ -13,14 +13,14 @@ namespace BlogUI.Areas.Writer.ViewComponents
         private readonly IWriterService _writerService;
         private readonly ICurrentUser _currentUser;
 
-        public WriterAboutViewComponent(IWriterService writerService , ICurrentUser currentUser)
+        public WriterAboutViewComponent(IWriterService writerService, ICurrentUser currentUser)
         {
             _writerService = writerService;
             _currentUser = currentUser;
         }
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            var result = _writerService.GetById(_currentUser.UserId);
+            var result = await _writerService.GetByIdAsync(_currentUser.UserId);
             return View(result.Data);
         }
     }

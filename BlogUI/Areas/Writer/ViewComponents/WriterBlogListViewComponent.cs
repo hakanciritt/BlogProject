@@ -15,9 +15,9 @@ namespace BlogUI.Areas.Writer.ViewComponents
         {
             _blogService = blogService;
         }
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            var result = _blogService.GetBlogListWithCategory();
+            var result = await _blogService.GetBlogListWithCategoryAsync();
             return View(result.Data);
         }
     }

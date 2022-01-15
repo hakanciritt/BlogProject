@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using BlogUI.Areas.Writer.Models;
 using BlogUI.ControllerTypes;
 using Business.Abstract;
@@ -15,10 +16,10 @@ namespace BlogUI.Areas.Writer.Controllers
         {
             _writerService = writerService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var model = new UpdatePasswordViewModel();
-            var user = _writerService.GetById(CurrentUser.UserId).Data;
+            var user = _writerService.GetByIdAsync(CurrentUser.UserId).Result.Data;
             model.Password = user.Password;
             model.ConfirmPassword = user.Password;
             return View(model);

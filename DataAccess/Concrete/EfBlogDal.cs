@@ -13,22 +13,22 @@ namespace DataAccess.Concrete
 {
     public class EfBlogDal : EfEntityRepositoryBase<Blog, BlogContext>, IBlogDal
     {
-        public List<Blog> GetBlogListWithCategory(Expression<Func<Blog, bool>> filter = null)
+        public async Task<List<Blog>> GetBlogListWithCategoryAsync(Expression<Func<Blog, bool>> filter = null)
         {
             using (var context = new BlogContext())
             {
                 return filter == null
-                    ? context.Blogs.Include(x => x.Category).ToList()
-                    : context.Blogs.Include(x => x.Category).Where(filter).ToList();
+                    ? await context.Blogs.Include(x => x.Category).ToListAsync()
+                    : await context.Blogs.Include(x => x.Category).Where(filter).ToListAsync();
             }
         }
-        public List<Blog> GetBlogListWriterAndComment(Expression<Func<Blog, bool>> filter = null)
+        public async Task<List<Blog>> GetBlogListWriterAndCommentAsync(Expression<Func<Blog, bool>> filter = null)
         {
             using (var context = new BlogContext())
             {
                 return filter == null
-                    ? context.Blogs.Include(x => x.Writer).Include(x => x.Comments).ToList()
-                    : context.Blogs.Include(x => x.Writer).Include(x => x.Comments).Where(filter).ToList();
+                    ? await context.Blogs.Include(x => x.Writer).Include(x => x.Comments).ToListAsync()
+                    : await context.Blogs.Include(x => x.Writer).Include(x => x.Comments).Where(filter).ToListAsync();
             }
         }
     }

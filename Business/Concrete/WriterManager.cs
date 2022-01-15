@@ -21,42 +21,42 @@ namespace Business.Concrete
         {
             _writerDal = writerDal;
         }
-        public IDataResult<object> Add(Writer writer)
+        public async Task<IDataResult<object>> AddAsync(Writer writer)
         {
             var validationResult = ValidationTool.Validate(new WriterValidator(), writer);
             if (validationResult is not null)
             {
                 return new ErrorDataResult<object>(validationResult);
             }
-            _writerDal.Add(writer);
+            await _writerDal.AddAsync(writer);
             return new SuccessDataResult<object>(Messages.WriterAdded);
         }
 
-        public IResult Delete(Writer writer)
+        public async Task<IResult> DeleteAsync(Writer writer)
         {
             var businessRules = BusinessRules.Run(CheckIfWriterId(writer.WriterId));
             if (businessRules is not null)
             {
                 return businessRules;
             }
-            _writerDal.Delete(writer);
+            await _writerDal.DeleteAsync(writer);
             return new SuccessResult(Messages.WriterDeleted);
         }
 
-        public IDataResult<Writer> GetByWriterEmail(string email)
+        public async Task<IDataResult<Writer>> GetByWriterEmailAsync(string email)
         {
-            return new SuccessDataResult<Writer>(_writerDal.Get(x => x.Mail == email));
+            return new SuccessDataResult<Writer>(await _writerDal.GetAsync(x => x.Mail == email));
         }
 
-        public IDataResult<List<Writer>> GetAll()
+        public async Task<IDataResult<List<Writer>>> GetAllAsync()
         {
-            var result = _writerDal.GetAll();
+            var result = await _writerDal.GetAllAsync();
             return new SuccessDataResult<List<Writer>>(result);
         }
 
-        public IDataResult<Writer> GetById(int id)
+        public async Task<IDataResult<Writer>> GetByIdAsync(int id)
         {
-            var result = _writerDal.Get(x => x.WriterId == id);
+            var result = await _writerDal.GetAsync(x => x.WriterId == id);
             if (result is not null)
             {
                 return new SuccessDataResult<Writer>(result);
@@ -64,13 +64,13 @@ namespace Business.Concrete
             return new ErrorDataResult<Writer>(Messages.WriterNotFound);
         }
 
-        public IResult Update(Writer writer)
+        public async Task<IResult> UpdateAsync(Writer writer)
         {
-            _writerDal.Update(writer);
+            await _writerDal.UpdateAsync(writer);
             return new SuccessResult(Messages.WriterUpdated);
         }
 
-        public IDataResult<object> UserLogin(Writer writer)
+        public async Task<IDataResult<object>> UserLoginAsync(Writer writer)
         {
             var validationResult = ValidationTool.Validate(new WriterLoginValidator(), writer);
             if (validationResult is not null)
@@ -80,10 +80,10 @@ namespace Business.Concrete
 
             return new SuccessDataResult<object>();
         }
-   
+
         private IResult CheckIfWriterId(int writerId)
         {
-            var result = _writerDal.Get(x => x.WriterId == writerId);
+            var result = _writerDal.GetAsync(x => x.WriterId == writerId).Result;
             return result is null
                 ? new ErrorResult(Messages.WriterNotFound)
                 : null;

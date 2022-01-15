@@ -10,6 +10,6 @@ namespace Business.Abstract
 {
     public interface IMessageService
     {
-        IDataResult<List<Message>> GetMessageListByWriterMail(string mail);
+        Task<IDataResult<List<Message>>> GetMessageListByWriterMailAsync(string mail);
     }
 }

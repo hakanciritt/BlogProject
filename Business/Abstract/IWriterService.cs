@@ -10,12 +10,12 @@ namespace Business.Abstract
 {
     public interface IWriterService
     {
-        IDataResult<object> Add(Writer writer);
-        IResult Delete(Writer writer);
-        IResult Update(Writer writer);
-        IDataResult<Writer> GetById(int id);
-        IDataResult<List<Writer>> GetAll();
-        IDataResult<Writer> GetByWriterEmail(string email);
-        IDataResult<object> UserLogin(Writer writer);
+        Task<IDataResult<object>> AddAsync(Writer writer);
+        Task<IResult> DeleteAsync(Writer writer);
+        Task<IResult> UpdateAsync(Writer writer);
+        Task<IDataResult<Writer>> GetByIdAsync(int id);
+        Task<IDataResult<List<Writer>>> GetAllAsync();
+        Task<IDataResult<Writer>> GetByWriterEmailAsync(string email);
+        Task<IDataResult<object>> UserLoginAsync(Writer writer);
     }
 }

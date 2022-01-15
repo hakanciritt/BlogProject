@@ -13,14 +13,14 @@ namespace BlogUI.Areas.Writer.ViewComponents
         private readonly IMessageService _messageService;
         private readonly ICurrentUser _currentUser;
 
-        public WriterMessageNatificationViewComponent(IMessageService messageService,ICurrentUser currentUser)
+        public WriterMessageNatificationViewComponent(IMessageService messageService, ICurrentUser currentUser)
         {
             _messageService = messageService;
             _currentUser = currentUser;
         }
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            var result = _messageService.GetMessageListByWriterMail(_currentUser.Mail);
+            var result = await _messageService.GetMessageListByWriterMailAsync(_currentUser.Mail);
             return View(result.Data);
         }
     }

@@ -18,9 +18,9 @@ namespace Business.Concrete
         {
             _natificationDal = natificationDal;
         }
-        public IDataResult<List<Natification>> GetAll()
+        public async Task<IDataResult<List<Natification>>> GetAllAsync()
         {
-            return new SuccessDataResult<List<Natification>>(_natificationDal.GetAll());
+            return new SuccessDataResult<List<Natification>>(await _natificationDal.GetAllAsync());
         }
     }
 }

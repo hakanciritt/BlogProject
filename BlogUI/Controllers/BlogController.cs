@@ -14,9 +14,9 @@ namespace BlogUI.Controllers
         {
             _blogService = blogService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var result = _blogService.GetBlogListWithCategory();
+            var result = await _blogService.GetBlogListWithCategoryAsync();
             TempData["Status"] = result.Success;
             if (result.Success)
             {
@@ -26,9 +26,9 @@ namespace BlogUI.Controllers
             TempData["Message"] = result.Message;
             return View();
         }
-        public IActionResult BlogDetails(string blogSlug)
+        public async Task<IActionResult> BlogDetails(string blogSlug)
         {
-            var result = _blogService.GetByBlogSlugName(blogSlug);
+            var result = await _blogService.GetByBlogSlugNameAsync(blogSlug);
             if (result.Data == null)
                 return NotFound();
 

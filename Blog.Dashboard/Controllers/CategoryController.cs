@@ -24,10 +24,10 @@ namespace Blog.Dashboard.Controllers
             _categoryService = categoryService;
             _mapper = mapper;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var model = new CategoryListViewModel();
-            model.Categories = _categoryService.GetAll().Data;
+            model.Categories = _categoryService.GetAllAsync().Result.Data;
 
             return View(model);
         }
@@ -38,10 +38,10 @@ namespace Blog.Dashboard.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddCategory(CategoryAddViewModel categoryAddViewModel)
+        public async Task<IActionResult> AddCategory(CategoryAddViewModel categoryAddViewModel)
         {
             var category = _mapper.Map<CategoryAddDto>(categoryAddViewModel);
-            var result = _categoryService.Add(category);
+            var result = await _categoryService.AddAsync(category);
 
             if (result.Data is List<ValidationFailure>)
             {
@@ -54,16 +54,16 @@ namespace Blog.Dashboard.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetCategory([FromBody] int categoryId)
+        public async Task<IActionResult> GetCategory([FromBody] int categoryId)
         {
-            var result = _categoryService.GetById(categoryId);
+            var result = await _categoryService.GetByIdAsync(categoryId);
             return Ok(result);
         }
         [HttpPost]
-        public IActionResult UpdateCategory([FromBody] CategoryUpdateViewModel categoryUpdateViewModel)
+        public async Task<IActionResult> UpdateCategory([FromBody] CategoryUpdateViewModel categoryUpdateViewModel)
         {
             var category = _mapper.Map<CategoryUpdateDto>(categoryUpdateViewModel);
-            var result = _categoryService.Update(category);
+            var result = await _categoryService.UpdateAsync(category);
             return Ok(result);
         }
 

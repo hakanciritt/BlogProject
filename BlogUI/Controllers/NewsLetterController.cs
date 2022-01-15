@@ -23,9 +23,9 @@ namespace BlogUI.Controllers
         }
 
         [HttpPost]
-        public JsonResult SubscribeMail(NewsLetter newsLetter)
+        public async Task<JsonResult> SubscribeMail(NewsLetter newsLetter)
         {
-            var result = _newsLetterService.AddNewsLetter(newsLetter);
+            var result = await _newsLetterService.AddNewsLetterAsync(newsLetter);
             return Json(result);
         }
     }

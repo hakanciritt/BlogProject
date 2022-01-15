@@ -13,14 +13,14 @@ namespace BlogUI.ViewComponents
     {
         private readonly IBlogService _blogService;
 
-        public CategoryListViewComponent( IBlogService blogService)
+        public CategoryListViewComponent(IBlogService blogService)
         {
             _blogService = blogService;
         }
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> Invoke()
         {
-            var result = _blogService.GetBlogListWithCategory();
-            var data = result.Data.GroupBy(c => c.Category.Name).Select(x => new CategoryCountViewModel{ Key = x.Key, Count = x.Count() }).ToList();
+            var result = await _blogService.GetBlogListWithCategoryAsync();
+            var data = result.Data.GroupBy(c => c.Category.Name).Select(x => new CategoryCountViewModel { Key = x.Key, Count = x.Count() }).ToList();
 
             return View(data);
         }

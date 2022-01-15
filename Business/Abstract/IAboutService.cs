@@ -10,11 +10,11 @@ namespace Business.Abstract
 {
     public interface IAboutService
     {
-        IDataResult<object> Add(About about);
-        IResult Update(About about);
-        IResult Delete(About about);
-        IDataResult<About> GetById(int id);
-        IDataResult<List<About>> GetAll();
+        Task<IDataResult<object>> AddAsync(About about);
+        Task<IResult> UpdateAsync(About about);
+        Task<IResult> DeleteAsync(About about);
+        Task<IDataResult<About>> GetByIdAsync(int id);
+        Task<IDataResult<List<About>>> GetAllAsync();
 
     }
 }

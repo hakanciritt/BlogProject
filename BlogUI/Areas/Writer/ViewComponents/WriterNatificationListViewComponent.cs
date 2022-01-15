@@ -15,9 +15,9 @@ namespace BlogUI.Areas.Writer.ViewComponents
         {
             _natificationService = natificationService;
         }
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            var result = _natificationService.GetAll();
+            var result = await _natificationService.GetAllAsync();
 
             return View(result.Data);
         }

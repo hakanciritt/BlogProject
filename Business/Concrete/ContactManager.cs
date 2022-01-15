@@ -16,43 +16,43 @@ namespace Business.Concrete
 {
     public class ContactManager : IContactService
     {
-        IContactDal _contactDal;
+        private readonly IContactDal _contactDal;
 
         public ContactManager(IContactDal contactDal)
         {
             _contactDal = contactDal;
         }
-        public IDataResult<object> Add(Contact contact)
+        public async Task<IDataResult<object>> AddAsync(Contact contact)
         {
             var validationResult = ValidationTool.Validate(new ContactValidator(), contact);
             if (validationResult is not null)
             {
                 return new ErrorDataResult<object>(validationResult);
             }
-            _contactDal.Add(contact);
+            await _contactDal.AddAsync(contact);
             return new SuccessDataResult<object>(Messages.Added);
         }
 
-        public IResult Delete(Contact contact)
+        public async Task<IResult> DeleteAsync(Contact contact)
         {
             var businessRules = BusinessRules.Run(CheckIfContactId(contact.ContactId));
             if (businessRules is not null)
             {
                 return businessRules;
             }
-            _contactDal.Delete(contact);
+            await _contactDal.DeleteAsync(contact);
             return new SuccessResult(Messages.Deleted);
         }
 
-        public IDataResult<List<Contact>> GetAll()
+        public async Task<IDataResult<List<Contact>>> GetAllAsync()
         {
-            var result = _contactDal.GetAll();
+            var result = await _contactDal.GetAllAsync();
             return new SuccessDataResult<List<Contact>>(result);
         }
 
-        public IDataResult<Contact> GetById(int id)
+        public async Task<IDataResult<Contact>> GetByIdAsync(int id)
         {
-            var result = _contactDal.Get(x => x.ContactId == id);
+            var result = await _contactDal.GetAsync(x => x.ContactId == id);
             if (result is not null)
             {
                 return new SuccessDataResult<Contact>(result);
@@ -60,15 +60,15 @@ namespace Business.Concrete
             return new ErrorDataResult<Contact>(Messages.NotFound);
         }
 
-        public IResult Update(Contact contact)
+        public async Task<IResult> UpdateAsync(Contact contact)
         {
-            _contactDal.Update(contact);
+            await _contactDal.UpdateAsync(contact);
             return new SuccessResult(Messages.Updated);
         }
 
         private IResult CheckIfContactId(int contactId)
         {
-            var result = _contactDal.Get(x => x.ContactId == contactId);
+            var result = _contactDal.GetAsync(x => x.ContactId == contactId).Result;
             if (result is null)
             {
                 return new ErrorResult(Messages.ContactNotFound);

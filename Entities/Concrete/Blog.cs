@@ -1,12 +1,17 @@
 ﻿using Core.Entities;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Web.Mvc;
 
 namespace Entities.Concrete
 {
     public class Blog : IEntity
     {
+        public Blog()
+        {
+            Comments = new List<Comment>();
+        }
         public int BlogId { get; set; }
 
         public string Title { get; set; }
@@ -33,6 +38,6 @@ namespace Entities.Concrete
 
         public Writer Writer { get; set; }
 
-        public List<Comment> Comments { get; set; }
+        public ICollection<Comment> Comments { get; set; }
     }
 }

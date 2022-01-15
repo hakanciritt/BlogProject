@@ -22,13 +22,13 @@ namespace Business.Concrete
         private readonly ICategoryDal _categoryDal;
         private readonly IMapper _mapper;
 
-        public CategoryManager(ICategoryDal categoryDal , IMapper mapper)
+        public CategoryManager(ICategoryDal categoryDal, IMapper mapper)
         {
             _categoryDal = categoryDal;
             _mapper = mapper;
         }
 
-        public IDataResult<object> Add(CategoryAddDto categoryAddDto)
+        public async Task<IDataResult<object>> AddAsync(CategoryAddDto categoryAddDto)
         {
             var category = _mapper.Map<Category>(categoryAddDto);
 
@@ -37,11 +37,11 @@ namespace Business.Concrete
             {
                 return new ErrorDataResult<object>(errorList, Messages.ValidationError);
             }
-            _categoryDal.Add(category);
+            await _categoryDal.AddAsync(category);
             return new SuccessDataResult<object>(Messages.CategoryAdded);
         }
 
-        public IResult Delete(CategoryDeleteDto categoryDeleteDto)
+        public async Task<IResult> DeleteAsync(CategoryDeleteDto categoryDeleteDto)
         {
             var category = _mapper.Map<Category>(categoryDeleteDto);
 
@@ -50,19 +50,19 @@ namespace Business.Concrete
             {
                 return businessRules;
             }
-            _categoryDal.Delete(category);
+            await _categoryDal.DeleteAsync(category);
             return new SuccessResult(Messages.CategoryDelete);
         }
 
-        public IDataResult<List<Category>> GetAll()
+        public async Task<IDataResult<List<Category>>> GetAllAsync()
         {
-            var result = _categoryDal.GetAll();
+            var result = await _categoryDal.GetAllAsync();
             return new SuccessDataResult<List<Category>>(result);
         }
 
-        public IDataResult<Category> GetById(int id)
+        public async Task<IDataResult<Category>> GetByIdAsync(int id)
         {
-            var result = _categoryDal.Get(x => x.CategoryId == id);
+            var result = await _categoryDal.GetAsync(x => x.CategoryId == id);
             if (result != null)
             {
                 return new SuccessDataResult<Category>(result);
@@ -70,33 +70,33 @@ namespace Business.Concrete
             return new ErrorDataResult<Category>(Messages.CategoryNotFound);
         }
 
-        public IDataResult<object> Update(CategoryUpdateDto categoryUpdateDto)
+        public async Task<IDataResult<object>> UpdateAsync(CategoryUpdateDto categoryUpdateDto)
         {
             var category = _mapper.Map<Category>(categoryUpdateDto);
-            category.CreatedDate = _categoryDal.Get(c => c.CategoryId == category.CategoryId).CreatedDate;
+            category.CreatedDate = _categoryDal.GetAsync(c => c.CategoryId == category.CategoryId).Result.CreatedDate;
 
             var validationResult = ValidationTool.Validate(new CategoryUpdateValidator(), category);
             if (validationResult != null) return new ErrorDataResult<object>(validationResult);
 
-            _categoryDal.Update(category);
+            await _categoryDal.UpdateAsync(category);
             return new SuccessDataResult<object>(Messages.CategoryUpdated);
         }
 
-        public IResult UpdateCategoryStatus(int categoryId)
+        public async Task<IResult> UpdateCategoryStatusAsync(int categoryId)
         {
-            var category = _categoryDal.Get(c => c.CategoryId == categoryId);
+            var category = await _categoryDal.GetAsync(c => c.CategoryId == categoryId);
 
             if (category == null) return new ErrorResult(Messages.NotFound);
 
             category.UpdatedDate = DateTime.Now;
             category.Status = !category.Status;
-            _categoryDal.Update(category);
+            await _categoryDal.UpdateAsync(category);
             return new SuccessResult(Messages.CategoryUpdated);
         }
 
         private IResult CheckIfCategoryId(int categoryId)
         {
-            var result = _categoryDal.Get(x => x.CategoryId == categoryId);
+            var result = _categoryDal.GetAsync(x => x.CategoryId == categoryId).Result;
             if (result is null)
             {
                 return new ErrorResult(Messages.CategoryNotFound);

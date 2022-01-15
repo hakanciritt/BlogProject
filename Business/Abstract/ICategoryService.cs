@@ -11,11 +11,11 @@ namespace Business.Abstract
 {
     public interface ICategoryService
     {
-        IDataResult<object> Add(CategoryAddDto categoryAddDto);
-        IDataResult<object> Update(CategoryUpdateDto categoryUpdateDto);
-        IResult Delete(CategoryDeleteDto categoryDeleteDto);
-        IDataResult<Category> GetById(int id);
-        IResult UpdateCategoryStatus(int categoryId);
-        IDataResult<List<Category>> GetAll();
+        Task<IDataResult<object>> AddAsync(CategoryAddDto categoryAddDto);
+        Task<IDataResult<object>> UpdateAsync(CategoryUpdateDto categoryUpdateDto);
+        Task<IResult> DeleteAsync(CategoryDeleteDto categoryDeleteDto);
+        Task<IDataResult<Category>> GetByIdAsync(int id);
+        Task<IResult> UpdateCategoryStatusAsync(int categoryId);
+        Task<IDataResult<List<Category>>> GetAllAsync();
     }
 }

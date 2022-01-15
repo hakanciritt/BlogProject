@@ -22,7 +22,7 @@ namespace Business.Concrete
             _newsLetter = newsLetter;
         }
 
-        public IDataResult<object> AddNewsLetter(NewsLetter newsLetter)
+        public async Task<IDataResult<object>> AddNewsLetterAsync(NewsLetter newsLetter)
         {
             var validationResult = ValidationTool.Validate(new NewsLetterValidator(), newsLetter);
             if (validationResult is not null)
@@ -30,7 +30,7 @@ namespace Business.Concrete
                 return new ErrorDataResult<object>(validationResult);
             }
             newsLetter.MailStatus = true;
-            _newsLetter.Add(newsLetter);
+            await _newsLetter.AddAsync(newsLetter);
             return new SuccessDataResult<object>(Messages.RegistrationSuccessful);
         }
     }

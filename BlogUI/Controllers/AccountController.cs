@@ -32,12 +32,12 @@ namespace BlogUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(Writer writer)
         {
-            var result = _writerService.UserLogin(writer);
+            var result = await _writerService.UserLoginAsync(writer);
             if (result.Success)
             {
                 BlogContext context = new BlogContext();
                 var user = context.Writers.FirstOrDefault(x => x.Mail == writer.Mail && x.Password == writer.Password);
-                if(user is not null)
+                if (user is not null)
                 {
                     var claims = new List<Claim>()
                     {

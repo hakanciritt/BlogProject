@@ -16,54 +16,54 @@ namespace Business.Concrete
 {
     public class AboutManager : IAboutService
     {
-        IAboutDal _aboutDal;
+        private readonly IAboutDal _aboutDal;
         public AboutManager(IAboutDal aboutDal)
         {
             _aboutDal = aboutDal;
         }
-        public IDataResult<object> Add(About about)
+        public async Task<IDataResult<object>> AddAsync(About about)
         {
             var validationResult = ValidationTool.Validate(new AboutValidator(), about);
             if (validationResult is not null)
             {
                 return new ErrorDataResult<object>(validationResult);
             }
-            _aboutDal.Add(about);
+            await _aboutDal.AddAsync(about);
             return new SuccessDataResult<object>(Messages.AboutAdded);
         }
 
-        public IResult Delete(About about)
+        public async Task<IResult> DeleteAsync(About about)
         {
-            var businessRules = BusinessRules.Run(CheckIfAboutId(about.AboutId));
+            var businessRules = BusinessRules.Run(CheckIfAboutIdAsync(about.AboutId));
             if (businessRules is not null)
             {
                 return businessRules;
             }
-            _aboutDal.Delete(about);
+            await _aboutDal.DeleteAsync(about);
             return new SuccessResult(Messages.AboutDeleted);
         }
 
-        public IDataResult<List<About>> GetAll()
+        public async Task<IDataResult<List<About>>> GetAllAsync()
         {
-            var result = _aboutDal.GetAll();
+            var result = await _aboutDal.GetAllAsync();
             return new SuccessDataResult<List<About>>(result);
         }
 
-        public IDataResult<About> GetById(int id)
+        public async Task<IDataResult<About>> GetByIdAsync(int id)
         {
-            var result = _aboutDal.Get(x => x.AboutId == id);
+            var result = await _aboutDal.GetAsync(x => x.AboutId == id);
             return new SuccessDataResult<About>(result);
         }
 
-        public IResult Update(About about)
+        public async Task<IResult> UpdateAsync(About about)
         {
-            _aboutDal.Update(about);
+            await _aboutDal.UpdateAsync(about);
             return new SuccessResult(Messages.AboutUpdated);
         }
 
-        private IResult CheckIfAboutId(int aboutId)
+        private IResult CheckIfAboutIdAsync(int aboutId)
         {
-            var result = _aboutDal.Get(x => x.AboutId == aboutId);
+            var result = _aboutDal.GetAsync(x => x.AboutId == aboutId).Result;
             return result is null
                 ? new ErrorResult(Messages.AboutNotFound)
                 : null;

@@ -19,14 +19,14 @@ namespace Blog.Dashboard.Components
             _configuration = configuration;
             _commentService = commentService;
         }
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
             string apiKey = _configuration["WeatherApi:ApiKey"];
 
             string connection = $"https://api.openweathermap.org/data/2.5/weather?q=istanbul&mode=xml&appid={apiKey}";
             XDocument document = XDocument.Load(connection);
             ViewBag.weather = document.Descendants("temperature").ElementAt(0).Attribute("value")?.Value;
-            ViewBag.commentCount = _commentService.GetAll().Data.Count;
+            ViewBag.commentCount = _commentService.GetAllAsync().Result.Data.Count;
 
             return View();
         }

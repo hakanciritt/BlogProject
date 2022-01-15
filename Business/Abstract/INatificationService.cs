@@ -10,6 +10,6 @@ namespace Business.Abstract
 {
     public interface INatificationService
     {
-        IDataResult<List<Natification>> GetAll();
+        Task<IDataResult<List<Natification>>> GetAllAsync();
     }
 }

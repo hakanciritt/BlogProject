@@ -10,10 +10,10 @@ namespace Business.Abstract
 {
     public interface IContactService
     {
-        IDataResult<object> Add(Contact contact);
-        IResult Delete(Contact contact);
-        IResult Update(Contact contact);
-        IDataResult<Contact> GetById(int id);
-        IDataResult<List<Contact>> GetAll();
+        Task<IDataResult<object>> AddAsync(Contact contact);
+        Task<IResult> DeleteAsync(Contact contact);
+        Task<IResult> UpdateAsync(Contact contact);
+        Task<IDataResult<Contact>> GetByIdAsync(int id);
+        Task<IDataResult<List<Contact>>> GetAllAsync();
     }
 }

@@ -15,9 +15,9 @@ namespace BlogUI.Controllers
         {
             _aboutService = aboutService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var result = _aboutService.GetAll();
+            var result = await _aboutService.GetAllAsync();
             return View(result.Data);
         }
 

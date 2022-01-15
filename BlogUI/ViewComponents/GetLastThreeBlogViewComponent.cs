@@ -7,17 +7,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BlogUI.ViewComponents
 {
-    public class GetLastThreeBlog : ViewComponent
+    public class GetLastThreeBlogViewComponent : ViewComponent
     {
         private readonly IBlogService _blogService;
 
-        public GetLastThreeBlog(IBlogService blogService)
+        public GetLastThreeBlogViewComponent(IBlogService blogService)
         {
             _blogService = blogService;
         }
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            var result = _blogService.GetLastThreeBlog();
+            var result = await _blogService.GetLastThreeBlogAsync();
 
             return View(result.Data);
         }

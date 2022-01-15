@@ -25,7 +25,7 @@ namespace BlogUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Index(RegisterViewModel registerAddVM)
+        public async Task<IActionResult> Index(RegisterViewModel registerAddVM)
         {
             Writer writer = new Writer()
             {
@@ -35,7 +35,7 @@ namespace BlogUI.Controllers
                 Status = true,
             };
 
-            var result = _writerService.Add(writer);
+            var result = await _writerService.AddAsync(writer);
             if (result.Success)
                 return RedirectToAction(actionName: "Index", "Register");
 

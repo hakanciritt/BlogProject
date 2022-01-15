@@ -20,10 +20,10 @@ namespace Blog.Dashboard.Controllers
         {
             _blogService = blogService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var model = new BlogListViewModel();
-            var result = _blogService.GetAllBlogListWithCategory();
+            var result = await _blogService.GetAllBlogListWithCategoryAsync();
             model.Blogs = result.Data;
 
             if (result.Success)
@@ -33,14 +33,14 @@ namespace Blog.Dashboard.Controllers
             return View();
         }
 
-        public IActionResult Status(int id)
+        public async Task<IActionResult> Status(int id)
         {
-            var result = _blogService.BlogStatusUpdate(id);
+            var result = await _blogService.BlogStatusUpdateAsync(id);
 
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult ExcelExportBlogList()
+        public async Task<IActionResult> ExcelExportBlogList()
         {
             using (var workbook = new XLWorkbook())
             {
@@ -54,8 +54,8 @@ namespace Blog.Dashboard.Controllers
                 work.Cell(1, 6).Value = "Oluşturulma Tarihi";
                 work.Cell(1, 7).Value = "Güncelleme Tarihi";
 
-
-                foreach (var (blog, index) in _blogService.GetBlogListWithCategory().Data.Select((blog, index) => (blog, index)))
+                var res = _blogService.GetBlogListWithCategoryAsync().Result.Data.Select((blog, index) => (blog, index));
+                foreach (var (blog, index) in res)
                 {
                     work.Cell(index + 2, 1).Value = blog.BlogId;
                     work.Cell(index + 2, 2).Value = blog.Title;

@@ -10,11 +10,11 @@ namespace Business.Abstract
 {
     public interface ICommentService
     {
-        IDataResult<object> Add(Comment comment);
-        IResult Delete(Comment comment);
-        IResult Update(Comment comment);
-        IDataResult<Comment> GetById(int id);
-        IDataResult<List<Comment>> GetAll();
-        IDataResult<List<Comment>> GetCommentsByBlogId(int blogId);
+        Task<IDataResult<object>> AddAsync(Comment comment);
+        Task<IResult> DeleteAsync(Comment comment);
+        Task<IResult> UpdateAsync(Comment comment);
+        Task<IDataResult<Comment>> GetByIdAsync(int id);
+        Task<IDataResult<List<Comment>>> GetAllAsync();
+        Task<IDataResult<List<Comment>>> GetCommentsByBlogIdAsync(int blogId);
     }
 }

@@ -20,9 +20,9 @@ namespace Business.Concrete
             _adminDal = adminDal;
         }
 
-        public IDataResult<Admin> GetById(int id)
+        public async Task<IDataResult<Admin>> GetByIdAsync(int id)
         {
-            var result = _adminDal.Get(c => c.AdminId == id);
+            var result = await _adminDal.GetAsync(c => c.AdminId == id);
             if (result != null)
                 return new SuccessDataResult<Admin>(result);
             else

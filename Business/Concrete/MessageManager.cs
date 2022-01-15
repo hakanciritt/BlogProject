@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Formats.Asn1;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,9 +19,9 @@ namespace Business.Concrete
         {
             _messageDal = messageDal;
         }
-        public IDataResult<List<Message>> GetMessageListByWriterMail(string mail)
+        public async Task<IDataResult<List<Message>>> GetMessageListByWriterMailAsync(string mail)
         {
-            return new SuccessDataResult<List<Message>>(_messageDal.GetAll(x => x.Receiver == mail));
+            return new SuccessDataResult<List<Message>>(await _messageDal.GetAllAsync(x => x.Receiver == mail));
         }
     }
 }

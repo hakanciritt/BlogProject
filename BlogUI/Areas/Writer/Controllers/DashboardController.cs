@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using BlogUI.Areas.Writer.Models;
 using BlogUI.ControllerTypes;
 using Business.Abstract;
@@ -16,13 +17,13 @@ namespace BlogUI.Areas.Writer.Controllers
         {
             _blogService = blogService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
 
             var model = new DashBoardViewModel();
 
-            model.TotalBlogCount = _blogService.GetAll().Data.Count;
-            model.TotalBlogCountByWriter = _blogService.GetBlogListByWriterId(CurrentUser.UserId).Data.Count;
+            model.TotalBlogCount = _blogService.GetAllAsync().Result.Data.Count;
+            model.TotalBlogCountByWriter = _blogService.GetBlogListByWriterIdAsync(CurrentUser.UserId).Result.Data.Count;
 
             return View(model);
         }

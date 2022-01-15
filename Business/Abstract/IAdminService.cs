@@ -10,7 +10,7 @@ namespace Business.Abstract
 {
     public interface IAdminService
     {
-        IDataResult<Admin> GetById(int id);
+        Task<IDataResult<Admin>> GetByIdAsync(int id);
 
     }
 }

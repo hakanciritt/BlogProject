@@ -18,9 +18,9 @@ namespace BlogUI.Controllers
         }
 
         [HttpPost]
-        public JsonResult AddComment([FromBody] Comment comment)
+        public async Task<JsonResult> AddComment([FromBody] Comment comment)
         {
-            var result = _commentService.Add(comment);
+            var result = _commentService.AddAsync(comment);
 
             return new JsonResult(result);
 

@@ -23,39 +23,39 @@ namespace Business.Concrete
         {
             _blogDal = blogDal;
         }
-        public IDataResult<object> Add(Blog blog)
+        public async Task<IDataResult<object>> AddAsync(Blog blog)
         {
             var errorResult = ValidationTool.Validate(new BlogValidator(), blog);
             if (errorResult is not null)
                 return new ErrorDataResult<object>(errorResult);
 
             blog.Status = true;
-            blog.CreateDate = DateTime.Now; 
+            blog.CreateDate = DateTime.Now;
 
-            _blogDal.Add(blog);
+            await _blogDal.AddAsync(blog);
             return new SuccessDataResult<object>(Messages.BlogAdded);
         }
 
-        public IResult Delete(Blog blog)
+        public async Task<IResult> DeleteAsync(Blog blog)
         {
             var rules = BusinessRules.Run(CheckIfBlogId(blog.BlogId));
             if (rules is not null)
             {
                 return rules;
             }
-            _blogDal.Delete(blog);
+            await _blogDal.DeleteAsync(blog);
             return new SuccessResult();
         }
 
-        public IDataResult<List<Blog>> GetAll()
+        public async Task<IDataResult<List<Blog>>> GetAllAsync()
         {
-            var result = _blogDal.GetAll();
+            var result = await _blogDal.GetAllAsync();
             return new SuccessDataResult<List<Blog>>(result);
         }
 
-        public IDataResult<Blog> GetById(int id)
+        public async Task<IDataResult<Blog>> GetByIdAsync(int id)
         {
-            var result = _blogDal.Get(x => x.BlogId == id);
+            var result = await _blogDal.GetAsync(x => x.BlogId == id);
             if (result != null)
             {
                 return new SuccessDataResult<Blog>(result);
@@ -63,36 +63,36 @@ namespace Business.Concrete
             return new ErrorDataResult<Blog>(Messages.BlogNotFound);
         }
 
-        public IDataResult<List<Blog>> GetBlogListWithCategory()
+        public async Task<IDataResult<List<Blog>>> GetBlogListWithCategoryAsync()
         {
-            var result = _blogDal.GetBlogListWithCategory(x => x.Status);
+            var result = await _blogDal.GetBlogListWithCategoryAsync(x => x.Status);
             return new SuccessDataResult<List<Blog>>(result);
         }
 
-        public IDataResult<List<Blog>> GetAllBlogListWithCategory()
+        public async Task<IDataResult<List<Blog>>> GetAllBlogListWithCategoryAsync()
         {
-            var result = _blogDal.GetBlogListWithCategory();
+            var result = await _blogDal.GetBlogListWithCategoryAsync();
             return new SuccessDataResult<List<Blog>>(result);
         }
 
-        public IDataResult<object> Update(Blog blog)
+        public async Task<IDataResult<object>> UpdateAsync(Blog blog)
         {
             var validationResult = ValidationTool.Validate(new BlogValidator(), blog);
             if (validationResult is not null)
                 return new ErrorDataResult<object>(validationResult);
 
-            var findBlog = _blogDal.Get(x => x.BlogId == blog.BlogId);
+            var findBlog = await _blogDal.GetAsync(x => x.BlogId == blog.BlogId);
             blog.CreateDate = findBlog.CreateDate;
             blog.Status = findBlog.Status;
             blog.UpdateDate = DateTime.Now;
 
-            _blogDal.Update(blog);
+            await _blogDal.UpdateAsync(blog);
             return new SuccessDataResult<object>();
         }
 
-        public IDataResult<List<Blog>> GetBlogListByWriterId(int writerId)
+        public async Task<IDataResult<List<Blog>>> GetBlogListByWriterIdAsync(int writerId)
         {
-            var result = _blogDal.GetAll(x => x.WriterId == writerId);
+            var result = await _blogDal.GetAllAsync(x => x.WriterId == writerId);
 
             return result is not null
                 ? new SuccessDataResult<List<Blog>>(result)
@@ -100,47 +100,42 @@ namespace Business.Concrete
 
         }
 
-        public IDataResult<List<Blog>> GetLastThreeBlog()
+        public async Task<IDataResult<List<Blog>>> GetLastThreeBlogAsync()
         {
-            var result = _blogDal.GetAll(x => x.Status).OrderBy(x => x.BlogId).Take(3).ToList();
+            var result = _blogDal.GetAllAsync(x => x.Status).Result.OrderBy(x => x.BlogId).Take(3).ToList();
             return new SuccessDataResult<List<Blog>>(result);
         }
 
-        public IDataResult<List<Blog>> GetBlogListAndCategoryByWriterId(int writerId)
+        public async Task<IDataResult<List<Blog>>> GetBlogListAndCategoryByWriterIdAsync(int writerId)
         {
-            return new SuccessDataResult<List<Blog>>(_blogDal.GetBlogListWithCategory(x => x.WriterId == writerId));
+            return new SuccessDataResult<List<Blog>>(await _blogDal.GetBlogListWithCategoryAsync(x => x.WriterId == writerId));
         }
 
-        public IResult BlogStatusUpdate(int blogId)
+        public async Task<IResult> BlogStatusUpdateAsync(int blogId)
         {
-            var result = _blogDal.Get(x => x.BlogId == blogId);
+            var result = await _blogDal.GetAsync(x => x.BlogId == blogId);
 
             if (result is null)
                 return new ErrorResult(Messages.BlogNotFound);
 
             result.Status = result.Status ? false : true;
 
-            _blogDal.Update(result);
+            await _blogDal.UpdateAsync(result);
             return new SuccessResult(Messages.BlogStatusUpdated);
-        }
-
-        public IDataResult<List<Blog>> TotalCommentsToAuthorsBlog(int writerId)
-        {
-            return new SuccessDataResult<List<Blog>>(new List<Blog>());
         }
 
         private IResult CheckIfBlogId(int blogId)
         {
-            if (_blogDal.Get(x => x.BlogId == blogId) == null)
+            if (_blogDal.GetAsync(x => x.BlogId == blogId).Result == null)
             {
                 return new ErrorResult(Messages.BlogNotFound);
             }
             return null;
         }
 
-        public IDataResult<Blog> GetByBlogSlugName(string slugName)
+        public async Task<IDataResult<Blog>> GetByBlogSlugNameAsync(string slugName)
         {
-            return new SuccessDataResult<Blog>(_blogDal.Get(x => x.Slug == slugName));
+            return new SuccessDataResult<Blog>(await _blogDal.GetAsync(x => x.Slug == slugName));
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using BlogUI.Areas.Writer.Models;
 using BlogUI.ControllerTypes;
 using Business.Abstract;
@@ -20,10 +21,10 @@ namespace BlogUI.Areas.Writer.Controllers
             _environment = environment;
         }
 
-        public IActionResult EditProfile()
+        public async Task<IActionResult> EditProfile()
         {
             var model = new WriterProfileUpdateViewModel();
-            var result = _writerService.GetById(CurrentUser.UserId).Data;
+            var result = _writerService.GetByIdAsync(CurrentUser.UserId).Result.Data;
             model.Name = result.Name;
             model.Mail = result.Mail;
             model.Password = result.Password;
@@ -34,7 +35,7 @@ namespace BlogUI.Areas.Writer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditProfile(WriterProfileUpdateViewModel writerVM)
+        public async Task<IActionResult> EditProfile(WriterProfileUpdateViewModel writerVM)
         {
             var writer = new Entities.Concrete.Writer()
             {
@@ -51,7 +52,7 @@ namespace BlogUI.Areas.Writer.Controllers
             if (writerVM.File is not null)
                 writer.Image = FileHelper.Save(_environment.WebRootPath + "\\images\\" + writerVM.File.FileName, writerVM.File);
 
-            var result = _writerService.Update(writer);
+            var result = await _writerService.UpdateAsync(writer);
             if (result.Success)
             {
                 return RedirectToAction("EditProfile");
