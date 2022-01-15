@@ -23,6 +23,8 @@ namespace DataAccess.Concrete
         public DbSet<NewsLetter> NewsLetters { get; set; }
         public DbSet<Natification> Natifications { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<Admin> Admins { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -39,6 +41,8 @@ namespace DataAccess.Concrete
             modelBuilder.ApplyConfiguration(new WriterConfiguration());
             modelBuilder.ApplyConfiguration(new NatificationConfiguration());
             modelBuilder.ApplyConfiguration(new MessageConfiguration());
+            modelBuilder.ApplyConfiguration(new AdminConfiguration());
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
 
             modelBuilder.Entity<Blog>()
                 .HasOne(x => x.Category)
@@ -54,6 +58,10 @@ namespace DataAccess.Concrete
                 .HasOne(x => x.Writer)
                 .WithMany(x => x.Blogs)
                 .HasForeignKey(x => x.WriterId);
+
+            modelBuilder.Entity<Admin>().HasOne(c => c.Role).WithMany(c => c.Admins).HasPrincipalKey(c => c.Id)
+                .HasForeignKey(c => c.RoleId);
+
         }
     }
 }

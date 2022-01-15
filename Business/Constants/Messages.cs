@@ -45,5 +45,8 @@ namespace Business.Constants
         public const string CommentUpdated = "Yorum güncellendi";
         public const string FirstComment = "İlk yorumu siz yapın";
 
+        public const string AdminNotFound = "Kullanıcı bulunamadı";
+
+
     }
 }

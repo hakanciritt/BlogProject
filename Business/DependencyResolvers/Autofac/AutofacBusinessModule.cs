@@ -24,6 +24,8 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<EfNewsLetterDal>().As<INewsLetterDal>().SingleInstance();
             builder.RegisterType<EfNatificationDal>().As<INatificationDal>().SingleInstance();
             builder.RegisterType<EfMessageDal>().As<IMessageDal>().SingleInstance();
+            builder.RegisterType<EfAdminDal>().As<IAdminDal>().SingleInstance();
+            builder.RegisterType<EfRoleDal>().As<IRoleDal>().SingleInstance();
 
             builder.RegisterType<AboutManager>().As<IAboutService>().SingleInstance();
             builder.RegisterType<BlogManager>().As<IBlogService>().SingleInstance();
@@ -34,6 +36,8 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<NewsLetterManager>().As<INewsLetterService>().SingleInstance();
             builder.RegisterType<NatificationManager>().As<INatificationService>().SingleInstance();
             builder.RegisterType<MessageManager>().As<IMessageService>().SingleInstance();
+            builder.RegisterType<AdminManager>().As<IAdminService>().SingleInstance();
+            builder.RegisterType<RoleManager>().As<IRoleService>().SingleInstance();
 
         }
     }
