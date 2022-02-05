@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dtos.Blog;
 
 namespace Blog.Dashboard.Models.Blog
 {
@@ -9,9 +10,9 @@ namespace Blog.Dashboard.Models.Blog
     {
         public BlogListViewModel()
         {
-            Blogs = new List<Entities.Concrete.Blog>();
+            Blogs = new List<BlogDto>();
         }
 
-        public List<Entities.Concrete.Blog> Blogs { get; set; }
+        public List<BlogDto> Blogs { get; set; }
     }
 }

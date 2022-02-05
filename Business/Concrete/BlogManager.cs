@@ -65,10 +65,10 @@ namespace Business.Concrete
             return new ErrorDataResult<Blog>(Messages.BlogNotFound);
         }
 
-        public async Task<IDataResult<List<Blog>>> GetBlogListWithCategoryAsync()
+        public async Task<IDataResult<List<BlogDto>>> GetBlogListWithCategoryAsync()
         {
             var result = await _blogDal.GetBlogListWithCategoryAsync(x => x.Status);
-            return new SuccessDataResult<List<Blog>>(result);
+            return new SuccessDataResult<List<BlogDto>>(ObjectMapper.Mapper.Map<List<BlogDto>>(result));
         }
 
         public async Task<IDataResult<List<BlogDto>>> GetAllBlogListWithCategoryAsync()
@@ -135,9 +135,10 @@ namespace Business.Concrete
             return null;
         }
 
-        public async Task<IDataResult<Blog>> GetByBlogSlugNameAsync(string slugName)
+        public async Task<IDataResult<BlogDto>> GetByBlogSlugNameAsync(string slugName)
         {
-            return new SuccessDataResult<Blog>(await _blogDal.GetAsync(x => x.Slug == slugName));
+            var result = await _blogDal.GetAsync(x => x.Slug == slugName);
+            return new SuccessDataResult<BlogDto>(ObjectMapper.Mapper.Map<BlogDto>(result));
         }
     }
 }

@@ -16,12 +16,12 @@ namespace Business.Abstract
         Task<IResult> DeleteAsync(Blog blog);
         Task<IDataResult<List<BlogDto>>> GetAllAsync();
         Task<IDataResult<Blog>> GetByIdAsync(int id);
-        Task<IDataResult<List<Blog>>> GetBlogListWithCategoryAsync();
+        Task<IDataResult<List<BlogDto>>> GetBlogListWithCategoryAsync();
         Task<IDataResult<List<BlogDto>>> GetAllBlogListWithCategoryAsync();
         Task<IDataResult<List<Blog>>> GetBlogListByWriterIdAsync(int writerId);
         Task<IDataResult<List<Blog>>> GetLastThreeBlogAsync();
         Task<IDataResult<List<Blog>>> GetBlogListAndCategoryByWriterIdAsync(int writerId);
         Task<IResult> BlogStatusUpdateAsync(int blogId);
-        Task<IDataResult<Blog>> GetByBlogSlugNameAsync(string slugName);
+        Task<IDataResult<BlogDto>> GetByBlogSlugNameAsync(string slugName);
     }
 }

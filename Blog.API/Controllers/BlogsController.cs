@@ -15,24 +15,22 @@ namespace Blog.API.Controllers
     public class BlogsController : ControllerBase
     {
         private readonly IBlogService _blogService;
-        private readonly IMapper _mapper;
-
-        public BlogsController(IBlogService blogService, IMapper mapper)
+        public BlogsController(IBlogService blogService)
         {
             _blogService = blogService;
-            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _blogService.GetAllBlogListWithCategoryAsync();
-
-            if (result.Success)
-                return Ok(result);
-            else
-                return BadRequest(result);
-
+            var result = await _blogService.GetBlogListWithCategoryAsync();
+            return Ok(result.Data);
+        }
+        [HttpGet("{blogSlug}")]
+        public async Task<IActionResult> GetBlog(string blogSlug)
+        {
+            var result = await _blogService.GetByBlogSlugNameAsync(blogSlug);
+            return Ok(result.Data);
         }
 
         [HttpPost]

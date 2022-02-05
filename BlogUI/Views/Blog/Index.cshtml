@@ -1,4 +1,4 @@
-﻿@model List<Blog>
+﻿@model List<Dtos.Blog.BlogDto>
 
 @{
     ViewData["Title"] = "Anasayfa";
@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 @section Styles{
-    <link href="~/css/blog/index.css" rel="stylesheet" />
+<link href="~/css/blog/index.css" rel="stylesheet" />
 }
 
 <section id="indexApp" class="main-content-w3layouts-agileits">
@@ -22,49 +22,39 @@
         <div class="inner-sec">
             <div class="left-blog-info-w3layouts-agileits text-left">
                 <div class="row">
-                    @if ((bool)TempData["Status"])
-                    {
-                        @foreach (var blog in Model)
-                        {
-                            <div class="col-lg-4 card">
-                                <a asp-controller="Blog" asp-action="BlogDetails" asp-route-blogSlug="@blog.Slug">
-                                    <img width="350" height="280" src="~/images/@blog.Image" class="card-img-top img-fluid" alt="@blog.Title">
-                                </a>
-                                <div class="card-body">
-                                    <ul class="blog-icons my-4">
-                                        <li>
-                                            <a href="#">
-                                                <i class="far fa-calendar-alt"></i> @blog.CreateDate.ToShortDateString()
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i class="fas fa-eye"></i> @blog.Category.Name
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <h5 class="card-title">
-                                        <a asp-controller="Blog" asp-action="BlogDetails" asp-route-blogSlug="@blog.Slug">@blog.Title</a>
-                                    </h5>
-                                    <div class="card-text mb-4">
-                                        @Html.Raw(blog.Content.Substring(0, blog.Content.Substring(0, 130).LastIndexOf(" ")))...
-                                    </div>
-                                    <a asp-controller="Blog"
-                                       asp-action="BlogDetails"
-                                       asp-route-blogSlug="@blog.Slug"
-                                       style="margin-top: 8px;"
-                                       class="btn btn-primary read-m">Devamını oku</a>
-                                </div>
-                            </div>
-                        }
-                    }
-                    else
-                    {
-                        @if (TempData["Message"] is not null)
-                        {
 
-                            <div class="alert alert-warning col-12">@TempData["Message"]</div>
-                        }
+                    @foreach (var blog in Model)
+                    {
+                        <div class="col-lg-4 card">
+                            <a asp-controller="Blog" asp-action="BlogDetails" asp-route-blogSlug="@blog.Slug">
+                                <img width="350" height="280" src="~/images/@blog.Image" class="card-img-top img-fluid" alt="@blog.Title">
+                            </a>
+                            <div class="card-body">
+                                <ul class="blog-icons my-4">
+                                    <li>
+                                        <a href="#">
+                                            <i class="far fa-calendar-alt"></i> @blog.CreateDate.ToShortDateString()
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fas fa-eye"></i> @blog.Category.Name
+                                        </a>
+                                    </li>
+                                </ul>
+                                <h5 class="card-title">
+                                    <a asp-controller="Blog" asp-action="BlogDetails" asp-route-blogSlug="@blog.Slug">@blog.Title</a>
+                                </h5>
+                                <div class="card-text mb-4">
+                                    @Html.Raw(blog.Content.Substring(0, blog.Content.Substring(0, 130).LastIndexOf(" ")))...
+                                </div>
+                                <a asp-controller="Blog"
+                               asp-action="BlogDetails"
+                               asp-route-blogSlug="@blog.Slug"
+                               style="margin-top: 8px;"
+                               class="btn btn-primary read-m">Devamını oku</a>
+                            </div>
+                        </div>
                     }
 
                 </div>
@@ -77,5 +67,5 @@
     var blogList = @Json.Serialize(Model.Select(x => new { x.BlogId, x.Title, x.Image , x.Slug}))
 </script>
 @section Scripts{
-    <script src="~/js/blog/blog.js"></script>
+<script src="~/js/blog/blog.js"></script>
 }

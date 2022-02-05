@@ -61,7 +61,7 @@ namespace Blog.Dashboard.Controllers
                     work.Cell(index + 2, 2).Value = blog.Title;
                     work.Cell(index + 2, 3).Value = blog.Category.Name;
                     work.Cell(index + 2, 4).Value = blog.Content;
-                    work.Cell(index + 2, 5).Value = blog.Status ? "Aktif" : "Pasif";
+                    //work.Cell(index + 2, 5).Value = blog.Status ? "Aktif" : "Pasif";
                     work.Cell(index + 2, 6).Value = blog.CreateDate;
                     work.Cell(index + 2, 7).Value = blog.UpdateDate;
 

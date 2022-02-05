@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BlogUI.ApiServices;
+using BlogUI.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
@@ -31,6 +33,9 @@ namespace BlogUI
             services.AddAutofac();
             
             services.AddSingleton<ICurrentUser, CurrentUser>();
+
+            services.AddHttpClientConfiguration(Configuration["BaseApiUrl"]);
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(option =>
                 {
