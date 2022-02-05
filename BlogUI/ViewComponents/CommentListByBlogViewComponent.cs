@@ -14,11 +14,11 @@ namespace BlogUI.ViewComponents
         {
             _commentService = commentService;
         }
-        public async Task<IViewComponentResult> Invoke(int blogId)
+        public Task<IViewComponentResult> InvokeAsync(int blogId)
         {
-            var data = await _commentService.GetCommentsByBlogIdAsync(blogId);
+            var data = _commentService.GetCommentsByBlogIdAsync(blogId).Result;
 
-            return View(data.Data);
+            return Task.FromResult<IViewComponentResult>(View(data.Data));
 
         }
     }

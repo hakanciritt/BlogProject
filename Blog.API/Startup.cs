@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
+using Business.Mapping;
 using Business.ServiceExtension;
 using Core.CrossCuttingConcerns;
 
@@ -29,6 +31,8 @@ namespace Blog.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(c =>
+                c.AddProfiles(new List<Profile>() {new MappingProfile(), new WebMappingProfile()}));
             services.AddAutofac();
 
             services.ConfigureService();

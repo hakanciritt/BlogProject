@@ -23,7 +23,7 @@ namespace BlogUI.Areas.Writer.Controllers
             var model = new DashBoardViewModel();
 
             model.TotalBlogCount = _blogService.GetAllAsync().Result.Data.Count;
-            model.TotalBlogCountByWriter = _blogService.GetBlogListByWriterIdAsync(CurrentUser.UserId).Result.Data.Count;
+            model.TotalBlogCountByWriter = _blogService.GetBlogListByWriterIdAsync(CurrentUser.UserId.Value).Result.Data.Count;
 
             return View(model);
         }

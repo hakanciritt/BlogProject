@@ -20,7 +20,7 @@ namespace BlogUI.Areas.Writer.ViewComponents
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var result = await _writerService.GetByIdAsync(_currentUser.UserId);
+            var result = await _writerService.GetByIdAsync(_currentUser.UserId.Value);
             return View(result.Data);
         }
     }

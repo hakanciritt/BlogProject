@@ -18,14 +18,10 @@ namespace BlogUI.ViewComponents
             _blogService = blogService;
             _currentUser = currentUser;
         }
-        public async Task<IViewComponentResult> Invoke()
+        public Task<IViewComponentResult> InvokeAsync()
         {
-            var result = await _blogService.GetBlogListByWriterIdAsync(int.Parse(_currentUser.UserId.ToString()));
-            if (result.Success)
-            {
-                return View(result.Data);
-            }
-            return View();
+            var result = _blogService.GetBlogListByWriterIdAsync(int.Parse(_currentUser.UserId.ToString())).Result;
+            return Task.FromResult<IViewComponentResult>(View(result.Data));
         }
     }
 }

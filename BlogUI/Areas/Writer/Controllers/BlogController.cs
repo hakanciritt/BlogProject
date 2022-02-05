@@ -28,7 +28,7 @@ namespace BlogUI.Areas.Writer.Controllers
         }
         public async Task<IActionResult> GetBlogListByWriter()
         {
-            var result = await _blogService.GetBlogListAndCategoryByWriterIdAsync(CurrentUser.UserId);
+            var result = await _blogService.GetBlogListAndCategoryByWriterIdAsync(CurrentUser.UserId.Value);
             if (result.Success)
             {
                 return View(result.Data);
@@ -73,7 +73,7 @@ namespace BlogUI.Areas.Writer.Controllers
             if (blogImage is not null)
                 blog.Image = FileHelper.Save(_environment.WebRootPath + "\\images\\" + blogImage.FileName, blogImage);
 
-            blog.WriterId = CurrentUser.UserId;
+            blog.WriterId = CurrentUser.UserId.Value;
             var result = await _blogService.AddAsync(blog);
 
             if (result.Success)
@@ -107,7 +107,7 @@ namespace BlogUI.Areas.Writer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditBlog(Blog blog)
         {
-            blog.WriterId = CurrentUser.UserId;
+            blog.WriterId = CurrentUser.UserId.Value;
             var result = await _blogService.UpdateAsync(blog);
             if (result.Success)
             {

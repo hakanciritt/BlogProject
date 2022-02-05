@@ -16,13 +16,10 @@ namespace Business.Mapping
     {
         public MappingProfile()
         {
-
             CreateMap(typeof(CategoryAddDto), typeof(Category)).ReverseMap();
-
             CreateMap(typeof(CategoryUpdateDto), typeof(Category));
-            CreateMap<Blog, BlogDto>();
-            CreateMap<BlogDto, Blog>();
-
+            CreateMap<Blog, BlogDto>().ReverseMap();
+            CreateMap<CategoryDto, Category>().ReverseMap();
         }
     }
 }

@@ -17,12 +17,12 @@ namespace BlogUI.ViewComponents
         {
             _blogService = blogService;
         }
-        public async Task<IViewComponentResult> Invoke()
+        public  Task<IViewComponentResult> InvokeAsync()
         {
-            var result = await _blogService.GetBlogListWithCategoryAsync();
+            var result =  _blogService.GetBlogListWithCategoryAsync().Result;
             var data = result.Data.GroupBy(c => c.Category.Name).Select(x => new CategoryCountViewModel { Key = x.Key, Count = x.Count() }).ToList();
 
-            return View(data);
+            return Task.FromResult<IViewComponentResult>(View(data));
         }
     }
 }

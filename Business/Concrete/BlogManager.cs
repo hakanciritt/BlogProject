@@ -12,7 +12,9 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Business.Mapping;
 using Core.Extensions;
+using Dtos.Blog;
 
 namespace Business.Concrete
 {
@@ -47,10 +49,10 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public async Task<IDataResult<List<Blog>>> GetAllAsync()
+        public async Task<IDataResult<List<BlogDto>>> GetAllAsync()
         {
             var result = await _blogDal.GetAllAsync();
-            return new SuccessDataResult<List<Blog>>(result);
+            return new SuccessDataResult<List<BlogDto>>(ObjectMapper.Mapper.Map<List<BlogDto>>(result));
         }
 
         public async Task<IDataResult<Blog>> GetByIdAsync(int id)
@@ -69,10 +71,10 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Blog>>(result);
         }
 
-        public async Task<IDataResult<List<Blog>>> GetAllBlogListWithCategoryAsync()
+        public async Task<IDataResult<List<BlogDto>>> GetAllBlogListWithCategoryAsync()
         {
             var result = await _blogDal.GetBlogListWithCategoryAsync();
-            return new SuccessDataResult<List<Blog>>(result);
+            return new SuccessDataResult<List<BlogDto>>(ObjectMapper.Mapper.Map<List<BlogDto>>(result));
         }
 
         public async Task<IDataResult<object>> UpdateAsync(Blog blog)

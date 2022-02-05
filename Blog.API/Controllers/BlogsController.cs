@@ -26,15 +26,13 @@ namespace Blog.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _blogService.GetAllAsync();
-            var mapperResult = _mapper.Map<List<BlogDto>>(result.Data);
+            var result = await _blogService.GetAllBlogListWithCategoryAsync();
 
             if (result.Success)
-                return Ok(mapperResult);
+                return Ok(result);
             else
-            {
                 return BadRequest(result);
-            }
+
         }
 
         [HttpPost]

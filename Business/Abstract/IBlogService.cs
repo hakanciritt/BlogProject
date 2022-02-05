@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dtos.Blog;
 
 namespace Business.Abstract
 {
@@ -13,10 +14,10 @@ namespace Business.Abstract
         Task<IDataResult<object>> AddAsync(Blog blog);
         Task<IDataResult<object>> UpdateAsync(Blog blog);
         Task<IResult> DeleteAsync(Blog blog);
-        Task<IDataResult<List<Blog>>> GetAllAsync();
+        Task<IDataResult<List<BlogDto>>> GetAllAsync();
         Task<IDataResult<Blog>> GetByIdAsync(int id);
         Task<IDataResult<List<Blog>>> GetBlogListWithCategoryAsync();
-        Task<IDataResult<List<Blog>>> GetAllBlogListWithCategoryAsync();
+        Task<IDataResult<List<BlogDto>>> GetAllBlogListWithCategoryAsync();
         Task<IDataResult<List<Blog>>> GetBlogListByWriterIdAsync(int writerId);
         Task<IDataResult<List<Blog>>> GetLastThreeBlogAsync();
         Task<IDataResult<List<Blog>>> GetBlogListAndCategoryByWriterIdAsync(int writerId);

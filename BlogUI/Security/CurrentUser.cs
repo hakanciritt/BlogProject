@@ -16,7 +16,7 @@ namespace BlogUI.Security
         {
             _context = context;
         }
-        public int UserId
+        public int? UserId
         {
             get
             {

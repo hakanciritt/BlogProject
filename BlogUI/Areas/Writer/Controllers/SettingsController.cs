@@ -19,7 +19,7 @@ namespace BlogUI.Areas.Writer.Controllers
         public async Task<IActionResult> Index()
         {
             var model = new UpdatePasswordViewModel();
-            var user = _writerService.GetByIdAsync(CurrentUser.UserId).Result.Data;
+            var user = _writerService.GetByIdAsync(CurrentUser.UserId.Value).Result.Data;
             model.Password = user.Password;
             model.ConfirmPassword = user.Password;
             return View(model);

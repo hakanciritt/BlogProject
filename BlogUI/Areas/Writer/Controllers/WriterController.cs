@@ -24,7 +24,7 @@ namespace BlogUI.Areas.Writer.Controllers
         public async Task<IActionResult> EditProfile()
         {
             var model = new WriterProfileUpdateViewModel();
-            var result = _writerService.GetByIdAsync(CurrentUser.UserId).Result.Data;
+            var result = _writerService.GetByIdAsync(CurrentUser.UserId.Value).Result.Data;
             model.Name = result.Name;
             model.Mail = result.Mail;
             model.Password = result.Password;
@@ -39,7 +39,7 @@ namespace BlogUI.Areas.Writer.Controllers
         {
             var writer = new Entities.Concrete.Writer()
             {
-                WriterId = CurrentUser.UserId,
+                WriterId = CurrentUser.UserId.Value,
                 About = writerVM.About,
                 Mail = writerVM.Mail,
                 Name = writerVM.Name,
