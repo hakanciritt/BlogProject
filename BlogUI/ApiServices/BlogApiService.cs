@@ -25,7 +25,6 @@ namespace BlogUI.ApiServices
 
             return null;
         }
-
         public async Task<BlogDto> GetByBlogSlugNameAsync(string blogSlug)
         {
             var result = await _client.GetAsync($"blogs/{blogSlug}");

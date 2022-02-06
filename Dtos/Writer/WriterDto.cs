@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Dtos.Blog;
 
-namespace BlogUI.Areas.Writer.Models
+namespace Dtos.Writer
 {
-    public class WriterProfileUpdateViewModel
+    public class WriterDto
     {
+        public int WriterId { get; set; }
+
         public string Name { get; set; }
 
         public string About { get; set; }
@@ -16,10 +19,10 @@ namespace BlogUI.Areas.Writer.Models
 
         public string Mail { get; set; }
 
-        public IFormFile File { get; set; }
-
         public string Password { get; set; }
 
-        public string PasswordConfirm { get; set; }
+        public bool Status { get; set; }
+
+        public List<BlogDto> Blogs { get; set; }
     }
 }

@@ -2,57 +2,47 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using BlogUI.Areas.Writer.Models;
+using BlogUI.ApiServices;
 using BlogUI.ControllerTypes;
 using Business.Abstract;
+using Business.Mapping;
 using Microsoft.AspNetCore.Hosting;
 using Core.Utilities.Helpers;
+using Dtos.Writer;
+using WebModels.Writer;
 
 namespace BlogUI.Areas.Writer.Controllers
 {
     public class WriterController : WriterBaseController
     {
         private readonly IWriterService _writerService;
+        private readonly WriterApiService _writerApiService;
         private readonly IWebHostEnvironment _environment;
 
-        public WriterController(IWriterService writerService, IWebHostEnvironment environment)
+        public WriterController(IWriterService writerService, WriterApiService writerApiService, IWebHostEnvironment environment)
         {
             _writerService = writerService;
+            _writerApiService = writerApiService;
             _environment = environment;
         }
 
         public async Task<IActionResult> EditProfile()
         {
-            var model = new WriterProfileUpdateViewModel();
-            var result = _writerService.GetByIdAsync(CurrentUser.UserId.Value).Result.Data;
-            model.Name = result.Name;
-            model.Mail = result.Mail;
-            model.Password = result.Password;
-            model.About = result.About;
-            model.Image = result.Image;
-            return View(model);
+            var result = await _writerApiService.GetByIdAsync(CurrentUser.UserId.Value);
+            return View(ObjectMapper.Mapper.Map<WriterProfileUpdateViewModel>(result));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditProfile(WriterProfileUpdateViewModel writerVM)
         {
-            var writer = new Entities.Concrete.Writer()
-            {
-                WriterId = CurrentUser.UserId.Value,
-                About = writerVM.About,
-                Mail = writerVM.Mail,
-                Name = writerVM.Name,
-                Status = true,
-                Password = writerVM.Password,
-            };
-            if (writerVM.Password.Trim() != writerVM.PasswordConfirm.Trim())
-                ModelState.AddModelError("PasswordConfirm", "Şifre ve Şifre tekrar aynı olmak zorundadır");
+            var writer = ObjectMapper.Mapper.Map<WriterUpdateDto>(writerVM);
 
             if (writerVM.File is not null)
                 writer.Image = FileHelper.Save(_environment.WebRootPath + "\\images\\" + writerVM.File.FileName, writerVM.File);
 
             var result = await _writerService.UpdateAsync(writer);
+
             if (result.Success)
             {
                 return RedirectToAction("EditProfile");

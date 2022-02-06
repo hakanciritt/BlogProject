@@ -9,6 +9,7 @@ using Dtos.About;
 using Dtos.Blog;
 using Dtos.Category;
 using Dtos.Message;
+using Dtos.Writer;
 using Entities.Concrete;
 using WebModels.Category;
 
@@ -24,6 +25,8 @@ namespace Business.Mapping
             CreateMap<CategoryDto, Category>().ReverseMap();
             CreateMap<About, AboutDto>().ReverseMap();
             CreateMap<Message, MessageDto>().ReverseMap();
+            CreateMap<Writer, WriterAddDto>().ReverseMap();
+            CreateMap<Writer, WriterUpdateDto>().ReverseMap();
         }
     }
 }

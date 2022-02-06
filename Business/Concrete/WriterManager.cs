@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Business.Mapping;
+using Dtos.Writer;
 
 namespace Business.Concrete
 {
@@ -21,14 +23,14 @@ namespace Business.Concrete
         {
             _writerDal = writerDal;
         }
-        public async Task<IDataResult<object>> AddAsync(Writer writer)
+        public async Task<IDataResult<object>> AddAsync(WriterAddDto writer)
         {
             var validationResult = ValidationTool.Validate(new WriterValidator(), writer);
             if (validationResult is not null)
             {
                 return new ErrorDataResult<object>(validationResult);
             }
-            await _writerDal.AddAsync(writer);
+            await _writerDal.AddAsync(ObjectMapper.Mapper.Map<Writer>(writer));
             return new SuccessDataResult<object>(Messages.WriterAdded);
         }
 
@@ -64,9 +66,9 @@ namespace Business.Concrete
             return new ErrorDataResult<Writer>(Messages.WriterNotFound);
         }
 
-        public async Task<IResult> UpdateAsync(Writer writer)
+        public async Task<IResult> UpdateAsync(WriterUpdateDto writer)
         {
-            await _writerDal.UpdateAsync(writer);
+            await _writerDal.UpdateAsync(ObjectMapper.Mapper.Map<Writer>(writer));
             return new SuccessResult(Messages.WriterUpdated);
         }
 

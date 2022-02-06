@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dtos.Writer;
 
 namespace Business.ValidationRules.FluentValidation
 {
-    public class WriterValidator : AbstractValidator<Writer>
+    public class WriterValidator : AbstractValidator<WriterAddDto>
     {
         public WriterValidator()
         {

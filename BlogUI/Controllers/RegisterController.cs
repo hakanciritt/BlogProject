@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BlogUI.Models.Register;
+using Business.Mapping;
+using Dtos.Writer;
 using Entities.Concrete;
 using FluentValidation.Results;
 
@@ -35,7 +37,7 @@ namespace BlogUI.Controllers
                 Status = true,
             };
 
-            var result = await _writerService.AddAsync(writer);
+            var result = await _writerService.AddAsync(ObjectMapper.Mapper.Map<WriterAddDto>(writer));
             if (result.Success)
                 return RedirectToAction(actionName: "Index", "Register");
 

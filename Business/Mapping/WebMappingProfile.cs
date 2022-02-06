@@ -5,8 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Dtos.Category;
+using Dtos.Writer;
 using Entities.Concrete;
 using WebModels.Category;
+using WebModels.Writer;
 
 namespace Business.Mapping
 {
@@ -20,6 +22,7 @@ namespace Business.Mapping
 
             CreateMap(typeof(CategoryUpdateDto), typeof(CategoryUpdateViewModel));
             CreateMap(typeof(CategoryUpdateViewModel), typeof(CategoryUpdateDto));
+            CreateMap<WriterDto, WriterProfileUpdateViewModel>().ReverseMap();
         }
     }
 }

@@ -15,6 +15,7 @@ namespace BlogUI.Extensions
             services.AddHttpClient<BlogApiService>(options => { options.BaseAddress = new Uri(apiUrl); });
             services.AddHttpClient<AboutApiService>(options => { options.BaseAddress = new Uri(apiUrl); });
             services.AddHttpClient<MessageApiService>(options => { options.BaseAddress = new Uri(apiUrl); });
+            services.AddHttpClient<WriterApiService>(options => { options.BaseAddress = new Uri(apiUrl); });
 
         }
     }
