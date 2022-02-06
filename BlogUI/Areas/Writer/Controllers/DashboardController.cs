@@ -21,8 +21,10 @@ namespace BlogUI.Areas.Writer.Controllers
         public async Task<IActionResult> Index()
         {
             var model = new DashBoardViewModel();
-            model.TotalBlogCount = (await _blogApiService.GetAllAsync()).Count;
-            model.TotalBlogCountByWriter = (await _blogApiService.GetBlogListByWriterIdAsync(CurrentUser.UserId.Value)).Count;
+            var blogTotalCount = await _blogApiService.GetAllAsync();
+            model.TotalBlogCount = blogTotalCount.Count;
+            var totalBlogCountByWriter = await _blogApiService.GetBlogListByWriterIdAsync(CurrentUser.UserId.Value);
+            model.TotalBlogCountByWriter = totalBlogCountByWriter.Count;
 
             return View(model);
         }

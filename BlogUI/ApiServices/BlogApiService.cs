@@ -43,9 +43,8 @@ namespace BlogUI.ApiServices
         }
         public async Task<List<BlogDto>> GetBlogListByWriterIdAsync(int userId)
         {
-            var response = await _client.GetAsync("blogs/getbloglistbywriterid");
+            var response = await _client.GetAsync($"blogs/getbloglistbywriterid/{userId}");
             var result = JsonConvert.DeserializeObject<List<BlogDto>>(await response.Content.ReadAsStringAsync());
-            if (response.StatusCode ==HttpStatusCode.BadRequest) return null;
             return result;
 
         }

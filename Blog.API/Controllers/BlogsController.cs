@@ -21,6 +21,13 @@ namespace Blog.API.Controllers
             _blogService = blogService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _blogService.GetAllAsync();
+            return Ok(result.Data);
+        }
+
         [HttpGet("getbloglistwithcategory")]
         public async Task<IActionResult> GetBlogListWithCategoryAsync()
         {
@@ -41,14 +48,11 @@ namespace Blog.API.Controllers
             return Ok();
         }
 
-        [HttpGet("getbloglistbywriterid")]
+        [HttpGet("getbloglistbywriterid/{userId}")]
         public async Task<IActionResult> GetBlogListByWriterIdAsync(int userId)
         {
             var result = await _blogService.GetBlogListByWriterIdAsync(userId);
-            if (result.Success)
-                return Ok(result);
-            else
-                return BadRequest();
+            return Ok(result.Data);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using BlogUI.ApiServices;
 using BlogUI.ControllerTypes;
 using Business.Abstract;
 
@@ -8,16 +9,16 @@ namespace BlogUI.Areas.Writer.Controllers
 {
     public class MessageController : WriterBaseController
     {
-        private readonly IMessageService _messageService;
+        private readonly MessageApiService _messageApiService;
 
-        public MessageController(IMessageService messageService)
+        public MessageController(MessageApiService messageApiService)
         {
-            _messageService = messageService;
+            _messageApiService = messageApiService;
         }
         public async Task<IActionResult> Index()
         {
-            var result = await _messageService.GetMessageListByWriterMailAsync(CurrentUser.Mail);
-            return View(result.Data);
+            var result = await _messageApiService.GetMessageListByWriterMailAsync(CurrentUser.Mail);
+            return View(result);
         }
     }
 }
