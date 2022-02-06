@@ -5,6 +5,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Dtos.About;
 using Dtos.Blog;
 using Dtos.Category;
 using Entities.Concrete;
@@ -20,6 +21,7 @@ namespace Business.Mapping
             CreateMap(typeof(CategoryUpdateDto), typeof(Category));
             CreateMap<Blog, BlogDto>().ReverseMap();
             CreateMap<CategoryDto, Category>().ReverseMap();
+            CreateMap<About, AboutDto>().ReverseMap();
         }
     }
 }

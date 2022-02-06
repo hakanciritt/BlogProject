@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Business.Mapping;
+using Dtos.About;
 
 namespace Business.Concrete
 {
@@ -43,10 +45,10 @@ namespace Business.Concrete
             return new SuccessResult(Messages.AboutDeleted);
         }
 
-        public async Task<IDataResult<List<About>>> GetAllAsync()
+        public async Task<IDataResult<List<AboutDto>>> GetAllAsync()
         {
             var result = await _aboutDal.GetAllAsync();
-            return new SuccessDataResult<List<About>>(result);
+            return new SuccessDataResult<List<AboutDto>>(ObjectMapper.Mapper.Map<List<AboutDto>>(result));
         }
 
         public async Task<IDataResult<About>> GetByIdAsync(int id)

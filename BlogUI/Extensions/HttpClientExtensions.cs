@@ -13,6 +13,7 @@ namespace BlogUI.Extensions
         public static void AddHttpClientConfiguration(this IServiceCollection services, string apiUrl)
         {
             services.AddHttpClient<BlogApiService>(options => { options.BaseAddress = new Uri(apiUrl); });
+            services.AddHttpClient<AboutApiService>(options => { options.BaseAddress = new Uri(apiUrl); });
 
         }
     }

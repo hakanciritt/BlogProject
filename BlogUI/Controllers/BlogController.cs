@@ -10,12 +10,9 @@ namespace BlogUI.Controllers
 {
     public class BlogController : Controller
     {
-        private readonly IBlogService _blogService;
         private readonly BlogApiService _blogApiService;
-
         public BlogController(IBlogService blogService,BlogApiService blogApiService)
         {
-            _blogService = blogService;
             _blogApiService = blogApiService;
         }
         public async Task<IActionResult> Index()

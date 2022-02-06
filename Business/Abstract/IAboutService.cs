@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dtos.About;
 
 namespace Business.Abstract
 {
@@ -14,7 +15,7 @@ namespace Business.Abstract
         Task<IResult> UpdateAsync(About about);
         Task<IResult> DeleteAsync(About about);
         Task<IDataResult<About>> GetByIdAsync(int id);
-        Task<IDataResult<List<About>>> GetAllAsync();
+        Task<IDataResult<List<AboutDto>>> GetAllAsync();
 
     }
 }

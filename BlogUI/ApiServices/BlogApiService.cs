@@ -16,10 +16,8 @@ namespace BlogUI.ApiServices
         {
             _client = client;
         }
-
         public async Task<List<BlogDto>> GetBlogListWithCategoryAsync()
         {
-
             var result = await _client.GetAsync("blogs");
             var response = JsonConvert.DeserializeObject<List<BlogDto>>(await result.Content.ReadAsStringAsync());
 
