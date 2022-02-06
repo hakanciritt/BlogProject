@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Formats.Asn1;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -20,8 +21,8 @@ namespace Blog.API.Controllers
             _blogService = blogService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("getbloglistwithcategory")]
+        public async Task<IActionResult> GetBlogListWithCategoryAsync()
         {
             var result = await _blogService.GetBlogListWithCategoryAsync();
             return Ok(result.Data);
@@ -38,6 +39,16 @@ namespace Blog.API.Controllers
         {
             var result = await _blogService.AddAsync(blogDto);
             return Ok();
+        }
+
+        [HttpGet("getbloglistbywriterid")]
+        public async Task<IActionResult> GetBlogListByWriterIdAsync(int userId)
+        {
+            var result = await _blogService.GetBlogListByWriterIdAsync(userId);
+            if (result.Success)
+                return Ok(result);
+            else
+                return BadRequest();
         }
     }
 }

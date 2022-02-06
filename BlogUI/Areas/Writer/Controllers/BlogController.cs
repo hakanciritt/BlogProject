@@ -48,7 +48,7 @@ namespace BlogUI.Areas.Writer.Controllers
                                       Value = category.CategoryId.ToString()
                                   }).ToList();
 
-            return View(new Blog());
+            return View(new AddBlogDto());
         }
         [HttpPost]
         public async Task<JsonResult> StatusUpdate(int blogId)
@@ -62,13 +62,7 @@ namespace BlogUI.Areas.Writer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> BlogAdd(AddBlogDto blog)
         {
-            ViewBag.Categories = (from category in _categoryService.GetAllAsync().Result.Data
-                                  select new SelectListItem
-                                  {
-                                      Text = category.Name,
-                                      Value = category.CategoryId.ToString()
-                                  }).ToList();
-
+            ViewBag.Categories = new SelectList((await _categoryService.GetAllAsync()).Data, "CategoryId", "Name");
             var blogImage = Request.Form.Files["blogImage"];
 
             if (blogImage is not null)
@@ -95,13 +89,6 @@ namespace BlogUI.Areas.Writer.Controllers
             if (result.Data == null)
                 return NotFound();
 
-            //ViewBag.Categories = (from category in _categoryService.GetAllAsync().Result.Data
-            //                      select new SelectListItem
-            //                      {
-            //                          Text = category.Name,
-            //                          Value = category.CategoryId.ToString()
-            //
-            // }).ToList();
             ViewBag.Categories = new SelectList((await _categoryService.GetAllAsync()).Data, "CategoryId", "Name");
             return View(result.Data);
         }
