@@ -25,16 +25,17 @@ namespace Business.Concrete
         {
             _blogDal = blogDal;
         }
-        public async Task<IDataResult<object>> AddAsync(Blog blog)
+        public async Task<IDataResult<object>> AddAsync(AddBlogDto blog)
         {
             var errorResult = ValidationTool.Validate(new BlogValidator(), blog);
             if (errorResult is not null)
                 return new ErrorDataResult<object>(errorResult);
 
-            blog.Status = true;
-            blog.CreateDate = DateTime.Now;
+            var result = ObjectMapper.Mapper.Map<Blog>(blog);
+            result.Status = true;
+            result.CreateDate = DateTime.Now;
 
-            await _blogDal.AddAsync(blog);
+            await _blogDal.AddAsync(result);
             return new SuccessDataResult<object>(Messages.BlogAdded);
         }
 
@@ -92,14 +93,12 @@ namespace Business.Concrete
             return new SuccessDataResult<object>();
         }
 
-        public async Task<IDataResult<List<Blog>>> GetBlogListByWriterIdAsync(int writerId)
+        public async Task<IDataResult<List<BlogDto>>> GetBlogListByWriterIdAsync(int writerId)
         {
             var result = await _blogDal.GetAllAsync(x => x.WriterId == writerId);
-
             return result is not null
-                ? new SuccessDataResult<List<Blog>>(result)
-                : new ErrorDataResult<List<Blog>>(Messages.AuthorBlogNotFound);
-
+                ? new SuccessDataResult<List<BlogDto>>(ObjectMapper.Mapper.Map<List<BlogDto>>(result))
+                : new ErrorDataResult<List<BlogDto>>(Messages.AuthorBlogNotFound);
         }
 
         public async Task<IDataResult<List<Blog>>> GetLastThreeBlogAsync()
@@ -108,9 +107,10 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Blog>>(result);
         }
 
-        public async Task<IDataResult<List<Blog>>> GetBlogListAndCategoryByWriterIdAsync(int writerId)
+        public async Task<IDataResult<List<BlogDto>>> GetBlogListAndCategoryByWriterIdAsync(int writerId)
         {
-            return new SuccessDataResult<List<Blog>>(await _blogDal.GetBlogListWithCategoryAsync(x => x.WriterId == writerId));
+            var result = await _blogDal.GetBlogListWithCategoryAsync(x => x.WriterId == writerId);
+            return new SuccessDataResult<List<BlogDto>>(ObjectMapper.Mapper.Map<List<BlogDto>>(result));
         }
 
         public async Task<IResult> BlogStatusUpdateAsync(int blogId)

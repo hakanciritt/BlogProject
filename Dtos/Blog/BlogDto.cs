@@ -21,11 +21,14 @@ namespace Dtos.Blog
 
         public string Image { get; set; }
 
+        public int WriteId { get; set; }
+
         public int CategoryId { get; set; }
 
         public DateTime CreateDate { get; set; }
 
         public DateTime UpdateDate { get; set; }
+        public bool Status { get; set; }
 
         public CategoryDto Category { get; set; }
 

@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dtos.Blog;
 
 namespace Business.ValidationRules.FluentValidation
 {
-    public class BlogValidator : AbstractValidator<Blog>
+    public class BlogValidator : AbstractValidator<AddBlogDto>
     {
         public BlogValidator()
         {

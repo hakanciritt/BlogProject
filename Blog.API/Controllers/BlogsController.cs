@@ -36,6 +36,7 @@ namespace Blog.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddBlogDto blogDto)
         {
+            var result = await _blogService.AddAsync(blogDto);
             return Ok();
         }
     }

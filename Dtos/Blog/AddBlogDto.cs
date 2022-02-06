@@ -29,6 +29,7 @@ namespace Dtos.Blog
         public DateTime CreateDate { get; set; }
 
         public DateTime UpdateDate { get; set; }
+        public int WriterId { get; set; }
 
     }
 }

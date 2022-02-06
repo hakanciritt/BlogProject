@@ -10,6 +10,7 @@ using System.IO;
 using System.Threading.Tasks;
 using BlogUI.ControllerTypes;
 using Core.Utilities.Helpers;
+using Dtos.Blog;
 using Microsoft.AspNetCore.Hosting;
 
 namespace BlogUI.Areas.Writer.Controllers
@@ -59,7 +60,7 @@ namespace BlogUI.Areas.Writer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> BlogAdd(Blog blog)
+        public async Task<IActionResult> BlogAdd(AddBlogDto blog)
         {
             ViewBag.Categories = (from category in _categoryService.GetAllAsync().Result.Data
                                   select new SelectListItem
@@ -94,12 +95,14 @@ namespace BlogUI.Areas.Writer.Controllers
             if (result.Data == null)
                 return NotFound();
 
-            ViewBag.Categories = (from category in _categoryService.GetAllAsync().Result.Data
-                                  select new SelectListItem
-                                  {
-                                      Text = category.Name,
-                                      Value = category.CategoryId.ToString()
-                                  }).ToList();
+            //ViewBag.Categories = (from category in _categoryService.GetAllAsync().Result.Data
+            //                      select new SelectListItem
+            //                      {
+            //                          Text = category.Name,
+            //                          Value = category.CategoryId.ToString()
+            //
+            // }).ToList();
+            ViewBag.Categories = new SelectList((await _categoryService.GetAllAsync()).Data, "CategoryId", "Name");
             return View(result.Data);
         }
 
