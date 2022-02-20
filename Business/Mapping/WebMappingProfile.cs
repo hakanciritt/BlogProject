@@ -22,6 +22,7 @@ namespace Business.Mapping
 
             CreateMap(typeof(CategoryUpdateDto), typeof(CategoryUpdateViewModel));
             CreateMap(typeof(CategoryUpdateViewModel), typeof(CategoryUpdateDto));
+            CreateMap<WriterUpdateDto, WriterProfileUpdateViewModel>().ReverseMap();
             CreateMap<WriterDto, WriterProfileUpdateViewModel>().ReverseMap();
         }
     }

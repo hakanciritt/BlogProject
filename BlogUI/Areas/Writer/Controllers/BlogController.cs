@@ -37,16 +37,12 @@ namespace BlogUI.Areas.Writer.Controllers
             TempData["Message"] = result.Message;
             return View();
 
-        }
+        } 
 
         public async Task<IActionResult> BlogAdd()
         {
-            ViewBag.Categories = (from category in _categoryService.GetAllAsync().Result.Data
-                                  select new SelectListItem
-                                  {
-                                      Text = category.Name,
-                                      Value = category.CategoryId.ToString()
-                                  }).ToList();
+
+            ViewBag.Categories = new SelectList((await _categoryService.GetAllAsync()).Data, "CategoryId", "Name");
 
             return View(new AddBlogDto());
         }

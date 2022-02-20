@@ -29,7 +29,8 @@ namespace BlogUI.Areas.Writer.Controllers
         public async Task<IActionResult> EditProfile()
         {
             var result = await _writerApiService.GetByIdAsync(CurrentUser.UserId.Value);
-            return View(ObjectMapper.Mapper.Map<WriterProfileUpdateViewModel>(result));
+            var model = ObjectMapper.Mapper.Map<WriterProfileUpdateViewModel>(result);
+            return View(model);
         }
 
         [HttpPost]
@@ -41,12 +42,10 @@ namespace BlogUI.Areas.Writer.Controllers
             if (writerVM.File is not null)
                 writer.Image = FileHelper.Save(_environment.WebRootPath + "\\images\\" + writerVM.File.FileName, writerVM.File);
 
-            var result = await _writerService.UpdateAsync(writer);
-
-            if (result.Success)
-            {
+            var result = await _writerApiService.UpdateAsync(writer);
+            if (result)
                 return RedirectToAction("EditProfile");
-            }
+            
             return View(writerVM);
         }
 

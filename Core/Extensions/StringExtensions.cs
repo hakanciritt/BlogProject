@@ -27,16 +27,15 @@ namespace Core.Extensions
         public static string ReplaceTurkishCharacters(this string str)
         {
             char[] turkishAlphabet = "çöğüışİÇÖĞÜŞ".ToCharArray();
-            char[] desctionationAlphabet = "coguisiCOGUs".ToCharArray();
+            char[] desctionationAlphabet = "coguisICOGUS".ToCharArray();
 
             for (int i = 0; i < str.Length; i++)
             {
                 if (str[i] == turkishAlphabet[i])
                 {
-                    //str[] = desctionationAlphabet[i];
+                    str = str.Replace(turkishAlphabet[i], desctionationAlphabet[i]);
                 }
             }
-
             return str;
         }
     }

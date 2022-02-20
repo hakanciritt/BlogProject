@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Business.Abstract;
+using Dtos.Writer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +23,14 @@ namespace Blog.API.Controllers
             var result = await _writerService.GetByIdAsync(id);
             if (result.Success) return Ok(result.Data);
             else return NotFound();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(WriterUpdateDto writerUpdateDto)
+        {
+            var result = await _writerService.UpdateAsync(writerUpdateDto);
+            if (result.Success) return NoContent();
+            return BadRequest();
         }
     }
 }
