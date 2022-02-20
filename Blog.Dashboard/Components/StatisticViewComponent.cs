@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Business.Abstract;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Business.Abstract;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 
 namespace Blog.Dashboard.Components
 {

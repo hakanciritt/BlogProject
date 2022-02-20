@@ -1,19 +1,16 @@
-﻿using Business.Abstract;
+﻿using AutoMapper;
+using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation.CategoryValidation;
 using Core.Business;
 using Core.CrossCuttingConcerns;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using Dtos.Category;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
-using AutoMapper;
-using Business.ValidationRules.FluentValidation.CategoryValidation;
-using Dtos.Category;
 
 namespace Business.Concrete
 {
@@ -32,7 +29,7 @@ namespace Business.Concrete
         {
             var category = _mapper.Map<Category>(categoryAddDto);
             ValidationTool.Validate(new CategoryAddValidator(), categoryAddDto);
-            
+
             await _categoryDal.AddAsync(category);
             return new SuccessDataResult<object>(Messages.CategoryAdded);
         }
@@ -72,7 +69,7 @@ namespace Business.Concrete
             category.CreatedDate = _categoryDal.GetAsync(c => c.CategoryId == category.CategoryId).Result.CreatedDate;
 
             ValidationTool.Validate(new CategoryUpdateValidator(), category);
-            
+
 
             await _categoryDal.UpdateAsync(category);
             return new SuccessDataResult<object>(Messages.CategoryUpdated);

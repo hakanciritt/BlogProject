@@ -1,8 +1,5 @@
-﻿using System;
+﻿using Dtos.Blog;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Dtos.Blog;
 
 namespace Blog.Dashboard.Models.Blog
 {

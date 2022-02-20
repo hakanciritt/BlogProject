@@ -1,13 +1,8 @@
-﻿using DataAccess.ObjectMappings;
+﻿using System.Reflection;
+using Core.CrossCuttingConcerns;
+using DataAccess.ObjectMappings;
 using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Core.CrossCuttingConcerns;
 using Microsoft.Extensions.Configuration;
 
 namespace DataAccess.Concrete
@@ -31,7 +26,7 @@ namespace DataAccess.Concrete
             IConfiguration configuration = (IConfiguration)ServiceTool.ServiceProvider.GetService(typeof(IConfiguration));
             optionsBuilder.UseSqlServer(configuration["ConnectionStrings:SqlConnection"]);
         }
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new BlogConfiguration());
@@ -43,6 +38,7 @@ namespace DataAccess.Concrete
             modelBuilder.ApplyConfiguration(new MessageConfiguration());
             modelBuilder.ApplyConfiguration(new AdminConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             modelBuilder.Entity<Blog>()
                 .HasOne(x => x.Category)

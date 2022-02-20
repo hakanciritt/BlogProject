@@ -1,18 +1,15 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.Mapping;
 using Business.ValidationRules.FluentValidation;
 using Core.Business;
 using Core.CrossCuttingConcerns;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
-using Entities.Concrete;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Business.Mapping;
 using Dtos.About;
+using Entities.Concrete;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Business.Concrete
 {

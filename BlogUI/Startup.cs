@@ -1,21 +1,14 @@
 using Autofac.Extensions.DependencyInjection;
+using BlogUI.Extensions;
+using BlogUI.Security;
+using Business.ServiceExtension;
+using Core.CrossCuttingConcerns;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BlogUI.ApiServices;
-using BlogUI.Extensions;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
-using BlogUI.Security;
-using Business.ServiceExtension;
-using Core.CrossCuttingConcerns;
 
 namespace BlogUI
 {
@@ -31,7 +24,7 @@ namespace BlogUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutofac();
-            
+
             services.AddSingleton<ICurrentUser, CurrentUser>();
 
             services.AddHttpClientConfiguration(Configuration["BaseApiUrl"]);

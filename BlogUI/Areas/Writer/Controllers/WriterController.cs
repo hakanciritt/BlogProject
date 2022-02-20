@@ -1,14 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using BlogUI.ApiServices;
+﻿using BlogUI.ApiServices;
 using BlogUI.ControllerTypes;
 using Business.Abstract;
 using Business.Mapping;
-using Microsoft.AspNetCore.Hosting;
 using Core.Utilities.Helpers;
 using Dtos.Writer;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using WebModels.Writer;
 
 namespace BlogUI.Areas.Writer.Controllers
@@ -45,7 +43,7 @@ namespace BlogUI.Areas.Writer.Controllers
             var result = await _writerApiService.UpdateAsync(writer);
             if (result)
                 return RedirectToAction("EditProfile");
-            
+
             return View(writerVM);
         }
 

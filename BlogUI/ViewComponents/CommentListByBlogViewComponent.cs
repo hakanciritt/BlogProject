@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Business.Abstract;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Business.Abstract;
 
 namespace BlogUI.ViewComponents
 {

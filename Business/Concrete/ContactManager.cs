@@ -6,10 +6,7 @@ using Core.CrossCuttingConcerns;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Business.Concrete
@@ -24,8 +21,8 @@ namespace Business.Concrete
         }
         public async Task<IDataResult<object>> AddAsync(Contact contact)
         {
-             ValidationTool.Validate(new ContactValidator(), contact);
-           
+            ValidationTool.Validate(new ContactValidator(), contact);
+
             await _contactDal.AddAsync(contact);
             return new SuccessDataResult<object>(Messages.Added);
         }

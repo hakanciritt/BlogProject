@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using BlogUI.Models.Category;
+﻿using BlogUI.Models.Category;
 using Business.Abstract;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BlogUI.ViewComponents
 {
@@ -17,9 +14,9 @@ namespace BlogUI.ViewComponents
         {
             _blogService = blogService;
         }
-        public  Task<IViewComponentResult> InvokeAsync()
+        public Task<IViewComponentResult> InvokeAsync()
         {
-            var result =  _blogService.GetBlogListWithCategoryAsync().Result;
+            var result = _blogService.GetBlogListWithCategoryAsync().Result;
             var data = result.Data.GroupBy(c => c.Category.Name).Select(x => new CategoryCountViewModel { Key = x.Key, Count = x.Count() }).ToList();
 
             return Task.FromResult<IViewComponentResult>(View(data));

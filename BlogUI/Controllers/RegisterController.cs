@@ -1,14 +1,12 @@
-﻿using Business.Abstract;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BlogUI.Models.Register;
+﻿using BlogUI.Models.Register;
+using Business.Abstract;
 using Business.Mapping;
 using Dtos.Writer;
 using Entities.Concrete;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BlogUI.Controllers
 {

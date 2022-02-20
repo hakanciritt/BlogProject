@@ -1,7 +1,6 @@
-﻿using System.Threading.Tasks;
-using Business.Abstract;
-using Microsoft.AspNetCore.Http;
+﻿using Business.Abstract;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Blog.API.Controllers
 {

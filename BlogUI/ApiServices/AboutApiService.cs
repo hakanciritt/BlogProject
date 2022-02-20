@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Dtos.About;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Dtos.About;
-using Newtonsoft.Json;
 
 namespace BlogUI.ApiServices
 {

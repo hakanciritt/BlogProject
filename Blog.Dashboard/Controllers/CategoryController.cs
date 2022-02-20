@@ -1,15 +1,12 @@
-﻿using Business.Abstract;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Blog.Dashboard.ControllerTypes;
 using Blog.Dashboard.Models.Category;
+using Business.Abstract;
 using Dtos.Category;
-using Entities.Concrete;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using WebModels.Category;
 
 namespace Blog.Dashboard.Controllers

@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
-using BlogUI.ApiServices;
+﻿using BlogUI.ApiServices;
 using BlogUI.ControllerTypes;
-using Business.Abstract;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace BlogUI.Areas.Writer.Controllers
 {

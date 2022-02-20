@@ -1,14 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Formats.Asn1;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Business.Abstract;
+﻿using Business.Abstract;
 using Core.ResponseModel;
 using Dtos.Blog;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Blog.API.Controllers
 {
@@ -28,9 +22,17 @@ namespace Blog.API.Controllers
             var result = await _blogService.GetAllAsync();
             return Ok(result.Data);
         }
-
+        [HttpGet("getbyid/{blogId}")]
+        public async Task<IActionResult> GetById(int blogId)
+        {
+            var response = new ApiResponse<BlogDto>();
+            var result = await _blogService.GetByIdAsync(blogId);
+            response.IsSuccess = result.Success;
+            response.Data = result.Data;
+            return Ok(response);
+        }
         [HttpGet("getbloglistwithcategory")]
-        public async Task<IActionResult> GetBlogListWithCategoryAsync()
+        public async Task<IActionResult> GetBlogListWithCategory()
         {
             var result = await _blogService.GetBlogListWithCategoryAsync();
             return Ok(result.Data);
@@ -53,6 +55,15 @@ namespace Blog.API.Controllers
             return Ok(response);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] BlogDto blogDto)
+        {
+            var response = new ApiResponse<BlogDto>();
+            var result = await _blogService.UpdateAsync(blogDto);
+            response.IsSuccess = result.Success;
+            response.Data = result.Data;
+            return Ok(response);
+        }
         [HttpGet("getbloglistbywriterid/{userId}")]
         public async Task<IActionResult> GetBlogListByWriterIdAsync(int userId)
         {

@@ -1,15 +1,13 @@
-﻿using System;
+﻿using Business.CustomErrors;
+using Core.ResponseModel;
+using Dtos;
+using FluentValidation;
+using Microsoft.AspNetCore.Http;
+using System;
 using System.Linq;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Business.CustomErrors;
-using Core.ResponseModel;
-using Dtos;
-using FluentValidation;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Blog.API.Middlewares
 {
@@ -30,11 +28,11 @@ namespace Blog.API.Middlewares
             }
             catch (Exception ex)
             {
-                await CustomErrorHandle(ex, context);
+                await CustomErrorHandleAsync(ex, context);
             }
         }
 
-        private async Task CustomErrorHandle(Exception ex, HttpContext context)
+        private async Task CustomErrorHandleAsync(Exception ex, HttpContext context)
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = 500;

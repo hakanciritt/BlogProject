@@ -1,20 +1,17 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.Mapping;
 using Business.ValidationRules.FluentValidation;
 using Core.Business;
 using Core.CrossCuttingConcerns;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using Dtos.Blog;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Business.Mapping;
-using Core.Extensions;
-using Dtos.Blog;
 
 namespace Business.Concrete
 {
@@ -35,7 +32,7 @@ namespace Business.Concrete
 
             await _blogDal.AddAsync(result);
 
-            return new SuccessDataResult<AddBlogDto>(blog,Messages.BlogAdded);
+            return new SuccessDataResult<AddBlogDto>(blog, Messages.BlogAdded);
         }
 
         public async Task<IResult> DeleteAsync(Blog blog)
@@ -55,14 +52,15 @@ namespace Business.Concrete
             return new SuccessDataResult<List<BlogDto>>(ObjectMapper.Mapper.Map<List<BlogDto>>(result));
         }
 
-        public async Task<IDataResult<Blog>> GetByIdAsync(int id)
+        public async Task<IDataResult<BlogDto>> GetByIdAsync(int id)
         {
-            var result = await _blogDal.GetAsync(x => x.BlogId == id);
+            var result = ObjectMapper.Mapper.Map<BlogDto>(await _blogDal.GetAsync(x => x.BlogId == id));
+
             if (result != null)
             {
-                return new SuccessDataResult<Blog>(result);
+                return new SuccessDataResult<BlogDto>(result);
             }
-            return new ErrorDataResult<Blog>(Messages.BlogNotFound);
+            return new ErrorDataResult<BlogDto>(Messages.BlogNotFound);
         }
 
         public async Task<IDataResult<List<BlogDto>>> GetBlogListWithCategoryAsync()
@@ -77,18 +75,18 @@ namespace Business.Concrete
             return new SuccessDataResult<List<BlogDto>>(ObjectMapper.Mapper.Map<List<BlogDto>>(result));
         }
 
-        public async Task<IDataResult<object>> UpdateAsync(Blog blog)
+        public async Task<IDataResult<BlogDto>> UpdateAsync(BlogDto blogDto)
         {
-            ValidationTool.Validate(new BlogValidator(), blog);
-           
+            ValidationTool.Validate(new BlogValidator(), blogDto);
+            var result = ObjectMapper.Mapper.Map<Blog>(blogDto);
 
-            var findBlog = await _blogDal.GetAsync(x => x.BlogId == blog.BlogId);
-            blog.CreateDate = findBlog.CreateDate;
-            blog.Status = findBlog.Status;
-            blog.UpdateDate = DateTime.Now;
+            var findBlog = await _blogDal.GetAsync(x => x.BlogId == blogDto.BlogId);
+            blogDto.CreateDate = findBlog.CreateDate;
+            blogDto.Status = findBlog.Status;
+            blogDto.UpdateDate = DateTime.Now;
 
-            await _blogDal.UpdateAsync(blog);
-            return new SuccessDataResult<object>();
+            await _blogDal.UpdateAsync(result);
+            return new SuccessDataResult<BlogDto>(blogDto);
         }
 
         public async Task<IDataResult<List<BlogDto>>> GetBlogListByWriterIdAsync(int writerId)

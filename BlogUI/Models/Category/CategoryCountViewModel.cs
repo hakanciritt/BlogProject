@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BlogUI.Models.Category
+﻿namespace BlogUI.Models.Category
 {
     public class CategoryCountViewModel
     {

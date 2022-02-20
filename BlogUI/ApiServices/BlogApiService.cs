@@ -1,14 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Net;
+﻿using Core.ResponseModel;
+using Dtos.Blog;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using BlogUI.ApiServices.ContentTypes;
-using Core.ResponseModel;
-using Core.Utilities.Results;
-using Dtos.Blog;
-using Newtonsoft.Json;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace BlogUI.ApiServices
 {
@@ -27,7 +23,21 @@ namespace BlogUI.ApiServices
             var client = await _client.PostAsJsonAsync("blogs", content);
             var responseContent = await client.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<ApiResponse<AddBlogDto>>(responseContent);
+            return response;
+        }
 
+        public async Task<ApiResponse<BlogDto>> GetByIdAsync(int blogId)
+        {
+            var response = await _client.GetAsync($"blogs/getbyid/{blogId}");
+            var result = JsonConvert.DeserializeObject<ApiResponse<BlogDto>>(await response.Content.ReadAsStringAsync());
+            return result;
+        }
+        public async Task<ApiResponse<BlogDto>> UpdateAsync(BlogDto blog)
+        {
+            var content = new ContentTypes.JsonContent(blog.ToString());
+            var client = await _client.PutAsync("blogs", content);
+            var responseContent = await client.Content.ReadAsStringAsync();
+            var response = JsonConvert.DeserializeObject<ApiResponse<BlogDto>>(responseContent);
             return response;
         }
         public async Task<List<BlogDto>> GetBlogListWithCategoryAsync()

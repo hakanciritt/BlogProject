@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BlogUI.ApiServices;
+﻿using BlogUI.ApiServices;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace BlogUI.Extensions
 {

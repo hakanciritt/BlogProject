@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BlogUI.Areas.Writer.Models
+﻿namespace BlogUI.Areas.Writer.Models
 {
     public class DashBoardViewModel
     {

@@ -1,11 +1,5 @@
-﻿using Entities.Concrete;
+﻿using Dtos.Category;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dtos.Category;
 
 namespace Business.ValidationRules.FluentValidation.CategoryValidation
 {

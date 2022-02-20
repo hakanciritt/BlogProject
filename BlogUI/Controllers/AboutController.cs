@@ -1,10 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using BlogUI.ApiServices;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using BlogUI.ApiServices;
-using Business.Abstract;
 
 namespace BlogUI.Controllers
 {

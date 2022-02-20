@@ -8,8 +8,6 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Business.Concrete
@@ -29,7 +27,7 @@ namespace Business.Concrete
             comment.Status = true;
 
             ValidationTool.Validate(new CommentValidator(), comment);
-            
+
             await _commentDal.AddAsync(comment);
             return new SuccessDataResult<object>(Messages.CommentAdded);
         }

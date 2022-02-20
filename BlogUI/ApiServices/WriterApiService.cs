@@ -1,8 +1,8 @@
-﻿using System.Net;
+﻿using Dtos.Writer;
+using Newtonsoft.Json;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Dtos.Writer;
-using Newtonsoft.Json;
 
 namespace BlogUI.ApiServices
 {
