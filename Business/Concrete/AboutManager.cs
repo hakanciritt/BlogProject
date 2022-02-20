@@ -25,11 +25,8 @@ namespace Business.Concrete
         }
         public async Task<IDataResult<object>> AddAsync(About about)
         {
-            var validationResult = ValidationTool.Validate(new AboutValidator(), about);
-            if (validationResult is not null)
-            {
-                return new ErrorDataResult<object>(validationResult);
-            }
+            ValidationTool.Validate(new AboutValidator(), about);
+
             await _aboutDal.AddAsync(about);
             return new SuccessDataResult<object>(Messages.AboutAdded);
         }

@@ -3,9 +3,12 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using BlogUI.ApiServices.ContentTypes;
+using Core.ResponseModel;
 using Core.Utilities.Results;
 using Dtos.Blog;
 using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace BlogUI.ApiServices
 {
@@ -16,6 +19,16 @@ namespace BlogUI.ApiServices
         public BlogApiService(HttpClient client)
         {
             _client = client;
+        }
+
+        public async Task<ApiResponse<AddBlogDto>> AddAsync(AddBlogDto blogDto)
+        {
+            var content = new ContentTypes.JsonContent(blogDto.ToString());
+            var client = await _client.PostAsJsonAsync("blogs", content);
+            var responseContent = await client.Content.ReadAsStringAsync();
+            var response = JsonConvert.DeserializeObject<ApiResponse<AddBlogDto>>(responseContent);
+
+            return response;
         }
         public async Task<List<BlogDto>> GetBlogListWithCategoryAsync()
         {

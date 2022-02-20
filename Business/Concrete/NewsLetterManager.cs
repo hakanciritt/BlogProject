@@ -24,11 +24,8 @@ namespace Business.Concrete
 
         public async Task<IDataResult<object>> AddNewsLetterAsync(NewsLetter newsLetter)
         {
-            var validationResult = ValidationTool.Validate(new NewsLetterValidator(), newsLetter);
-            if (validationResult is not null)
-            {
-                return new ErrorDataResult<object>(validationResult);
-            }
+             ValidationTool.Validate(new NewsLetterValidator(), newsLetter);
+           
             newsLetter.MailStatus = true;
             await _newsLetter.AddAsync(newsLetter);
             return new SuccessDataResult<object>(Messages.RegistrationSuccessful);

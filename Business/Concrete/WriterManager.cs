@@ -25,11 +25,8 @@ namespace Business.Concrete
         }
         public async Task<IDataResult<object>> AddAsync(WriterAddDto writer)
         {
-            var validationResult = ValidationTool.Validate(new WriterValidator(), writer);
-            if (validationResult is not null)
-            {
-                return new ErrorDataResult<object>(validationResult);
-            }
+            ValidationTool.Validate(new WriterValidator(), writer);
+
             await _writerDal.AddAsync(ObjectMapper.Mapper.Map<Writer>(writer));
             return new SuccessDataResult<object>(Messages.WriterAdded);
         }
@@ -74,11 +71,7 @@ namespace Business.Concrete
 
         public async Task<IDataResult<object>> UserLoginAsync(Writer writer)
         {
-            var validationResult = ValidationTool.Validate(new WriterLoginValidator(), writer);
-            if (validationResult is not null)
-            {
-                return new ErrorDataResult<object>(validationResult);
-            }
+            ValidationTool.Validate(new WriterLoginValidator(), writer);
 
             return new SuccessDataResult<object>();
         }

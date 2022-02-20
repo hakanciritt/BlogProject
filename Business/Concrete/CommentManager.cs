@@ -28,11 +28,8 @@ namespace Business.Concrete
             comment.Date = DateTime.Now;
             comment.Status = true;
 
-            var validationResult = ValidationTool.Validate(new CommentValidator(), comment);
-            if (validationResult is not null)
-            {
-                return new ErrorDataResult<object>(validationResult);
-            }
+            ValidationTool.Validate(new CommentValidator(), comment);
+            
             await _commentDal.AddAsync(comment);
             return new SuccessDataResult<object>(Messages.CommentAdded);
         }

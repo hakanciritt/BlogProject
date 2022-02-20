@@ -8,6 +8,7 @@ using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.IO;
 using System.Threading.Tasks;
+using BlogUI.ApiServices;
 using BlogUI.ControllerTypes;
 using Core.Utilities.Helpers;
 using Dtos.Blog;
@@ -20,12 +21,14 @@ namespace BlogUI.Areas.Writer.Controllers
         private readonly IBlogService _blogService;
         private readonly ICategoryService _categoryService;
         private readonly IWebHostEnvironment _environment;
+        private readonly BlogApiService _blogApiService;
 
-        public BlogController(IBlogService blogService, ICategoryService categoryService, IWebHostEnvironment environment)
+        public BlogController(IBlogService blogService, ICategoryService categoryService, IWebHostEnvironment environment, BlogApiService blogApiService)
         {
             _blogService = blogService;
             _categoryService = categoryService;
             _environment = environment;
+            _blogApiService = blogApiService;
         }
         public async Task<IActionResult> GetBlogListByWriter()
         {
@@ -37,14 +40,14 @@ namespace BlogUI.Areas.Writer.Controllers
             TempData["Message"] = result.Message;
             return View();
 
-        } 
+        }
 
         public async Task<IActionResult> BlogAdd()
         {
 
             ViewBag.Categories = new SelectList((await _categoryService.GetAllAsync()).Data, "CategoryId", "Name");
 
-            return View(new AddBlogDto());
+            return View();
         }
         [HttpPost]
         public async Task<JsonResult> StatusUpdate(int blogId)
@@ -65,16 +68,19 @@ namespace BlogUI.Areas.Writer.Controllers
                 blog.Image = FileHelper.Save(_environment.WebRootPath + "\\images\\" + blogImage.FileName, blogImage);
 
             blog.WriterId = CurrentUser.UserId.Value;
-            var result = await _blogService.AddAsync(blog);
 
-            if (result.Success)
+            var result = await _blogApiService.AddAsync(blog);
+            
+            if (result.IsSuccess)
                 return RedirectToAction("GetBlogListByWriter", "Blog", new { area = "Writer" });
 
-            foreach (var error in (List<ValidationFailure>)result.Data)
+            if (!result.IsSuccess && result.Errors.Any())
             {
-                ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                }
             }
-
             return View(blog);
         }
 

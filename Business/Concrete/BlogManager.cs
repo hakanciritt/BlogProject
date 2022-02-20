@@ -25,18 +25,17 @@ namespace Business.Concrete
         {
             _blogDal = blogDal;
         }
-        public async Task<IDataResult<object>> AddAsync(AddBlogDto blog)
+        public async Task<IDataResult<AddBlogDto>> AddAsync(AddBlogDto blog)
         {
-            var errorResult = ValidationTool.Validate(new BlogValidator(), blog);
-            if (errorResult is not null)
-                return new ErrorDataResult<object>(errorResult);
+            ValidationTool.Validate(new BlogValidator(), blog);
 
             var result = ObjectMapper.Mapper.Map<Blog>(blog);
             result.Status = true;
             result.CreateDate = DateTime.Now;
 
             await _blogDal.AddAsync(result);
-            return new SuccessDataResult<object>(Messages.BlogAdded);
+
+            return new SuccessDataResult<AddBlogDto>(blog,Messages.BlogAdded);
         }
 
         public async Task<IResult> DeleteAsync(Blog blog)
@@ -80,9 +79,8 @@ namespace Business.Concrete
 
         public async Task<IDataResult<object>> UpdateAsync(Blog blog)
         {
-            var validationResult = ValidationTool.Validate(new BlogValidator(), blog);
-            if (validationResult is not null)
-                return new ErrorDataResult<object>(validationResult);
+            ValidationTool.Validate(new BlogValidator(), blog);
+           
 
             var findBlog = await _blogDal.GetAsync(x => x.BlogId == blog.BlogId);
             blog.CreateDate = findBlog.CreateDate;

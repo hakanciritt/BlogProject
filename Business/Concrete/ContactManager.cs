@@ -24,11 +24,8 @@ namespace Business.Concrete
         }
         public async Task<IDataResult<object>> AddAsync(Contact contact)
         {
-            var validationResult = ValidationTool.Validate(new ContactValidator(), contact);
-            if (validationResult is not null)
-            {
-                return new ErrorDataResult<object>(validationResult);
-            }
+             ValidationTool.Validate(new ContactValidator(), contact);
+           
             await _contactDal.AddAsync(contact);
             return new SuccessDataResult<object>(Messages.Added);
         }

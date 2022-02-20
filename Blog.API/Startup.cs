@@ -10,9 +10,11 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
+using Blog.API.Middlewares;
 using Business.Mapping;
 using Business.ServiceExtension;
 using Core.CrossCuttingConcerns;
@@ -31,9 +33,8 @@ namespace Blog.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAutoMapper(c =>
-                c.AddProfiles(new List<Profile>() {new MappingProfile(), new WebMappingProfile()}));
             services.AddAutofac();
+            services.AddAutoMapper(Assembly.GetAssembly(typeof(ObjectMapper)));
 
             services.ConfigureService();
             ServiceTool.Create(services);
@@ -58,6 +59,8 @@ namespace Blog.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseMiddleware<CustomErrorMiddleware>();
 
             app.UseAuthorization();
 

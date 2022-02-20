@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Business.Abstract;
+using Core.ResponseModel;
 using Dtos.Blog;
 
 namespace Blog.API.Controllers
@@ -42,10 +43,14 @@ namespace Blog.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(AddBlogDto blogDto)
+        public async Task<IActionResult> Add([FromBody] AddBlogDto blogDto)
         {
+            var response = new ApiResponse<AddBlogDto>();
             var result = await _blogService.AddAsync(blogDto);
-            return Ok();
+            response.Data = result.Data;
+            response.IsSuccess = result.Success;
+
+            return Ok(response);
         }
 
         [HttpGet("getbloglistbywriterid/{userId}")]

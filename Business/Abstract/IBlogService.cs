@@ -11,7 +11,7 @@ namespace Business.Abstract
 {
     public interface IBlogService
     {
-        Task<IDataResult<object>> AddAsync(AddBlogDto blog);
+        Task<IDataResult<AddBlogDto>> AddAsync(AddBlogDto blog);
         Task<IDataResult<object>> UpdateAsync(Blog blog);
         Task<IResult> DeleteAsync(Blog blog);
         Task<IDataResult<List<BlogDto>>> GetAllAsync();

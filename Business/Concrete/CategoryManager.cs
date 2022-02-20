@@ -31,12 +31,8 @@ namespace Business.Concrete
         public async Task<IDataResult<object>> AddAsync(CategoryAddDto categoryAddDto)
         {
             var category = _mapper.Map<Category>(categoryAddDto);
-
-            var errorList = ValidationTool.Validate(new CategoryAddValidator(), categoryAddDto);
-            if (errorList != null)
-            {
-                return new ErrorDataResult<object>(errorList, Messages.ValidationError);
-            }
+            ValidationTool.Validate(new CategoryAddValidator(), categoryAddDto);
+            
             await _categoryDal.AddAsync(category);
             return new SuccessDataResult<object>(Messages.CategoryAdded);
         }
@@ -75,8 +71,8 @@ namespace Business.Concrete
             var category = _mapper.Map<Category>(categoryUpdateDto);
             category.CreatedDate = _categoryDal.GetAsync(c => c.CategoryId == category.CategoryId).Result.CreatedDate;
 
-            var validationResult = ValidationTool.Validate(new CategoryUpdateValidator(), category);
-            if (validationResult != null) return new ErrorDataResult<object>(validationResult);
+            ValidationTool.Validate(new CategoryUpdateValidator(), category);
+            
 
             await _categoryDal.UpdateAsync(category);
             return new SuccessDataResult<object>(Messages.CategoryUpdated);

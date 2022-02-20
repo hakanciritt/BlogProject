@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Dtos.Blog
@@ -16,10 +17,12 @@ namespace Dtos.Blog
 
         public string Slug { get; set; }
 
+        [JsonIgnore]
         public IFormFile ThumbnailImageFile { get; set; }
 
         public string ThumbnailImage { get; set; }
 
+        [JsonIgnore]
         public IFormFile ImageFile { get; set; }
 
         public string Image { get; set; }
