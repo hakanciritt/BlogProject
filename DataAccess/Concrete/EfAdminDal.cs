@@ -1,10 +1,14 @@
-﻿using Core.DataAccess.EntityFramework;
+﻿
 using DataAccess.Abstract;
+using DataAccess.EntityFramework;
 using Entities.Concrete;
 
 namespace DataAccess.Concrete
 {
-    public class EfAdminDal : EfEntityRepositoryBase<Admin, BlogContext>, IAdminDal
+    public class EfAdminDal : EfEntityRepositoryBase<Admin>, IAdminDal
     {
+        public EfAdminDal(BlogContext context) : base(context)
+        {
+        }
     }
 }

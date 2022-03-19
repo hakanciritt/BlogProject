@@ -9,16 +9,19 @@ using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DataAccess.UnitOfWork;
 
 namespace Business.Concrete
 {
     public class CommentManager : ICommentService
     {
         private readonly ICommentDal _commentDal;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CommentManager(ICommentDal commentDal)
+        public CommentManager(ICommentDal commentDal, IUnitOfWork unitOfWork)
         {
             _commentDal = commentDal;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<IDataResult<object>> AddAsync(Comment comment)
@@ -26,9 +29,10 @@ namespace Business.Concrete
             comment.Date = DateTime.Now;
             comment.Status = true;
 
-            ValidationTool.Validate(new CommentValidator(), comment);
+            await ValidationTool.ValidateAsync(new CommentValidator(), comment);
 
             await _commentDal.AddAsync(comment);
+            await _unitOfWork.CommitAsync();
             return new SuccessDataResult<object>(Messages.CommentAdded);
         }
 
@@ -39,7 +43,8 @@ namespace Business.Concrete
             {
                 return businessRules;
             }
-            await _commentDal.DeleteAsync(comment);
+            _commentDal.Delete(comment);
+            await _unitOfWork.CommitAsync();
             return new SuccessResult(Messages.CommentDeleted);
         }
 
@@ -68,7 +73,8 @@ namespace Business.Concrete
 
         public async Task<IResult> UpdateAsync(Comment comment)
         {
-            await _commentDal.UpdateAsync(comment);
+            _commentDal.Update(comment);
+            await _unitOfWork.CommitAsync();
             return new SuccessResult(Messages.CommentUpdated);
         }
 

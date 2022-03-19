@@ -8,22 +8,26 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DataAccess.UnitOfWork;
 
 namespace Business.Concrete
 {
     public class ContactManager : IContactService
     {
         private readonly IContactDal _contactDal;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ContactManager(IContactDal contactDal)
+        public ContactManager(IContactDal contactDal, IUnitOfWork unitOfWork)
         {
             _contactDal = contactDal;
+            _unitOfWork = unitOfWork;
         }
         public async Task<IDataResult<object>> AddAsync(Contact contact)
         {
-            ValidationTool.Validate(new ContactValidator(), contact);
+            await ValidationTool.ValidateAsync(new ContactValidator(), contact);
 
             await _contactDal.AddAsync(contact);
+            await _unitOfWork.CommitAsync();
             return new SuccessDataResult<object>(Messages.Added);
         }
 
@@ -34,7 +38,8 @@ namespace Business.Concrete
             {
                 return businessRules;
             }
-            await _contactDal.DeleteAsync(contact);
+            _contactDal.Delete(contact);
+            await _unitOfWork.CommitAsync();
             return new SuccessResult(Messages.Deleted);
         }
 
@@ -56,7 +61,8 @@ namespace Business.Concrete
 
         public async Task<IResult> UpdateAsync(Contact contact)
         {
-            await _contactDal.UpdateAsync(contact);
+            _contactDal.Update(contact);
+            await _unitOfWork.CommitAsync();
             return new SuccessResult(Messages.Updated);
         }
 

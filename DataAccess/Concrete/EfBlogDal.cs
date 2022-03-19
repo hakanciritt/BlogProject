@@ -1,5 +1,5 @@
-﻿using Core.DataAccess.EntityFramework;
-using DataAccess.Abstract;
+﻿using DataAccess.Abstract;
+using DataAccess.EntityFramework;
 using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,25 +10,24 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete
 {
-    public class EfBlogDal : EfEntityRepositoryBase<Blog, BlogContext>, IBlogDal
+    public class EfBlogDal : EfEntityRepositoryBase<Blog>, IBlogDal
     {
+        private BlogContext _blogContext { get => _context as BlogContext; }
+        public EfBlogDal(BlogContext context) : base(context)
+        {
+        }
+
         public async Task<List<Blog>> GetBlogListWithCategoryAsync(Expression<Func<Blog, bool>> filter = null)
         {
-            using (var context = new BlogContext())
-            {
-                return filter == null
-                    ? await context.Blogs.Include(x => x.Category).ToListAsync()
-                    : await context.Blogs.Include(x => x.Category).Where(filter).ToListAsync();
-            }
+            return filter == null
+                    ? await _blogContext.Blogs.Include(x => x.Category).ToListAsync()
+                    : await _blogContext.Blogs.Include(x => x.Category).Where(filter).ToListAsync();
         }
         public async Task<List<Blog>> GetBlogListWriterAndCommentAsync(Expression<Func<Blog, bool>> filter = null)
         {
-            using (var context = new BlogContext())
-            {
-                return filter == null
-                    ? await context.Blogs.Include(x => x.Writer).Include(x => x.Comments).ToListAsync()
-                    : await context.Blogs.Include(x => x.Writer).Include(x => x.Comments).Where(filter).ToListAsync();
-            }
+            return filter == null
+                    ? await _blogContext.Blogs.Include(x => x.Writer).Include(x => x.Comments).ToListAsync()
+                    : await _blogContext.Blogs.Include(x => x.Writer).Include(x => x.Comments).Where(filter).ToListAsync();
         }
     }
 }

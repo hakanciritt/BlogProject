@@ -10,21 +10,26 @@ using Dtos.About;
 using Entities.Concrete;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DataAccess.UnitOfWork;
 
 namespace Business.Concrete
 {
     public class AboutManager : IAboutService
     {
         private readonly IAboutDal _aboutDal;
-        public AboutManager(IAboutDal aboutDal)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public AboutManager(IAboutDal aboutDal , IUnitOfWork unitOfWork)
         {
             _aboutDal = aboutDal;
+            _unitOfWork = unitOfWork;
         }
         public async Task<IDataResult<object>> AddAsync(About about)
         {
-            ValidationTool.Validate(new AboutValidator(), about);
+            await ValidationTool.ValidateAsync(new AboutValidator(), about);
 
             await _aboutDal.AddAsync(about);
+            await _unitOfWork.CommitAsync();
             return new SuccessDataResult<object>(Messages.AboutAdded);
         }
 
@@ -35,7 +40,7 @@ namespace Business.Concrete
             {
                 return businessRules;
             }
-            await _aboutDal.DeleteAsync(about);
+            _aboutDal.Delete(about);
             return new SuccessResult(Messages.AboutDeleted);
         }
 
@@ -53,7 +58,8 @@ namespace Business.Concrete
 
         public async Task<IResult> UpdateAsync(About about)
         {
-            await _aboutDal.UpdateAsync(about);
+            _aboutDal.Update(about);
+            await _unitOfWork.CommitAsync();
             return new SuccessResult(Messages.AboutUpdated);
         }
 

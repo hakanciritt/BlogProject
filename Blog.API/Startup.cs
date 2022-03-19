@@ -3,14 +3,17 @@ using Blog.API.Middlewares;
 using Business.Mapping;
 using Business.ServiceExtension;
 using Core.CrossCuttingConcerns;
+using DataAccess.Concrete;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using DataAccess.IdentityContext;
 
 namespace Blog.API
 {
@@ -29,10 +32,22 @@ namespace Blog.API
             services.AddAutofac();
             services.AddAutoMapper(Assembly.GetAssembly(typeof(ObjectMapper)));
 
-            services.Configure<ApiBehaviorOptions>(options =>
+            services.AddDbContext<BlogContext>(options =>
             {
-                options.SuppressModelStateInvalidFilter = true;
+                options.UseSqlServer(Configuration.GetConnectionString("SqlConnection"), opt =>
+                {
+                    opt.MigrationsAssembly("DataAccess");
+                });
             });
+            services.AddDbContext<AppIdentityDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("SqlConnection"), opt =>
+                {
+                    opt.MigrationsAssembly("DataAccess");
+                });
+            });
+            services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultTokenProviders();
+
             services.ConfigureService();
             ServiceTool.Create(services);
 

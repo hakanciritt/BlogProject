@@ -1,13 +1,15 @@
-﻿using Core.CrossCuttingConcerns;
-using DataAccess.ObjectMappings;
+﻿using DataAccess.ObjectMappings;
 using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace DataAccess.Concrete
 {
     public class BlogContext : DbContext
     {
+        public BlogContext(DbContextOptions<BlogContext> options) : base(options)
+        {
+
+        }
         public DbSet<About> Abouts { get; set; }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -19,12 +21,6 @@ namespace DataAccess.Concrete
         public DbSet<Message> Messages { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Role> Roles { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            IConfiguration configuration = (IConfiguration)ServiceTool.ServiceProvider.GetService(typeof(IConfiguration));
-            optionsBuilder.UseSqlServer(configuration["ConnectionStrings:SqlConnection"]);
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

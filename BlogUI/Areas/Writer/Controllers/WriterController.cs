@@ -38,7 +38,6 @@ namespace BlogUI.Areas.Writer.Controllers
         {
             var model = writerViewModel;
             var writer = ObjectMapper.Mapper.Map<WriterUpdateDto>(model);
-            writer.WriterId = CurrentUser.UserId.Value;
 
             if (model.File is not null)
                 writer.Image = FileHelper.Save(_environment.WebRootPath + "\\images\\" + model.File.FileName, model.File);

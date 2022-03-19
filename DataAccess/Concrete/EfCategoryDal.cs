@@ -1,10 +1,14 @@
-﻿using Core.DataAccess.EntityFramework;
+﻿
 using DataAccess.Abstract;
+using DataAccess.EntityFramework;
 using Entities.Concrete;
 
 namespace DataAccess.Concrete
 {
-    public class EfCategoryDal : EfEntityRepositoryBase<Category, BlogContext>, ICategoryDal
+    public class EfCategoryDal : EfEntityRepositoryBase<Category>, ICategoryDal
     {
+        public EfCategoryDal(BlogContext context) : base(context)
+        {
+        }
     }
 }

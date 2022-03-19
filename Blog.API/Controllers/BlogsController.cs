@@ -1,11 +1,13 @@
 ﻿using Business.Abstract;
 using Core.ResponseModel;
 using Dtos.Blog;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Blog.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BlogsController : ControllerBase

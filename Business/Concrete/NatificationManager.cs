@@ -4,16 +4,19 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DataAccess.UnitOfWork;
 
 namespace Business.Concrete
 {
     public class NatificationManager : INatificationService
     {
         private readonly INatificationDal _natificationDal;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public NatificationManager(INatificationDal natificationDal)
+        public NatificationManager(INatificationDal natificationDal , IUnitOfWork unitOfWork)
         {
             _natificationDal = natificationDal;
+            _unitOfWork = unitOfWork;
         }
         public async Task<IDataResult<List<Natification>>> GetAllAsync()
         {

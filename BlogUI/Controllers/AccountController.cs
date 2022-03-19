@@ -29,35 +29,35 @@ namespace BlogUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(Writer writer)
         {
-            var result = await _writerService.UserLoginAsync(writer);
-            if (result.Success)
-            {
-                BlogContext context = new BlogContext();
-                var user = context.Writers.FirstOrDefault(x => x.Mail == writer.Mail && x.Password == writer.Password);
-                if (user is not null)
-                {
-                    var claims = new List<Claim>()
-                    {
-                        new Claim(ClaimTypes.NameIdentifier,user.WriterId.ToString()),
-                        new Claim(ClaimTypes.Name, user.Name),
-                        new Claim(ClaimTypes.Email, user.Mail),
-                        //new Claim(ClaimTypes.NameIdentifier, writer.WriterId.ToString())
-                    };
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-                    await HttpContext.SignInAsync(claimsPrincipal);
+            //var result = await _writerService.UserLoginAsync(writer);
+            //if (result.Success)
+            //{
+            //    BlogContext context = new BlogContext();
+            //    var user = context.Writers.FirstOrDefault(x => x.Mail == writer.Mail && x.Password == writer.Password);
+            //    if (user is not null)
+            //    {
+            //        var claims = new List<Claim>()
+            //        {
+            //            new Claim(ClaimTypes.NameIdentifier,user.WriterId.ToString()),
+            //            new Claim(ClaimTypes.Name, user.Name),
+            //            new Claim(ClaimTypes.Email, user.Mail),
+            //            //new Claim(ClaimTypes.NameIdentifier, writer.WriterId.ToString())
+            //        };
+            //        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            //        var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+            //        await HttpContext.SignInAsync(claimsPrincipal);
 
-                    return RedirectToAction("Index", "Dashboard", new { area = "Writer" });
-                }
-            }
-            else
-            {
-                foreach (var error in (List<ValidationFailure>)result.Data)
-                {
-                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
-                }
-                return View(writer);
-            }
+            //        return RedirectToAction("Index", "Dashboard", new { area = "Writer" });
+            //    }
+            //}
+            //else
+            //{
+            //    foreach (var error in (List<ValidationFailure>)result.Data)
+            //    {
+            //        ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+            //    }
+            //    return View(writer);
+            //}
 
             return View();
         }

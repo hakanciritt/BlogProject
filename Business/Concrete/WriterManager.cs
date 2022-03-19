@@ -11,21 +11,26 @@ using Dtos.Writer;
 using Entities.Concrete;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DataAccess.UnitOfWork;
 
 namespace Business.Concrete
 {
     public class WriterManager : IWriterService
     {
         private readonly IWriterDal _writerDal;
-        public WriterManager(IWriterDal writerDal)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public WriterManager(IWriterDal writerDal,IUnitOfWork unitOfWork)
         {
             _writerDal = writerDal;
+            _unitOfWork = unitOfWork;
         }
         public async Task<IDataResult<object>> AddAsync(WriterAddDto writer)
         {
             await ValidationTool.ValidateAsync(new WriterValidator(), writer);
 
             await _writerDal.AddAsync(ObjectMapper.Mapper.Map<Writer>(writer));
+            await _unitOfWork.CommitAsync();
             return new SuccessDataResult<object>(Messages.WriterAdded);
         }
 
@@ -36,7 +41,8 @@ namespace Business.Concrete
             {
                 return businessRules;
             }
-            await _writerDal.DeleteAsync(writer);
+            _writerDal.Delete(writer);
+            await _unitOfWork.CommitAsync();
             return new SuccessResult(Messages.WriterDeleted);
         }
 
@@ -65,13 +71,14 @@ namespace Business.Concrete
         {
             await ValidationTool.ValidateAsync(new WriterUpdateValidator(), writer);
 
-            await _writerDal.UpdateAsync(ObjectMapper.Mapper.Map<Writer>(writer));
+            _writerDal.Update(ObjectMapper.Mapper.Map<Writer>(writer));
+            await _unitOfWork.CommitAsync();
             return new SuccessResult(Messages.WriterUpdated);
         }
 
         public async Task<IDataResult<object>> UserLoginAsync(Writer writer)
         {
-            ValidationTool.Validate(new WriterLoginValidator(), writer);
+            await ValidationTool.ValidateAsync(new WriterLoginValidator(), writer);
 
             return new SuccessDataResult<object>();
         }

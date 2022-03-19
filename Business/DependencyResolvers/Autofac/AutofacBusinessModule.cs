@@ -3,6 +3,7 @@ using Business.Abstract;
 using Business.Concrete;
 using DataAccess.Abstract;
 using DataAccess.Concrete;
+using DataAccess.UnitOfWork;
 
 namespace Business.DependencyResolvers.Autofac
 {
@@ -33,6 +34,8 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<MessageManager>().As<IMessageService>().SingleInstance();
             builder.RegisterType<AdminManager>().As<IAdminService>().SingleInstance();
             builder.RegisterType<RoleManager>().As<IRoleService>().SingleInstance();
+
+            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
 
         }
     }

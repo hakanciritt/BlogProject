@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.CustomErrors;
 using Business.Mapping;
 using Business.ValidationRules.FluentValidation;
 using Core.Business;
@@ -12,26 +13,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataAccess.UnitOfWork;
 
 namespace Business.Concrete
 {
     public class BlogManager : IBlogService
     {
         private readonly IBlogDal _blogDal;
-        public BlogManager(IBlogDal blogDal)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public BlogManager(IBlogDal blogDal, IUnitOfWork unitOfWork)
         {
             _blogDal = blogDal;
+            _unitOfWork = unitOfWork;
         }
         public async Task<IDataResult<AddBlogDto>> AddAsync(AddBlogDto blog)
         {
-            ValidationTool.Validate(new BlogValidator(), blog);
+            await ValidationTool.ValidateAsync(new BlogValidator(), blog);
 
             var result = ObjectMapper.Mapper.Map<Blog>(blog);
             result.Status = true;
             result.CreateDate = DateTime.Now;
 
             await _blogDal.AddAsync(result);
-
+            await _unitOfWork.CommitAsync();
             return new SuccessDataResult<AddBlogDto>(blog, Messages.BlogAdded);
         }
 
@@ -42,7 +47,8 @@ namespace Business.Concrete
             {
                 return rules;
             }
-            await _blogDal.DeleteAsync(blog);
+            _blogDal.Delete(blog);
+            await _unitOfWork.CommitAsync();
             return new SuccessResult();
         }
 
@@ -77,7 +83,7 @@ namespace Business.Concrete
 
         public async Task<IDataResult<BlogDto>> UpdateAsync(BlogDto blogDto)
         {
-            ValidationTool.Validate(new BlogValidator(), blogDto);
+            await ValidationTool.ValidateAsync(new BlogValidator(), blogDto);
             var result = ObjectMapper.Mapper.Map<Blog>(blogDto);
 
             var findBlog = await _blogDal.GetAsync(x => x.BlogId == blogDto.BlogId);
@@ -85,7 +91,8 @@ namespace Business.Concrete
             blogDto.Status = findBlog.Status;
             blogDto.UpdateDate = DateTime.Now;
 
-            await _blogDal.UpdateAsync(result);
+            _blogDal.Update(result);
+            await _unitOfWork.CommitAsync();
             return new SuccessDataResult<BlogDto>(blogDto);
         }
 
@@ -118,7 +125,8 @@ namespace Business.Concrete
 
             result.Status = result.Status ? false : true;
 
-            await _blogDal.UpdateAsync(result);
+            _blogDal.Update(result);
+            await _unitOfWork.CommitAsync();
             return new SuccessResult(Messages.BlogStatusUpdated);
         }
 

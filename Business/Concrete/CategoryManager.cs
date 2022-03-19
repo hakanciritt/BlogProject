@@ -11,39 +11,43 @@ using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Business.Mapping;
+using DataAccess.UnitOfWork;
 
 namespace Business.Concrete
 {
     public class CategoryManager : ICategoryService
     {
         private readonly ICategoryDal _categoryDal;
-        private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CategoryManager(ICategoryDal categoryDal, IMapper mapper)
+        public CategoryManager(ICategoryDal categoryDal , IUnitOfWork unitOfWork)
         {
             _categoryDal = categoryDal;
-            _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<IDataResult<object>> AddAsync(CategoryAddDto categoryAddDto)
         {
-            var category = _mapper.Map<Category>(categoryAddDto);
-            ValidationTool.Validate(new CategoryAddValidator(), categoryAddDto);
+            var category = ObjectMapper.Mapper.Map<Category>(categoryAddDto);
+            await ValidationTool.ValidateAsync(new CategoryAddValidator(), categoryAddDto);
 
             await _categoryDal.AddAsync(category);
+            await _unitOfWork.CommitAsync();
             return new SuccessDataResult<object>(Messages.CategoryAdded);
         }
 
         public async Task<IResult> DeleteAsync(CategoryDeleteDto categoryDeleteDto)
         {
-            var category = _mapper.Map<Category>(categoryDeleteDto);
+            var category = ObjectMapper.Mapper.Map<Category>(categoryDeleteDto);
 
             var businessRules = BusinessRules.Run(CheckIfCategoryId(category.CategoryId));
             if (businessRules is not null)
             {
                 return businessRules;
             }
-            await _categoryDal.DeleteAsync(category);
+            _categoryDal.Delete(category);
+            await _unitOfWork.CommitAsync();
             return new SuccessResult(Messages.CategoryDelete);
         }
 
@@ -65,13 +69,14 @@ namespace Business.Concrete
 
         public async Task<IDataResult<object>> UpdateAsync(CategoryUpdateDto categoryUpdateDto)
         {
-            var category = _mapper.Map<Category>(categoryUpdateDto);
+            var category = ObjectMapper.Mapper.Map<Category>(categoryUpdateDto);
             category.CreatedDate = _categoryDal.GetAsync(c => c.CategoryId == category.CategoryId).Result.CreatedDate;
 
-            ValidationTool.Validate(new CategoryUpdateValidator(), category);
+            await ValidationTool.ValidateAsync(new CategoryUpdateValidator(), category);
 
 
-            await _categoryDal.UpdateAsync(category);
+            _categoryDal.Update(category);
+            await _unitOfWork.CommitAsync();
             return new SuccessDataResult<object>(Messages.CategoryUpdated);
         }
 
@@ -83,7 +88,8 @@ namespace Business.Concrete
 
             category.UpdatedDate = DateTime.Now;
             category.Status = !category.Status;
-            await _categoryDal.UpdateAsync(category);
+            _categoryDal.Update(category);
+            await _unitOfWork.CommitAsync();
             return new SuccessResult(Messages.CategoryUpdated);
         }
 
