@@ -1,7 +1,9 @@
 ﻿using BlogUI.Security;
 using Core.CrossCuttingConcerns;
+using Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace BlogUI.ControllerTypes
 {
@@ -14,6 +16,14 @@ namespace BlogUI.ControllerTypes
         public WriterBaseController()
         {
             CurrentUser = (ICurrentUser)ServiceTool.ServiceProvider.GetService(typeof(ICurrentUser));
+        }
+
+        protected void AddModelError(List<ErrorDto> errors)
+        {
+            foreach (var error in errors)
+            {
+                ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+            }
         }
     }
 }

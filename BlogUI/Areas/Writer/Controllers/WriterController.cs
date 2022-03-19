@@ -6,6 +6,7 @@ using Core.Utilities.Helpers;
 using Dtos.Writer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 using WebModels.Writer;
 
@@ -33,19 +34,35 @@ namespace BlogUI.Areas.Writer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditProfile(WriterProfileUpdateViewModel writerVM)
+        public async Task<IActionResult> EditProfile(WriterProfileUpdateViewModel writerViewModel)
         {
-            var writer = ObjectMapper.Mapper.Map<WriterUpdateDto>(writerVM);
+            var model = writerViewModel;
+            var writer = ObjectMapper.Mapper.Map<WriterUpdateDto>(model);
+            writer.WriterId = CurrentUser.UserId.Value;
 
-            if (writerVM.File is not null)
-                writer.Image = FileHelper.Save(_environment.WebRootPath + "\\images\\" + writerVM.File.FileName, writerVM.File);
+            if (model.File is not null)
+                writer.Image = FileHelper.Save(_environment.WebRootPath + "\\images\\" + model.File.FileName, model.File);
 
             var result = await _writerApiService.UpdateAsync(writer);
-            if (result)
-                return RedirectToAction("EditProfile");
 
-            return View(writerVM);
+            if (result.IsSuccess)
+            {
+                return RedirectToAction("EditProfile", model);
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(result.ErrorMessage))
+                {
+                    TempData["ErrorMessage"] = result.ErrorMessage;
+                }
+
+                if (result.Errors.Any())
+                {
+                    AddModelError(result.Errors);
+                }
+
+                return View(model);
+            }
         }
-
     }
 }

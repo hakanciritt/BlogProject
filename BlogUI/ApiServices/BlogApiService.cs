@@ -19,8 +19,7 @@ namespace BlogUI.ApiServices
 
         public async Task<ApiResponse<AddBlogDto>> AddAsync(AddBlogDto blogDto)
         {
-            var content = new ContentTypes.JsonContent(blogDto.ToString());
-            var client = await _client.PostAsJsonAsync("blogs", content);
+            var client = await _client.PostAsJsonAsync("blogs", blogDto);
             var responseContent = await client.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<ApiResponse<AddBlogDto>>(responseContent);
             return response;

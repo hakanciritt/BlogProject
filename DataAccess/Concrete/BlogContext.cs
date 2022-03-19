@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Core.CrossCuttingConcerns;
+﻿using Core.CrossCuttingConcerns;
 using DataAccess.ObjectMappings;
 using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +25,7 @@ namespace DataAccess.Concrete
             IConfiguration configuration = (IConfiguration)ServiceTool.ServiceProvider.GetService(typeof(IConfiguration));
             optionsBuilder.UseSqlServer(configuration["ConnectionStrings:SqlConnection"]);
         }
-        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new BlogConfiguration());

@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Core.ResponseModel;
 using Dtos.Writer;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -25,11 +26,14 @@ namespace Blog.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(WriterUpdateDto writerUpdateDto)
+        public async Task<IActionResult> Update([FromBody] WriterUpdateDto writerDto)
         {
-            var result = await _writerService.UpdateAsync(writerUpdateDto);
-            if (result.Success) return NoContent();
-            return BadRequest();
+            var response = new ApiResponse<WriterUpdateDto>();
+
+            var result = await _writerService.UpdateAsync(writerDto);
+            response.IsSuccess = result.Success;
+
+            return Ok(response);
         }
     }
 }

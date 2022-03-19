@@ -2,6 +2,7 @@
 using Business.Constants;
 using Business.Mapping;
 using Business.ValidationRules.FluentValidation;
+using Business.ValidationRules.FluentValidation.WriterValidation;
 using Core.Business;
 using Core.CrossCuttingConcerns;
 using Core.Utilities.Results;
@@ -22,7 +23,7 @@ namespace Business.Concrete
         }
         public async Task<IDataResult<object>> AddAsync(WriterAddDto writer)
         {
-            ValidationTool.Validate(new WriterValidator(), writer);
+            await ValidationTool.ValidateAsync(new WriterValidator(), writer);
 
             await _writerDal.AddAsync(ObjectMapper.Mapper.Map<Writer>(writer));
             return new SuccessDataResult<object>(Messages.WriterAdded);
@@ -62,6 +63,8 @@ namespace Business.Concrete
 
         public async Task<IResult> UpdateAsync(WriterUpdateDto writer)
         {
+            await ValidationTool.ValidateAsync(new WriterUpdateValidator(), writer);
+
             await _writerDal.UpdateAsync(ObjectMapper.Mapper.Map<Writer>(writer));
             return new SuccessResult(Messages.WriterUpdated);
         }

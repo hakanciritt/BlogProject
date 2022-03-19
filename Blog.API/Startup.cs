@@ -5,6 +5,7 @@ using Business.ServiceExtension;
 using Core.CrossCuttingConcerns;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,6 +29,10 @@ namespace Blog.API
             services.AddAutofac();
             services.AddAutoMapper(Assembly.GetAssembly(typeof(ObjectMapper)));
 
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
             services.ConfigureService();
             ServiceTool.Create(services);
 

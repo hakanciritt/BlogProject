@@ -1,6 +1,6 @@
-﻿using Dtos.Writer;
+﻿using Core.ResponseModel;
+using Dtos.Writer;
 using Newtonsoft.Json;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -26,17 +26,14 @@ namespace BlogUI.ApiServices
             {
                 return null;
             }
-
         }
-
-        public async Task<bool> UpdateAsync(WriterUpdateDto writer)
+        public async Task<ApiResponse<WriterUpdateDto>> UpdateAsync(WriterUpdateDto writer)
         {
             var content = new ContentTypes.JsonContent(writer.ToString());
-
-            var response = await _client.PutAsync("writers", content);
-            if (response.StatusCode == HttpStatusCode.NoContent) return true;
-
-            return false;
+            var res = await _client.PutAsync("writers", content);
+            var responseContent = await res.Content.ReadAsStringAsync();
+            var response = JsonConvert.DeserializeObject<ApiResponse<WriterUpdateDto>>(responseContent);
+            return response;
         }
     }
 }

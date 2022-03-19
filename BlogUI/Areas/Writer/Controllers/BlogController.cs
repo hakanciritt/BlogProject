@@ -66,17 +66,19 @@ namespace BlogUI.Areas.Writer.Controllers
 
             if (result.IsSuccess)
                 return RedirectToAction("GetBlogListByWriter", "Blog", new { area = "Writer" });
-
-            if (!result.IsSuccess && result.Errors.Any())
+            else
             {
-                foreach (var error in result.Errors)
+                if (!string.IsNullOrEmpty(result.ErrorMessage))
                 {
-                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                    TempData["ErrorMessage"] = result.ErrorMessage;
                 }
-            }
-            return View(blog);
-        }
 
+                if (result.Errors != null)
+                    AddModelError(result.Errors);
+
+                return View(blog);
+            }
+        }
 
         public async Task<IActionResult> EditBlog([FromRoute] int blogId)
         {
@@ -93,25 +95,26 @@ namespace BlogUI.Areas.Writer.Controllers
         public async Task<IActionResult> EditBlog(BlogDto blog)
         {
             blog.WriterId = CurrentUser.UserId.Value;
+
             var result = await _blogApiService.UpdateAsync(blog);
+
             if (result.IsSuccess)
             {
                 return Redirect("/yazar/bloglar");
             }
             else
             {
-                if (result.Errors.Any())
+                if (!string.IsNullOrEmpty(result.ErrorMessage))
                 {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
-                    }
-
-                    return View(blog);
+                    TempData["ErrorMessage"] = result.ErrorMessage;
                 }
 
+                if (result.Errors.Any())
+                {
+                    AddModelError(result.Errors);
+                }
+                return View(blog);
             }
-            return View();
         }
     }
 }
