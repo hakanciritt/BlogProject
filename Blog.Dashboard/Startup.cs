@@ -1,4 +1,5 @@
 using System;
+using Autofac.Extensions.DependencyInjection;
 using Business.ServiceExtension;
 using Core.CrossCuttingConcerns;
 using Hangfire;
@@ -23,6 +24,9 @@ namespace Blog.Dashboard
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureService();
+
+            services.AddAutofac();
+
             services.AddHangfire(config =>
             {
                 config.UseFilter(new AutomaticRetryAttribute() { Attempts = 5 });
