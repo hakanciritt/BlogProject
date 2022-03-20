@@ -6,7 +6,7 @@ using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System.Threading.Tasks;
-using DataAccess.UnitOfWork;
+using DataAccess.UnitOfWorks;
 
 namespace Business.Concrete
 {

@@ -7,7 +7,7 @@ using DataAccess.Abstract;
 using DataAccess.Concrete;
 using DataAccess.Migrations;
 
-namespace DataAccess.UnitOfWork
+namespace DataAccess.UnitOfWorks
 {
     public class UnitOfWork : IUnitOfWork
     {

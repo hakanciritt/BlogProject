@@ -11,7 +11,7 @@ using Dtos.Writer;
 using Entities.Concrete;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DataAccess.UnitOfWork;
+using DataAccess.UnitOfWorks;
 
 namespace Business.Concrete
 {

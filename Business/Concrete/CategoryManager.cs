@@ -12,7 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Business.Mapping;
-using DataAccess.UnitOfWork;
+using DataAccess.UnitOfWorks;
 
 namespace Business.Concrete
 {

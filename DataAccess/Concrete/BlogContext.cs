@@ -22,6 +22,11 @@ namespace DataAccess.Concrete
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Role> Roles { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new BlogConfiguration());

@@ -8,7 +8,7 @@ namespace BlogUI.Controllers
     public class BlogController : Controller
     {
         private readonly BlogApiService _blogApiService;
-        public BlogController(IBlogService blogService, BlogApiService blogApiService)
+        public BlogController(BlogApiService blogApiService)
         {
             _blogApiService = blogApiService;
         }

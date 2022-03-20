@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace Blog.API.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BlogsController : ControllerBase

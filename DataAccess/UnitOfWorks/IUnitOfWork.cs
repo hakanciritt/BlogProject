@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccess.Abstract;
 
-namespace DataAccess.UnitOfWork
+namespace DataAccess.UnitOfWorks
 {
     public interface IUnitOfWork
     {

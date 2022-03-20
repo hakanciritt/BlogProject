@@ -1,5 +1,6 @@
 using Business.ServiceExtension;
 using Core.CrossCuttingConcerns;
+using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +22,11 @@ namespace Blog.Dashboard
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureService();
+            services.AddHangfire(config =>
+            {
+                config.UseSqlServerStorage(Configuration.GetConnectionString("SqlConnection"));
+            });
+            services.AddHangfireServer();
 
             ServiceTool.Create(services);
             services.AddControllersWithViews();
@@ -43,11 +49,17 @@ namespace Blog.Dashboard
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions()
+            {
+                AppPath = "/",
 
+            });
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHangfireDashboard();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

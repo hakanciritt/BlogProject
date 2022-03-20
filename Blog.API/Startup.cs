@@ -29,7 +29,7 @@ namespace Blog.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAutofac();
+           
             services.AddAutoMapper(Assembly.GetAssembly(typeof(ObjectMapper)));
 
             services.AddDbContext<BlogContext>(options =>
@@ -46,6 +46,7 @@ namespace Blog.API
                     opt.MigrationsAssembly("DataAccess");
                 });
             });
+            services.AddAutofac();
             services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultTokenProviders();
 
             services.ConfigureService();

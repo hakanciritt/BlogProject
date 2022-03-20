@@ -1,9 +1,11 @@
 ﻿using Autofac;
 using Business.Abstract;
 using Business.Concrete;
+using Core.DataAccess;
 using DataAccess.Abstract;
 using DataAccess.Concrete;
-using DataAccess.UnitOfWork;
+using DataAccess.EntityFramework;
+using DataAccess.UnitOfWorks;
 
 namespace Business.DependencyResolvers.Autofac
 {
@@ -35,7 +37,9 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<AdminManager>().As<IAdminService>().SingleInstance();
             builder.RegisterType<RoleManager>().As<IRoleService>().SingleInstance();
 
-            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
+            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().SingleInstance();
+            //builder.RegisterType<BlogContext>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(EfEntityRepositoryBase<>)).As(typeof(IEntityRepository<>));
 
         }
     }
