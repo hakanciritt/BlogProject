@@ -106,7 +106,7 @@ namespace Business.Concrete
 
         public async Task<IDataResult<List<Blog>>> GetLastThreeBlogAsync()
         {
-            var result = _blogDal.GetAllAsync(x => x.Status).Result.OrderBy(x => x.BlogId).Take(3).ToList();
+            var result = (await _blogDal.GetAllAsync(x => x.Status)).OrderBy(x => x.BlogId).Take(3).ToList();
             return new SuccessDataResult<List<Blog>>(result);
         }
 

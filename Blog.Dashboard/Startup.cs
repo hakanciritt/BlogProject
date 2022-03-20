@@ -1,3 +1,4 @@
+using System;
 using Business.ServiceExtension;
 using Core.CrossCuttingConcerns;
 using Hangfire;
@@ -24,9 +25,13 @@ namespace Blog.Dashboard
             services.ConfigureService();
             services.AddHangfire(config =>
             {
+                config.UseFilter(new AutomaticRetryAttribute() { Attempts = 5 });
                 config.UseSqlServerStorage(Configuration.GetConnectionString("SqlConnection"));
             });
-            services.AddHangfireServer();
+            services.AddHangfireServer(config =>
+            {
+                config.WorkerCount = Environment.ProcessorCount * 5;
+            });
 
             ServiceTool.Create(services);
             services.AddControllersWithViews();

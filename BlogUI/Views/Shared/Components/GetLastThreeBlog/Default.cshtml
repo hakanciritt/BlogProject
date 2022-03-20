@@ -1,10 +1,10 @@
-﻿@model List<Blog>
+﻿@model List<Dtos.Blog.BlogDto>
 
 @foreach (var blog in Model)
 {
     <div class="blog-grids row mb-3">
         <div class="col-md-5 blog-grid-left">
-            <a  target="_blank" asp-controller="Blog" asp-action="BlogDetails" asp-route-blogSlug="@blog.Slug">
+            <a target="_blank" asp-controller="Blog" asp-action="BlogDetails" asp-route-blogSlug="@blog.Slug">
                 <img src="~/CoreBlogTema/images/4.jpg" class="card-img-top img-fluid" alt="">
             </a>
         </div>

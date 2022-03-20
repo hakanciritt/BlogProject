@@ -19,7 +19,7 @@ namespace DataAccess.EntityFramework
         public EfEntityRepositoryBase(BlogContext context)
         {
             _context = context;
-            _dbSet = _context.Set<TEntity>();
+            _dbSet = context.Set<TEntity>();
         }
         public async Task AddAsync(TEntity entity)
         {

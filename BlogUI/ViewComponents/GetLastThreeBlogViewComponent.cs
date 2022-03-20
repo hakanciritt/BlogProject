@@ -1,22 +1,24 @@
-﻿using Business.Abstract;
+﻿using System.Linq;
+using Business.Abstract;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using BlogUI.ApiServices;
 
 namespace BlogUI.ViewComponents
 {
     public class GetLastThreeBlogViewComponent : ViewComponent
     {
-        private readonly IBlogService _blogService;
+        private readonly BlogApiService _blogApiService;
 
-        public GetLastThreeBlogViewComponent(IBlogService blogService)
+        public GetLastThreeBlogViewComponent(BlogApiService blogApiService)
         {
-            _blogService = blogService;
+            _blogApiService = blogApiService;
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var result = await _blogService.GetLastThreeBlogAsync();
+            var result = (await _blogApiService.GetBlogListWithCategoryAsync()).OrderByDescending(d => d.CreateDate.Date).Take(3).ToList();
 
-            return View(result.Data);
+            return View(result);
         }
     }
 }

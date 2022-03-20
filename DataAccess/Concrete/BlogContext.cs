@@ -6,6 +6,10 @@ namespace DataAccess.Concrete
 {
     public class BlogContext : DbContext
     {
+        public BlogContext()
+        {
+            
+        }
         public BlogContext(DbContextOptions<BlogContext> options) : base(options)
         {
 
@@ -22,10 +26,6 @@ namespace DataAccess.Concrete
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Role> Roles { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
